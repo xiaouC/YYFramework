@@ -2,4 +2,5 @@
 *.swp
 .sconsign.dblite
 main
+src/pbc/libpbc.a
 
