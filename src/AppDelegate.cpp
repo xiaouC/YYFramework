@@ -9,7 +9,6 @@
 #include "CCLuaEngine.h"
 #include "./MC/AssetsManager.h"
 #include "./Common/TLCommon.h"
-#include "./Common/LuaApi.h"
 #include "SimpleAudioEngine.h"
 #include "platform/sdk.h"
 #include "platform/PlatformUtils.h"

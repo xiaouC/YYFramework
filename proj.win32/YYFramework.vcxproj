@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{946F795D-C9C1-47A0-9437-39C72443571E}</ProjectGuid>
+    <RootNamespace>YYFramework</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
+    <IntDir>$(Configuration).win32\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\MCC\cocos2dx\;..\..\MCC\cocos2dx\support;..\..\MCC\cocos2dx\include;..\..\MCC\cocos2dx\platform;..\..\MCC\cocos2dx\platform\win32;..\..\MCC\cocos2dx\platform\third_party\win32;..\..\MCC\cocos2dx\platform\third_party\win32\pthread;..\..\MCC\cocos2dx\platform\third_party\win32\OGLES;..\..\MCC\cocos2dx\kazmath\include;..\..\MCC\CocosDenshion\include;..\..\MCC\scripting\lua\cocos2dx_support;..\..\MCC\scripting\lua\lua;..\..\MCC\scripting\lua\tolua;..\..\MCC\external\chipmunk\include\;..\src;..\..\protobuf-2.4.1\src;..\src\protocol\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;COCOS2D_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\AppDelegate.cpp" />
+    <ClCompile Include="..\src\Common\CCActionExtend.cpp" />
+    <ClCompile Include="..\src\Common\TLCommon.cpp" />
+    <ClCompile Include="..\src\Common\TLModel.cpp" />
+    <ClCompile Include="..\src\MC\AssetsManager.cpp" />
+    <ClCompile Include="..\src\MC\BatchNodeMC.cpp" />
+    <ClCompile Include="..\src\MC\ClipNode.cpp" />
+    <ClCompile Include="..\src\MC\MCFrame.cpp" />
+    <ClCompile Include="..\src\MC\MCLoader.cpp" />
+    <ClCompile Include="..\src\MC\MovieClip.cpp" />
+    <ClCompile Include="..\src\NetMessage\HttpClient.cpp" />
+    <ClCompile Include="..\src\NetMessage\HttpDownloader.cpp" />
+    <ClCompile Include="..\src\NetMessage\NetMsg.cpp" />
+    <ClCompile Include="..\src\NetMessage\NetMsgProcess.cpp" />
+    <ClCompile Include="..\src\NetMessage\NetWorkThread.cpp" />
+    <ClCompile Include="..\src\particle\Generator.cpp" />
+    <ClCompile Include="..\src\particle\GeneratorBehaviour.cpp" />
+    <ClCompile Include="..\src\particle\GeneratorData.cpp" />
+    <ClCompile Include="..\src\particle\modifier\AirFriction.cpp" />
+    <ClCompile Include="..\src\particle\modifier\GenericForce.cpp" />
+    <ClCompile Include="..\src\particle\Particle.cpp" />
+    <ClCompile Include="..\src\particle\ParticleBehaviour.cpp" />
+    <ClCompile Include="..\src\particle\ParticleRender.cpp" />
+    <ClCompile Include="..\src\particle\ParticleSystem.cpp" />
+    <ClCompile Include="..\src\particle\ParticleSystemManager.cpp" />
+    <ClCompile Include="..\src\particle\space\CircleGeneratorSpace.cpp" />
+    <ClCompile Include="..\src\particle\space\GeneratorSpace.cpp" />
+    <ClCompile Include="..\src\particle\space\LineGeneratorSpace.cpp" />
+    <ClCompile Include="..\src\particle\space\ParticleSpace.cpp" />
+    <ClCompile Include="..\src\particle\space\PathGeneratorSpace.cpp" />
+    <ClCompile Include="..\src\particle\space\PointGeneratorSpace.cpp" />
+    <ClCompile Include="..\src\particle\space\RectGeneratorSpace.cpp" />
+    <ClCompile Include="..\src\particle\Util.cpp" />
+    <ClCompile Include="..\src\particle\util\Stream.cpp" />
+    <ClCompile Include="..\src\particle\util\UTF8.cpp" />
+    <ClCompile Include="..\src\particle\ValueList.cpp" />
+    <ClCompile Include="..\src\platform\PlatformUtils.cpp" />
+    <ClCompile Include="..\src\platform\SDKCallback.cpp" />
+    <ClCompile Include="..\src\platform\SDKLoginUtilsForAndroid.cpp" />
+    <ClCompile Include="..\src\protocol\src\anim.pb.cc" />
+    <ClCompile Include="..\src\protocol\src\files.pb.cc" />
+    <ClCompile Include="..\src\protocol\src\platform.pb.cc" />
+    <ClCompile Include="..\src\RichText\TLFontTex.cpp" />
+    <ClCompile Include="..\src\RichText\TLLabelRichTex.cpp" />
+    <ClCompile Include="..\src\RichText\TLRichTexVerbatim.cpp" />
+    <ClCompile Include="..\src\TLRunningScene.cpp" />
+    <ClCompile Include="..\src\toluaAPI\bit.c" />
+    <ClCompile Include="..\src\toluaAPI\lfs.c" />
+    <ClCompile Include="..\src\toluaAPI\luaapi.cpp" />
+    <ClCompile Include="..\src\toluaAPI\lua_cmsgpack.c" />
+    <ClCompile Include="..\src\toluaAPI\pbc-lua.cpp" />
+    <ClCompile Include="..\src\toluaAPI\struct.c" />
+    <ClCompile Include="..\src\toluaAPI\utils.cpp" />
+    <ClCompile Include="..\src\tween\TLTweenManager.cpp" />
+    <ClCompile Include="..\src\UI\TLDropDragHelper.cpp" />
+    <ClCompile Include="..\src\UI\TLEditBox.cpp" />
+    <ClCompile Include="..\src\UI\TLMaskLayer.cpp" />
+    <ClCompile Include="..\src\UI\TLRenderNode.cpp" />
+    <ClCompile Include="..\src\UI\TLTextField.cpp" />
+    <ClCompile Include="..\src\UI\TLTextFieldDelegate.cpp" />
+    <ClCompile Include="..\src\UI\TLWindow.cpp" />
+    <ClCompile Include="..\src\UI\TLWindowManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\AppDelegate.h" />
+    <ClInclude Include="..\src\AppMacros.h" />
+    <ClInclude Include="..\src\Common\CCActionExtend.h" />
+    <ClInclude Include="..\src\Common\TLCommon.h" />
+    <ClInclude Include="..\src\Common\TLModel.h" />
+    <ClInclude Include="..\src\MC\AssetsManager.h" />
+    <ClInclude Include="..\src\MC\BatchNodeMC.h" />
+    <ClInclude Include="..\src\MC\ClipNode.h" />
+    <ClInclude Include="..\src\MC\MCFrame.h" />
+    <ClInclude Include="..\src\MC\MCLoader.h" />
+    <ClInclude Include="..\src\MC\MovieClip.h" />
+    <ClInclude Include="..\src\NetMessage\HttpClient.h" />
+    <ClInclude Include="..\src\NetMessage\HttpDownloader.h" />
+    <ClInclude Include="..\src\NetMessage\NetMsg.h" />
+    <ClInclude Include="..\src\NetMessage\NetMsgProcess.h" />
+    <ClInclude Include="..\src\NetMessage\NetWorkThread.h" />
+    <ClInclude Include="..\src\particle\Generator.h" />
+    <ClInclude Include="..\src\particle\GeneratorBehaviour.h" />
+    <ClInclude Include="..\src\particle\GeneratorData.h" />
+    <ClInclude Include="..\src\particle\modifier\AirFriction.h" />
+    <ClInclude Include="..\src\particle\modifier\GenericForce.h" />
+    <ClInclude Include="..\src\particle\modifier\Modifier.h" />
+    <ClInclude Include="..\src\particle\Particle.h" />
+    <ClInclude Include="..\src\particle\ParticleBehaviour.h" />
+    <ClInclude Include="..\src\particle\ParticleRender.h" />
+    <ClInclude Include="..\src\particle\ParticleSystem.h" />
+    <ClInclude Include="..\src\particle\ParticleSystemManager.h" />
+    <ClInclude Include="..\src\particle\space\CircleGeneratorSpace.h" />
+    <ClInclude Include="..\src\particle\space\GeneratorSpace.h" />
+    <ClInclude Include="..\src\particle\space\LineGeneratorSpace.h" />
+    <ClInclude Include="..\src\particle\space\ParticleSpace.h" />
+    <ClInclude Include="..\src\particle\space\PathGeneratorSpace.h" />
+    <ClInclude Include="..\src\particle\space\PointGeneratorSpace.h" />
+    <ClInclude Include="..\src\particle\space\RectGeneratorSpace.h" />
+    <ClInclude Include="..\src\particle\Util.h" />
+    <ClInclude Include="..\src\particle\util\Stream.h" />
+    <ClInclude Include="..\src\particle\util\UTF8.h" />
+    <ClInclude Include="..\src\particle\ValueList.h" />
+    <ClInclude Include="..\src\platform\PlatformUtils.h" />
+    <ClInclude Include="..\src\platform\sdk.h" />
+    <ClInclude Include="..\src\platform\SDKCallback.h" />
+    <ClInclude Include="..\src\platform\SDKLoginUtilsForAndroid.h" />
+    <ClInclude Include="..\src\protocol\src\anim.pb.h" />
+    <ClInclude Include="..\src\protocol\src\files.pb.h" />
+    <ClInclude Include="..\src\protocol\src\platform.pb.h" />
+    <ClInclude Include="..\src\RichText\TLFontTex.h" />
+    <ClInclude Include="..\src\RichText\TLLabelRichTex.h" />
+    <ClInclude Include="..\src\RichText\TLRichTexVerbatim.h" />
+    <ClInclude Include="..\src\TLRunningScene.h" />
+    <ClInclude Include="..\src\tween\interpolation.h" />
+    <ClInclude Include="..\src\tween\TLTweenManager.h" />
+    <ClInclude Include="..\src\UI\TLDropDragHelper.h" />
+    <ClInclude Include="..\src\UI\TLEditBox.h" />
+    <ClInclude Include="..\src\UI\TLEditBoxImpl.h" />
+    <ClInclude Include="..\src\UI\TLMaskLayer.h" />
+    <ClInclude Include="..\src\UI\TLRenderNode.h" />
+    <ClInclude Include="..\src\UI\TLTextField.h" />
+    <ClInclude Include="..\src\UI\TLTextFieldDelegate.h" />
+    <ClInclude Include="..\src\UI\TLWindow.h" />
+    <ClInclude Include="..\src\UI\TLWindowDefine.h" />
+    <ClInclude Include="..\src\UI\TLWindowInline.h" />
+    <ClInclude Include="..\src\UI\TLWindowManager.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

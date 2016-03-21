@@ -3,7 +3,6 @@
 #include "CCPlatformConfig.h"
 #include "platform/sdk.h"
 #include "MC/AssetsManager.h"
-#include "Common/LuaApi.h"
 #include <string>
 #include "UI/TLEditBox.h"
 

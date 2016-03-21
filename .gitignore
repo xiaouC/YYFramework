@@ -3,4 +3,6 @@
 .sconsign.dblite
 main
 src/pbc/libpbc.a
-
+proj.win32/Debug.win32
+proj.win32/Release.win32
+proj.win32/YYFramework.vcxproj.user
