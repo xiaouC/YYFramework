@@ -40,10 +40,16 @@
     <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
     <IntDir>$(Configuration).win32\</IntDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
+    <IntDir>$(Configuration).win32\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\MCC\cocos2dx\;..\..\MCC\cocos2dx\support;..\..\MCC\cocos2dx\include;..\..\MCC\cocos2dx\platform;..\..\MCC\cocos2dx\platform\win32;..\..\MCC\cocos2dx\platform\third_party\win32;..\..\MCC\cocos2dx\platform\third_party\win32\pthread;..\..\MCC\cocos2dx\platform\third_party\win32\OGLES;..\..\MCC\cocos2dx\kazmath\include;..\..\MCC\CocosDenshion\include;..\..\MCC\scripting\lua\cocos2dx_support;..\..\MCC\scripting\lua\lua;..\..\MCC\scripting\lua\tolua;..\..\MCC\external\chipmunk\include\;..\src;..\..\protobuf-2.4.1\src;..\src\protocol\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;COCOS2D_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
