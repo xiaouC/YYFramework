@@ -1,0 +1,38 @@
+package framework;
+option optimize_for = LITE_RUNTIME;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 一个地图块的数据
+message SpriteInfo {
+    required        string          file        = 1;
+    required        float           x           = 2;
+    required        float           y           = 3;
+    required        float           scale_x     = 4;
+    required        float           scale_y     = 5;
+    required        float           rotation    = 6;
+}
+
+message MapBlock {
+    required        int32           row         = 1;
+    required        int32           col         = 2;
+    required        int32           width       = 3;
+    required        int32           height      = 4;
+    repeated        SpriteInfo      sprites     = 5;
+    repeated        int32           gridStates  = 6;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 无缝地图的整体数据
+message BlockInfo {
+    required        string          file        = 1;
+    required        float           x           = 2;
+    required        float           y           = 3;
+}
+
+message SeamlessMap {
+    required        int32           blockRow    = 1;
+    required        int32           blockCol    = 2;
+    required        int32           gridWidth   = 3;
+    required        int32           gridHeight  = 4;
+    repeated        BlockInfo       blocks      = 5;
+}
