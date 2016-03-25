@@ -282,6 +282,28 @@ BlockInfo* TLSeamlessMap::getBlockInfo( float x, float y )
     return NULL;
 }
 
+TLMapBlock* TLSeamlessMap::getMapBlock( float x, float y )
+{
+	correctCoordinate( x, y );
+
+	for( int i=BLOCK_INDEX_CENTER; i < BLOCK_INDEX_MAX; ++i )
+	{
+		MBInfo mbInfo = m_kBlocks[i];
+		if( mbInfo.pMapBlock == NULL )
+			continue;
+
+        if( mbInfo.x - m_nBlockWidth * 0.5f <= x &&
+            mbInfo.x + m_nBlockWidth * 0.5f >= x &&
+            mbInfo.y - m_nBlockHeight * 0.5f <= y &&
+            mbInfo.y + m_nBlockHeight * 0.5f >= y )
+        {
+            return mbInfo.pMapBlock;
+        }
+	}
+
+	return NULL;
+}
+
 void TLSeamlessMap::addBlock( const std::string& strBlockName, float x, float y )
 {
     // 在修正前，先记录下来，作为当前的坐标
@@ -331,9 +353,9 @@ void TLSeamlessMap::removeBlock( float x, float y )
 
 void TLSeamlessMap::correctCoordinate( float& x, float& y )
 {
-    int xTempX = ( (int)( x + m_nBlockWidth * 0.5f ) ) % m_nBlockWidth;
+    int xTempX = ( (int)( x + m_nBlockWidth * 0.5f ) ) / m_nBlockWidth;
     x = xTempX * m_nBlockWidth;
 
-    int nTempY = ( (int)( y + m_nBlockHeight * 0.5f ) ) % m_nBlockHeight;
+    int nTempY = ( (int)( y + m_nBlockHeight * 0.5f ) ) / m_nBlockHeight;
     y = nTempY * m_nBlockHeight;
 }

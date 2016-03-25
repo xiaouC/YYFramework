@@ -65,7 +65,7 @@ struct FloatValue : public ValueObject
     }
     
     virtual void SetMixValue(ValueObject* v1, ValueObject* v2){
-        value = ((FloatValue*)v1)->value + ParticleUtil::RandFloat(((FloatValue*)v2)->value) - ((FloatValue*)v2)->value*0.5;
+        value = ((FloatValue*)v1)->value + ParticleUtil::RandFloat(((FloatValue*)v2)->value) - ((FloatValue*)v2)->value*0.5f;
     }
     
     float value;
@@ -133,9 +133,9 @@ struct ColorValue:ValueObject
     }
     
     virtual void SetMixValue(ValueObject* v1, ValueObject* v2){
-        r = ((ColorValue*)v1)->r + ParticleUtil::RandFloat(((ColorValue*)v2)->r) - ((ColorValue*)v2)->r*0.5;
-        g = ((ColorValue*)v1)->g + ParticleUtil::RandFloat(((ColorValue*)v2)->g) - ((ColorValue*)v2)->g*0.5;
-        b = ((ColorValue*)v1)->b + ParticleUtil::RandFloat(((ColorValue*)v2)->b) - ((ColorValue*)v2)->b*0.5;
+        r = ((ColorValue*)v1)->r + ParticleUtil::RandFloat(((ColorValue*)v2)->r) - ((ColorValue*)v2)->r*0.5f;
+        g = ((ColorValue*)v1)->g + ParticleUtil::RandFloat(((ColorValue*)v2)->g) - ((ColorValue*)v2)->g*0.5f;
+        b = ((ColorValue*)v1)->b + ParticleUtil::RandFloat(((ColorValue*)v2)->b) - ((ColorValue*)v2)->b*0.5f;
     }
     
     float r;
@@ -216,16 +216,16 @@ struct Vector3f: public ValueObject
     }
     
     inline void DivideLocal(float scalar) {
-        scalar = 1.0 / scalar;
+        scalar = 1.0f / scalar;
         x *= scalar;
         y *= scalar;
         z *= scalar;
     }
     
     virtual void SetMixValue(ValueObject* v1, ValueObject* v2){
-        x = ((Vector3f*)v1)->x + ParticleUtil::RandFloat(((Vector3f*)v2)->x) - ((Vector3f*)v2)->x*0.5;
-        y = ((Vector3f*)v1)->y + ParticleUtil::RandFloat(((Vector3f*)v2)->y) - ((Vector3f*)v2)->y*0.5;
-        z = ((Vector3f*)v1)->z + ParticleUtil::RandFloat(((Vector3f*)v2)->z) - ((Vector3f*)v2)->z*0.5;
+        x = ((Vector3f*)v1)->x + ParticleUtil::RandFloat(((Vector3f*)v2)->x) - ((Vector3f*)v2)->x*0.5f;
+        y = ((Vector3f*)v1)->y + ParticleUtil::RandFloat(((Vector3f*)v2)->y) - ((Vector3f*)v2)->y*0.5f;
+        z = ((Vector3f*)v1)->z + ParticleUtil::RandFloat(((Vector3f*)v2)->z) - ((Vector3f*)v2)->z*0.5f;
     }
     
     //向量长度
@@ -286,7 +286,7 @@ struct Vector2f
     }
     
     inline void DivideLocal(float scalar) {
-        scalar = 1.0 / scalar;
+        scalar = 1.0f / scalar;
         x *= scalar;
         y *= scalar;
     }

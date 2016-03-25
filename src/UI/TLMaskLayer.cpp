@@ -71,18 +71,18 @@ void TLMaskLayer::appendHighlightRect( const CCRect& rect )
 	const CCSize& winSize = CCDirector::sharedDirector()->getWinSize();
 
     // 扩大 20 %
-    float temp_width = rect.size.width * 0.15;
-    float temp_height = rect.size.height * 0.15;
+    float temp_width = rect.size.width * 0.15f;
+    float temp_height = rect.size.height * 0.15f;
 
     float new_width = rect.size.width + temp_width * 2;
     float new_height = rect.size.height + temp_height * 2;
     float new_x = rect.origin.x - temp_width;
     float new_y = rect.origin.y - temp_height;
 
-    float a = new_width * 0.5 / winSize.width;
-    float b = new_height * 0.5 / winSize.height;
-    float x1 = ( new_x + new_width * 0.5 ) / winSize.width;
-    float y1 = ( winSize.height - new_y - new_height * 0.5 ) / winSize.height;
+    float a = new_width * 0.5f / winSize.width;
+    float b = new_height * 0.5f / winSize.height;
+    float x1 = ( new_x + new_width * 0.5f ) / winSize.width;
+    float y1 = ( winSize.height - new_y - new_height * 0.5f ) / winSize.height;
 	m_pMaskSprite->setCustomUniforms( x1, y1, a, b );
 }
 
@@ -91,18 +91,18 @@ void TLMaskLayer::appendHighlightRect2( const CCRect& rect )
     const CCSize& winSize = CCDirector::sharedDirector()->getWinSize();
 
     // 扩大 20 %
-    float temp_width = rect.size.width * 0.15;
-    float temp_height = rect.size.height * 0.15;
+    float temp_width = rect.size.width * 0.15f;
+    float temp_height = rect.size.height * 0.15f;
 
     float new_width = rect.size.width + temp_width * 2;
     float new_height = rect.size.height + temp_height * 2;
     float new_x = rect.origin.x - temp_width;
     float new_y = rect.origin.y - temp_height;
 
-    float a = new_width * 0.5 / winSize.width;
-    float b = new_height * 0.5 / winSize.height;
-    float x1 = ( new_x + new_width * 0.5 ) / winSize.width;
-    float y1 = ( winSize.height - new_y - new_height * 0.5 ) / winSize.height;
+    float a = new_width * 0.5f / winSize.width;
+    float b = new_height * 0.5f / winSize.height;
+    float x1 = ( new_x + new_width * 0.5f ) / winSize.width;
+    float y1 = ( winSize.height - new_y - new_height * 0.5f ) / winSize.height;
 	m_pMaskSprite->setCustomUniformsEx( x1, y1, a, b );
 }
 

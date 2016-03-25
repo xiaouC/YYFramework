@@ -3,7 +3,7 @@
 #include "MC/MCLoader.h"
 #include "map.pb.h"
 
-#define GRID_SPRITE_FILE "GridLine.png"
+#define GRID_SPRITE_FILE "images/GridLine.png"
 
 TLMapBlock::TLMapBlock( const std::string& strMapBlockFile )
 {
@@ -176,6 +176,29 @@ void TLMapBlock::save()
 
         fclose( fp );
     }
+}
+
+CCSprite* TLMapBlock::addSprite( const std::string& strFileName, float x, float y )
+{
+    CCSprite* pRetSprite = MCLoader::sharedMCLoader()->loadSprite( strFileName.c_str() );
+	if( pRetSprite != NULL )
+	{
+		SpriteInfo* si = new SpriteInfo;
+		si->pSprite = pRetSprite;
+		si->strFileName = strFileName;
+		si->x = x;
+		si->y = y;
+		si->scale_x = 0.0f;
+		si->scale_y = 0.0f;
+		si->rotation = 0.0f;
+
+		m_listAllSprites.push_back( si );
+
+		pRetSprite->setPosition( CCPoint( x, y ) );
+		addChild( pRetSprite );
+	}
+
+	return pRetSprite;
 }
 
 void TLMapBlock::create( int nRow, int nCol, int nWidth, int nHeight )
