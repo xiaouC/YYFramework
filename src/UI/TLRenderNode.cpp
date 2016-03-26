@@ -185,7 +185,7 @@ void TLRenderNode::visit(void)
         m_pRender->beginWithClear( 0, 0, 0, 0 );
 
         m_pContentNode->setParent( NULL );
-        m_pContentNode->setPosition( CCPoint( point.x + m_renderSize.width * 0.5, point.y + m_renderSize.height * 0.5 ) );
+        m_pContentNode->setPosition( CCPoint( point.x + m_renderSize.width * 0.5f, point.y + m_renderSize.height * 0.5f ) );
         m_pContentNode->visit();
 
         m_pRender->end();

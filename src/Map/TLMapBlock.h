@@ -31,6 +31,12 @@ public:
     void create( int nRow, int nCol, int nWidth, int nHeight );
     void save();
 
+	CCSprite* addSprite( const std::string& strFileName, float x, float y );
+	void removeSprite( CCSprite* pSprite );
+	void moveSprite( CCSprite* pSprite, float mv_x, float mv_y );
+	void scaleSprite( CCSprite* pSprite, float scale );
+	void rotateSprite( CCSprite* pSprite, float rotation );
+
     void recreateGridLine();
     void setIsShowGirdLine( bool bIsShow );
     bool getIsShowGridLine() const { return m_bShowGridLine; }

@@ -42,6 +42,7 @@ public:
     void updateBlock();
 
     BlockInfo* getBlockInfo( float x, float y );
+	TLMapBlock* getMapBlock( float x, float y );
 
 protected:
     std::string m_strSeamlessMapFile;

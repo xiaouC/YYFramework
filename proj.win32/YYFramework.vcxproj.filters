@@ -55,6 +55,9 @@
     <Filter Include="UI">
       <UniqueIdentifier>{14130a87-9965-4848-b6b0-b19ca40b4d3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{000eca1d-f80b-41b3-9a8c-a6562845b894}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Common\CCActionExtend.cpp">
@@ -243,6 +246,15 @@
     <ClCompile Include="..\src\platform\SDKLoginUtilsForAndroid.cpp">
       <Filter>platform</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\protocol\src\map.pb.cc">
+      <Filter>protocol\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Map\TLMapBlock.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Map\TLSeamlessMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Common\CCActionExtend.h">
@@ -430,6 +442,15 @@
     </ClInclude>
     <ClInclude Include="..\src\platform\SDKLoginUtilsForAndroid.h">
       <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\protocol\src\map.pb.h">
+      <Filter>protocol\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Map\TLMapBlock.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Map\TLSeamlessMap.h">
+      <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

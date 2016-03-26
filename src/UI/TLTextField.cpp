@@ -126,7 +126,7 @@ bool TLTextField::initWithPlaceHolder( const char *placeholder, const CCSize& di
 
     chatTexInfo* pCTInfo = TLFontTex::sharedTLFontTex()->getChatTextInfo( "j" );
 	float fScale = TLFontTex::sharedTLFontTex()->getFontScale( fontSize );
-    m_kCursorDefault = CCPoint( kCursorSize.width * 1.5f, dimensions.height - pCTInfo->rcUV.size.height * fScale * 0.5 );
+    m_kCursorDefault = CCPoint( kCursorSize.width * 1.5f, dimensions.height - pCTInfo->rcUV.size.height * fScale * 0.5f );
 
     m_pCursor->setScale( fScale );
 	m_pCursor->setAnchorPoint( ccp( 0.5, 0.5 ) );
