@@ -33,7 +33,7 @@ public:
     virtual ~TLSeamlessMap();
 
     static TLSeamlessMap* create( const std::string& strSeamlessMapFile, float x, float y );
-    static bool newSeamlessMap( const std::string& strSeamlessMapFile, int nBlockRow, int nBlockCol, int nGridWidth, int nGridHeight );
+    static bool newSeamlessMap( const std::string& strSeamlessMapFile, int nBlockRow, int nBlockCol, int nGridWidth, int nGridHeight, const std::string& strMaterial );
 
     virtual bool init();
 

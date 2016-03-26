@@ -106,26 +106,26 @@ class SpriteInfo : public ::google::protobuf::MessageLite {
   inline float y() const;
   inline void set_y(float value);
   
-  // required float scale_x = 4;
-  inline bool has_scale_x() const;
-  inline void clear_scale_x();
-  static const int kScaleXFieldNumber = 4;
-  inline float scale_x() const;
-  inline void set_scale_x(float value);
+  // required float scale = 4;
+  inline bool has_scale() const;
+  inline void clear_scale();
+  static const int kScaleFieldNumber = 4;
+  inline float scale() const;
+  inline void set_scale(float value);
   
-  // required float scale_y = 5;
-  inline bool has_scale_y() const;
-  inline void clear_scale_y();
-  static const int kScaleYFieldNumber = 5;
-  inline float scale_y() const;
-  inline void set_scale_y(float value);
-  
-  // required float rotation = 6;
+  // required float rotation = 5;
   inline bool has_rotation() const;
   inline void clear_rotation();
-  static const int kRotationFieldNumber = 6;
+  static const int kRotationFieldNumber = 5;
   inline float rotation() const;
   inline void set_rotation(float value);
+  
+  // required int32 z_order = 6;
+  inline bool has_z_order() const;
+  inline void clear_z_order();
+  static const int kZOrderFieldNumber = 6;
+  inline ::google::protobuf::int32 z_order() const;
+  inline void set_z_order(::google::protobuf::int32 value);
   
   // @@protoc_insertion_point(class_scope:framework.SpriteInfo)
  private:
@@ -135,19 +135,19 @@ class SpriteInfo : public ::google::protobuf::MessageLite {
   inline void clear_has_x();
   inline void set_has_y();
   inline void clear_has_y();
-  inline void set_has_scale_x();
-  inline void clear_has_scale_x();
-  inline void set_has_scale_y();
-  inline void clear_has_scale_y();
+  inline void set_has_scale();
+  inline void clear_has_scale();
   inline void set_has_rotation();
   inline void clear_has_rotation();
+  inline void set_has_z_order();
+  inline void clear_has_z_order();
   
   ::std::string* file_;
   float x_;
   float y_;
-  float scale_x_;
-  float scale_y_;
+  float scale_;
   float rotation_;
+  ::google::protobuf::int32 z_order_;
   
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
@@ -256,6 +256,17 @@ class MapBlock : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_gridstates();
   
+  // required string material = 7;
+  inline bool has_material() const;
+  inline void clear_material();
+  static const int kMaterialFieldNumber = 7;
+  inline const ::std::string& material() const;
+  inline void set_material(const ::std::string& value);
+  inline void set_material(const char* value);
+  inline void set_material(const char* value, size_t size);
+  inline ::std::string* mutable_material();
+  inline ::std::string* release_material();
+  
   // @@protoc_insertion_point(class_scope:framework.MapBlock)
  private:
   inline void set_has_row();
@@ -266,6 +277,8 @@ class MapBlock : public ::google::protobuf::MessageLite {
   inline void clear_has_width();
   inline void set_has_height();
   inline void clear_has_height();
+  inline void set_has_material();
+  inline void clear_has_material();
   
   ::google::protobuf::int32 row_;
   ::google::protobuf::int32 col_;
@@ -273,9 +286,10 @@ class MapBlock : public ::google::protobuf::MessageLite {
   ::google::protobuf::int32 height_;
   ::google::protobuf::RepeatedPtrField< ::framework::SpriteInfo > sprites_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > gridstates_;
+  ::std::string* material_;
   
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
   
   friend void  protobuf_AddDesc_map_2eproto();
   friend void protobuf_AssignDesc_map_2eproto();
@@ -598,59 +612,37 @@ inline void SpriteInfo::set_y(float value) {
   y_ = value;
 }
 
-// required float scale_x = 4;
-inline bool SpriteInfo::has_scale_x() const {
+// required float scale = 4;
+inline bool SpriteInfo::has_scale() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
-inline void SpriteInfo::set_has_scale_x() {
+inline void SpriteInfo::set_has_scale() {
   _has_bits_[0] |= 0x00000008u;
 }
-inline void SpriteInfo::clear_has_scale_x() {
+inline void SpriteInfo::clear_has_scale() {
   _has_bits_[0] &= ~0x00000008u;
 }
-inline void SpriteInfo::clear_scale_x() {
-  scale_x_ = 0;
-  clear_has_scale_x();
+inline void SpriteInfo::clear_scale() {
+  scale_ = 0;
+  clear_has_scale();
 }
-inline float SpriteInfo::scale_x() const {
-  return scale_x_;
+inline float SpriteInfo::scale() const {
+  return scale_;
 }
-inline void SpriteInfo::set_scale_x(float value) {
-  set_has_scale_x();
-  scale_x_ = value;
+inline void SpriteInfo::set_scale(float value) {
+  set_has_scale();
+  scale_ = value;
 }
 
-// required float scale_y = 5;
-inline bool SpriteInfo::has_scale_y() const {
+// required float rotation = 5;
+inline bool SpriteInfo::has_rotation() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
-inline void SpriteInfo::set_has_scale_y() {
+inline void SpriteInfo::set_has_rotation() {
   _has_bits_[0] |= 0x00000010u;
 }
-inline void SpriteInfo::clear_has_scale_y() {
-  _has_bits_[0] &= ~0x00000010u;
-}
-inline void SpriteInfo::clear_scale_y() {
-  scale_y_ = 0;
-  clear_has_scale_y();
-}
-inline float SpriteInfo::scale_y() const {
-  return scale_y_;
-}
-inline void SpriteInfo::set_scale_y(float value) {
-  set_has_scale_y();
-  scale_y_ = value;
-}
-
-// required float rotation = 6;
-inline bool SpriteInfo::has_rotation() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
-}
-inline void SpriteInfo::set_has_rotation() {
-  _has_bits_[0] |= 0x00000020u;
-}
 inline void SpriteInfo::clear_has_rotation() {
-  _has_bits_[0] &= ~0x00000020u;
+  _has_bits_[0] &= ~0x00000010u;
 }
 inline void SpriteInfo::clear_rotation() {
   rotation_ = 0;
@@ -662,6 +654,28 @@ inline float SpriteInfo::rotation() const {
 inline void SpriteInfo::set_rotation(float value) {
   set_has_rotation();
   rotation_ = value;
+}
+
+// required int32 z_order = 6;
+inline bool SpriteInfo::has_z_order() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void SpriteInfo::set_has_z_order() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void SpriteInfo::clear_has_z_order() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void SpriteInfo::clear_z_order() {
+  z_order_ = 0;
+  clear_has_z_order();
+}
+inline ::google::protobuf::int32 SpriteInfo::z_order() const {
+  return z_order_;
+}
+inline void SpriteInfo::set_z_order(::google::protobuf::int32 value) {
+  set_has_z_order();
+  z_order_ = value;
 }
 
 // -------------------------------------------------------------------
@@ -804,6 +818,64 @@ MapBlock::gridstates() const {
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 MapBlock::mutable_gridstates() {
   return &gridstates_;
+}
+
+// required string material = 7;
+inline bool MapBlock::has_material() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void MapBlock::set_has_material() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void MapBlock::clear_has_material() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void MapBlock::clear_material() {
+  if (material_ != &::google::protobuf::internal::kEmptyString) {
+    material_->clear();
+  }
+  clear_has_material();
+}
+inline const ::std::string& MapBlock::material() const {
+  return *material_;
+}
+inline void MapBlock::set_material(const ::std::string& value) {
+  set_has_material();
+  if (material_ == &::google::protobuf::internal::kEmptyString) {
+    material_ = new ::std::string;
+  }
+  material_->assign(value);
+}
+inline void MapBlock::set_material(const char* value) {
+  set_has_material();
+  if (material_ == &::google::protobuf::internal::kEmptyString) {
+    material_ = new ::std::string;
+  }
+  material_->assign(value);
+}
+inline void MapBlock::set_material(const char* value, size_t size) {
+  set_has_material();
+  if (material_ == &::google::protobuf::internal::kEmptyString) {
+    material_ = new ::std::string;
+  }
+  material_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* MapBlock::mutable_material() {
+  set_has_material();
+  if (material_ == &::google::protobuf::internal::kEmptyString) {
+    material_ = new ::std::string;
+  }
+  return material_;
+}
+inline ::std::string* MapBlock::release_material() {
+  clear_has_material();
+  if (material_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = material_;
+    material_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
 }
 
 // -------------------------------------------------------------------

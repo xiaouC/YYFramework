@@ -7,6 +7,8 @@
 
 TLMapBlock::TLMapBlock( const std::string& strMapBlockFile )
 {
+    m_pMaterialBatchNode = NULL;
+
 #if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
     m_strMapBlockFile = strMapBlockFile;
     m_nRow = 0;
@@ -40,7 +42,7 @@ TLMapBlock* TLMapBlock::create( const std::string& strFileName )
     return pRet;
 }
 
-bool TLMapBlock::newMapBlock( const std::string& strMapBlockFile, int nRow, int nCol, int nGridWidth, int nGridHeight )
+bool TLMapBlock::newMapBlock( const std::string& strMapBlockFile, int nRow, int nCol, int nGridWidth, int nGridHeight, const std::string& strMaterial )
 {
     FILE* fp = fopen( strMapBlockFile.c_str(), "wb" );
     if( fp == NULL )
@@ -51,6 +53,7 @@ bool TLMapBlock::newMapBlock( const std::string& strMapBlockFile, int nRow, int 
     mbData.set_col( nCol );
     mbData.set_width( nGridWidth );
     mbData.set_height( nGridHeight );
+    mbData.set_material( strMaterial );
 
     //std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
     //std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
@@ -62,9 +65,9 @@ bool TLMapBlock::newMapBlock( const std::string& strMapBlockFile, int nRow, int 
     //    si.set_file( pSpriteInfo->strFileName );
     //    si.set_x( pSpriteInfo->x );
     //    si.set_y( pSpriteInfo->y );
-    //    si.set_scale_x( pSpriteInfo->scale_x );
-    //    si.set_scale_y( pSpriteInfo->scale_y );
+    //    si.set_scale( pSpriteInfo->scale );
     //    si.set_rotation( pSpriteInfo->rotation );
+    //    si.set_z_order( pSpriteInfo->z_order );
     //}
     
     for( int i=0; i < nRow * nCol; ++i )
@@ -104,8 +107,14 @@ bool TLMapBlock::init()
     m_nCol = mbData.col();
     m_nWidth = mbData.width();
     m_nHeight = mbData.height();
+    m_strMaterial = mbData.material();
 #endif
 
+    // 地表材质
+    std::string strMaterial = mbData.material();
+    updateMaterial( strMaterial, mbData.col() * mbData.width(), mbData.row() * mbData.height() );
+
+    // 地表装饰物
     for( int i=0; i < mbData.sprites_size(); ++i )
     {
         const framework::SpriteInfo& si = mbData.sprites( i );
@@ -113,10 +122,9 @@ bool TLMapBlock::init()
         CCSprite* pSprite = MCLoader::sharedMCLoader()->loadSprite( si.file().c_str() );
         pSprite->setPositionX( si.x() );
         pSprite->setPositionY( si.y() );
-        pSprite->setScaleX( si.scale_x() );
-        pSprite->setScaleY( si.scale_y() );
+        pSprite->setScale( si.scale() );
         pSprite->setRotation( si.rotation() );
-        addChild( pSprite );
+        addChild( pSprite, si.z_order() );
 
 #if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
         SpriteInfo* pSpriteInfo = new SpriteInfo;
@@ -124,19 +132,74 @@ bool TLMapBlock::init()
         pSpriteInfo->strFileName = si.file();
         pSpriteInfo->x = si.x();
         pSpriteInfo->y = si.y();
-        pSpriteInfo->scale_x = si.scale_x();
-        pSpriteInfo->scale_y = si.scale_y();
+        pSpriteInfo->scale = si.scale();
         pSpriteInfo->rotation = si.rotation();
+        pSpriteInfo->z_order = si.z_order();
 
         m_listAllSprites.push_back( pSpriteInfo );
 #endif
     }
 
+    // 地表上摆放的物件
+
+    // 地表网格的状态
 #if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
     m_vecGridStates.resize( m_nRow * m_nCol, 0 );
 #endif
 
     return true;
+}
+
+void TLMapBlock::updateMaterial( const std::string& strMaterial, int nBlockWidth, int nBlockHeight )
+{
+    if( m_pMaterialBatchNode != NULL )
+    {
+        m_pMaterialBatchNode->removeFromParentAndCleanup( true );
+        m_pMaterialBatchNode = NULL;
+    }
+
+    // 地表材质
+	CCTexture2D* pMaterialTexture = MCLoader::sharedMCLoader()->loadTexture( strMaterial.c_str() );
+    if( pMaterialTexture == NULL )
+        return;
+
+    m_pMaterialBatchNode = CCSpriteBatchNode::createWithTexture( pMaterialTexture );
+    addChild( m_pMaterialBatchNode, -1000 );
+
+    CCSprite* pFirstMaterialSprite = MCLoader::sharedMCLoader()->loadSprite( strMaterial.c_str() );
+    m_pMaterialBatchNode->addChild( pFirstMaterialSprite );
+    const CCSize& size = pFirstMaterialSprite->getContentSize();
+
+    int nRowCount = nBlockHeight / size.height;
+    if( nRowCount * size.height < nBlockHeight )
+        nRowCount = nRowCount + 1;
+
+    int nColCount = nBlockWidth / size.width;
+    if( nColCount * size.width < nBlockWidth )
+        nColCount = nColCount + 1;
+
+    int nRealWidth = nColCount * size.width;
+    int nRealHeight = nRowCount * size.height;
+
+    float x = ( size.width - nRealWidth ) * 0.5f;
+    float y = ( nRealHeight - size.height ) * 0.5f;
+    pFirstMaterialSprite->setPosition( CCPoint( x, y ) );
+
+    for( int i=0; i < nRowCount; ++i )
+    {
+        float y = ( nRealHeight - size.height ) * 0.5f - i * size.height;
+        for( int j=0; j < nColCount; ++j )
+        {
+            if( i==0 && j== 0 )
+                continue;
+
+            CCSprite* pMaterialSprite = MCLoader::sharedMCLoader()->loadSprite( strMaterial.c_str() );
+            m_pMaterialBatchNode->addChild( pMaterialSprite );
+
+            float x = ( size.width - nRealWidth ) * 0.5f + j * size.width;
+            pMaterialSprite->setPosition( CCPoint( x, y ) );
+        }
+    }
 }
 
 #if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
@@ -161,12 +224,12 @@ void TLMapBlock::save()
             si->set_file( pSpriteInfo->strFileName );
             si->set_x( pSpriteInfo->x );
             si->set_y( pSpriteInfo->y );
-            si->set_scale_x( pSpriteInfo->scale_x );
-            si->set_scale_y( pSpriteInfo->scale_y );
+            si->set_scale( pSpriteInfo->scale );
             si->set_rotation( pSpriteInfo->rotation );
+            si->set_z_order( pSpriteInfo->z_order );
         }
 
-        for( int i=0; i < m_vecGridStates.size(); ++i )
+        for( int i=0; i < (int)m_vecGridStates.size(); ++i )
             mbData.add_gridstates( m_vecGridStates[i] );
 
         std::string strBuffer;
@@ -176,6 +239,11 @@ void TLMapBlock::save()
 
         fclose( fp );
     }
+}
+
+void TLMapBlock::setMaterial( const std::string& strMaterial )
+{
+    updateMaterial( strMaterial, m_nCol * m_nWidth, m_nRow * m_nHeight );
 }
 
 CCSprite* TLMapBlock::addSprite( const std::string& strFileName, float x, float y )
@@ -188,9 +256,9 @@ CCSprite* TLMapBlock::addSprite( const std::string& strFileName, float x, float 
 		si->strFileName = strFileName;
 		si->x = x;
 		si->y = y;
-		si->scale_x = 0.0f;
-		si->scale_y = 0.0f;
+		si->scale = 0.0f;
 		si->rotation = 0.0f;
+        si->z_order = 0;
 
 		m_listAllSprites.push_back( si );
 
@@ -199,6 +267,105 @@ CCSprite* TLMapBlock::addSprite( const std::string& strFileName, float x, float 
 	}
 
 	return pRetSprite;
+}
+
+void TLMapBlock::removeSprite( CCSprite* pSprite )
+{
+    std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
+    std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
+    for( ; iter != iter_end; ++iter )
+    {
+        SpriteInfo* pSpriteInfo = (*iter);
+        if( pSpriteInfo->pSprite == pSprite )
+        {
+            pSprite->removeFromParentAndCleanup( true );
+
+            m_listAllSprites.erase( iter );
+
+            return;
+        }
+    }
+}
+
+void TLMapBlock::moveSprite( CCSprite* pSprite, float mv_x, float mv_y )
+{
+    std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
+    std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
+    for( ; iter != iter_end; ++iter )
+    {
+        SpriteInfo* pSpriteInfo = (*iter);
+        if( pSpriteInfo->pSprite == pSprite )
+        {
+            pSpriteInfo->x = pSpriteInfo->x + mv_x;
+            pSpriteInfo->y = pSpriteInfo->y + mv_y;
+            pSpriteInfo->pSprite->setPosition( CCPoint( pSpriteInfo->x, pSpriteInfo->y ) );
+
+            return;
+        }
+    }
+}
+
+void TLMapBlock::scaleSprite( CCSprite* pSprite, float scale )
+{
+    std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
+    std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
+    for( ; iter != iter_end; ++iter )
+    {
+        SpriteInfo* pSpriteInfo = (*iter);
+        if( pSpriteInfo->pSprite == pSprite )
+        {
+            pSpriteInfo->scale = scale;
+            pSpriteInfo->pSprite->setScale( pSpriteInfo->scale );
+
+            return;
+        }
+    }
+}
+
+void TLMapBlock::rotateSprite( CCSprite* pSprite, float rotation )
+{
+    std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
+    std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
+    for( ; iter != iter_end; ++iter )
+    {
+        SpriteInfo* pSpriteInfo = (*iter);
+        if( pSpriteInfo->pSprite == pSprite )
+        {
+            pSpriteInfo->rotation = rotation;
+            pSpriteInfo->pSprite->setRotation( pSpriteInfo->rotation );
+
+            return;
+        }
+    }
+}
+
+CCSprite* TLMapBlock::hitSprite( float x, float y )
+{
+    int nZOrder = -9999999;
+    CCSprite* pRetSprite = NULL;
+
+    std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
+    std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
+    for( ; iter != iter_end; ++iter )
+    {
+        SpriteInfo* pSpriteInfo = (*iter);
+        const CCPoint& position = pSpriteInfo->pSprite->getPosition();
+        const CCSize& size = pSpriteInfo->pSprite->getContentSize();
+        if( x >= position.x - size.width * 0.5f &&
+            x <= position.x + size.width * 0.5f &&
+            y >= position.y - size.height * 0.5f &&
+            y <= position.y + size.height * 0.5f )
+        {
+            int z_order = pSpriteInfo->pSprite->getZOrder();
+            if( z_order > nZOrder )
+            {
+                nZOrder = z_order;
+                pRetSprite = pSpriteInfo->pSprite;
+            }
+        }
+    }
+
+    return pRetSprite;
 }
 
 void TLMapBlock::create( int nRow, int nCol, int nWidth, int nHeight )

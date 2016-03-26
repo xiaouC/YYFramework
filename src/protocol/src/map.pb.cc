@@ -50,9 +50,9 @@ struct StaticDescriptorInitializer_map_2eproto {
 const int SpriteInfo::kFileFieldNumber;
 const int SpriteInfo::kXFieldNumber;
 const int SpriteInfo::kYFieldNumber;
-const int SpriteInfo::kScaleXFieldNumber;
-const int SpriteInfo::kScaleYFieldNumber;
+const int SpriteInfo::kScaleFieldNumber;
 const int SpriteInfo::kRotationFieldNumber;
+const int SpriteInfo::kZOrderFieldNumber;
 #endif  // !_MSC_VER
 
 SpriteInfo::SpriteInfo()
@@ -74,9 +74,9 @@ void SpriteInfo::SharedCtor() {
   file_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   x_ = 0;
   y_ = 0;
-  scale_x_ = 0;
-  scale_y_ = 0;
+  scale_ = 0;
   rotation_ = 0;
+  z_order_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -116,9 +116,9 @@ void SpriteInfo::Clear() {
     }
     x_ = 0;
     y_ = 0;
-    scale_x_ = 0;
-    scale_y_ = 0;
+    scale_ = 0;
     rotation_ = 0;
+    z_order_ = 0;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -170,44 +170,28 @@ bool SpriteInfo::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(37)) goto parse_scale_x;
+        if (input->ExpectTag(37)) goto parse_scale;
         break;
       }
       
-      // required float scale_x = 4;
+      // required float scale = 4;
       case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
-         parse_scale_x:
+         parse_scale:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &scale_x_)));
-          set_has_scale_x();
+                 input, &scale_)));
+          set_has_scale();
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(45)) goto parse_scale_y;
+        if (input->ExpectTag(45)) goto parse_rotation;
         break;
       }
       
-      // required float scale_y = 5;
+      // required float rotation = 5;
       case 5: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
-         parse_scale_y:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &scale_y_)));
-          set_has_scale_y();
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectTag(53)) goto parse_rotation;
-        break;
-      }
-      
-      // required float rotation = 6;
-      case 6: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
          parse_rotation:
@@ -215,6 +199,22 @@ bool SpriteInfo::MergePartialFromCodedStream(
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &rotation_)));
           set_has_rotation();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(48)) goto parse_z_order;
+        break;
+      }
+      
+      // required int32 z_order = 6;
+      case 6: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_z_order:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &z_order_)));
+          set_has_z_order();
         } else {
           goto handle_uninterpreted;
         }
@@ -255,19 +255,19 @@ void SpriteInfo::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->y(), output);
   }
   
-  // required float scale_x = 4;
-  if (has_scale_x()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(4, this->scale_x(), output);
+  // required float scale = 4;
+  if (has_scale()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(4, this->scale(), output);
   }
   
-  // required float scale_y = 5;
-  if (has_scale_y()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(5, this->scale_y(), output);
-  }
-  
-  // required float rotation = 6;
+  // required float rotation = 5;
   if (has_rotation()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(6, this->rotation(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(5, this->rotation(), output);
+  }
+  
+  // required int32 z_order = 6;
+  if (has_z_order()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->z_order(), output);
   }
   
 }
@@ -293,19 +293,21 @@ int SpriteInfo::ByteSize() const {
       total_size += 1 + 4;
     }
     
-    // required float scale_x = 4;
-    if (has_scale_x()) {
+    // required float scale = 4;
+    if (has_scale()) {
       total_size += 1 + 4;
     }
     
-    // required float scale_y = 5;
-    if (has_scale_y()) {
-      total_size += 1 + 4;
-    }
-    
-    // required float rotation = 6;
+    // required float rotation = 5;
     if (has_rotation()) {
       total_size += 1 + 4;
+    }
+    
+    // required int32 z_order = 6;
+    if (has_z_order()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->z_order());
     }
     
   }
@@ -332,14 +334,14 @@ void SpriteInfo::MergeFrom(const SpriteInfo& from) {
     if (from.has_y()) {
       set_y(from.y());
     }
-    if (from.has_scale_x()) {
-      set_scale_x(from.scale_x());
-    }
-    if (from.has_scale_y()) {
-      set_scale_y(from.scale_y());
+    if (from.has_scale()) {
+      set_scale(from.scale());
     }
     if (from.has_rotation()) {
       set_rotation(from.rotation());
+    }
+    if (from.has_z_order()) {
+      set_z_order(from.z_order());
     }
   }
 }
@@ -361,9 +363,9 @@ void SpriteInfo::Swap(SpriteInfo* other) {
     std::swap(file_, other->file_);
     std::swap(x_, other->x_);
     std::swap(y_, other->y_);
-    std::swap(scale_x_, other->scale_x_);
-    std::swap(scale_y_, other->scale_y_);
+    std::swap(scale_, other->scale_);
     std::swap(rotation_, other->rotation_);
+    std::swap(z_order_, other->z_order_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }
@@ -383,6 +385,7 @@ const int MapBlock::kWidthFieldNumber;
 const int MapBlock::kHeightFieldNumber;
 const int MapBlock::kSpritesFieldNumber;
 const int MapBlock::kGridStatesFieldNumber;
+const int MapBlock::kMaterialFieldNumber;
 #endif  // !_MSC_VER
 
 MapBlock::MapBlock()
@@ -405,6 +408,7 @@ void MapBlock::SharedCtor() {
   col_ = 0;
   width_ = 0;
   height_ = 0;
+  material_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -413,6 +417,9 @@ MapBlock::~MapBlock() {
 }
 
 void MapBlock::SharedDtor() {
+  if (material_ != &::google::protobuf::internal::kEmptyString) {
+    delete material_;
+  }
   if (this != default_instance_) {
   }
 }
@@ -438,6 +445,11 @@ void MapBlock::Clear() {
     col_ = 0;
     width_ = 0;
     height_ = 0;
+    if (has_material()) {
+      if (material_ != &::google::protobuf::internal::kEmptyString) {
+        material_->clear();
+      }
+    }
   }
   sprites_.Clear();
   gridstates_.Clear();
@@ -546,6 +558,20 @@ bool MapBlock::MergePartialFromCodedStream(
           goto handle_uninterpreted;
         }
         if (input->ExpectTag(48)) goto parse_gridStates;
+        if (input->ExpectTag(58)) goto parse_material;
+        break;
+      }
+      
+      // required string material = 7;
+      case 7: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_material:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_material()));
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -599,6 +625,12 @@ void MapBlock::SerializeWithCachedSizes(
       6, this->gridstates(i), output);
   }
   
+  // required string material = 7;
+  if (has_material()) {
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      7, this->material(), output);
+  }
+  
 }
 
 int MapBlock::ByteSize() const {
@@ -631,6 +663,13 @@ int MapBlock::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->height());
+    }
+    
+    // required string material = 7;
+    if (has_material()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->material());
     }
     
   }
@@ -680,6 +719,9 @@ void MapBlock::MergeFrom(const MapBlock& from) {
     if (from.has_height()) {
       set_height(from.height());
     }
+    if (from.has_material()) {
+      set_material(from.material());
+    }
   }
 }
 
@@ -690,7 +732,7 @@ void MapBlock::CopyFrom(const MapBlock& from) {
 }
 
 bool MapBlock::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
+  if ((_has_bits_[0] & 0x0000004f) != 0x0000004f) return false;
   
   for (int i = 0; i < sprites_size(); i++) {
     if (!this->sprites(i).IsInitialized()) return false;
@@ -706,6 +748,7 @@ void MapBlock::Swap(MapBlock* other) {
     std::swap(height_, other->height_);
     sprites_.Swap(&other->sprites_);
     gridstates_.Swap(&other->gridstates_);
+    std::swap(material_, other->material_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }

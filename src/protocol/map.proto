@@ -7,9 +7,9 @@ message SpriteInfo {
     required        string          file        = 1;
     required        float           x           = 2;
     required        float           y           = 3;
-    required        float           scale_x     = 4;
-    required        float           scale_y     = 5;
-    required        float           rotation    = 6;
+    required        float           scale       = 4;
+    required        float           rotation    = 5;
+    required        int32           z_order     = 6;
 }
 
 message MapBlock {
@@ -19,6 +19,7 @@ message MapBlock {
     required        int32           height      = 4;
     repeated        SpriteInfo      sprites     = 5;
     repeated        int32           gridStates  = 6;
+    required        string          material    = 7;            // 地表材质
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

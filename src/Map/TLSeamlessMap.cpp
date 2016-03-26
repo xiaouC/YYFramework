@@ -53,10 +53,10 @@ TLSeamlessMap* TLSeamlessMap::create( const std::string& strSeamlessMapFile, flo
     return pRet;
 }
 
-bool TLSeamlessMap::newSeamlessMap( const std::string& strSeamlessMapFile, int nBlockRow, int nBlockCol, int nGridWidth, int nGridHeight )
+bool TLSeamlessMap::newSeamlessMap( const std::string& strSeamlessMapFile, int nBlockRow, int nBlockCol, int nGridWidth, int nGridHeight, const std::string& strMaterial )
 {
     std::string strFirstBlockFileName = strSeamlessMapFile + ".mb";
-    if( !TLMapBlock::newMapBlock( strFirstBlockFileName, nBlockRow, nBlockCol, nGridWidth, nGridHeight ) )
+    if( !TLMapBlock::newMapBlock( strFirstBlockFileName, nBlockRow, nBlockCol, nGridWidth, nGridHeight, strMaterial ) )
         return false;
 
     std::string strSMFileName = strSeamlessMapFile + ".sm";
