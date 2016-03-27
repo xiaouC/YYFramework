@@ -95,6 +95,8 @@ private:
     CUSTOM_WND_PROC m_wndproc;
 
     float m_fFrameZoomFactor;
+
+	bool m_bEditorMode;
 };
 
 NS_CC_END

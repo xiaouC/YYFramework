@@ -48,7 +48,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\MCC\cocos2dx\;..\..\MCC\cocos2dx\support;..\..\MCC\cocos2dx\include;..\..\MCC\cocos2dx\platform;..\..\MCC\cocos2dx\platform\win32;..\..\MCC\cocos2dx\platform\third_party\win32;..\..\MCC\cocos2dx\platform\third_party\win32\pthread;..\..\MCC\cocos2dx\platform\third_party\win32\OGLES;..\..\MCC\cocos2dx\kazmath\include;..\..\MCC\CocosDenshion\include;..\..\MCC\scripting\lua\cocos2dx_support;..\..\MCC\scripting\lua\lua;..\..\MCC\scripting\lua\tolua;..\..\MCC\external\chipmunk\include\;..\src;..\..\protobuf-2.4.1\src;..\src\protocol\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\cocos2d-x-2.1.5\cocos2dx\;..\cocos2d-x-2.1.5\cocos2dx\support;..\cocos2d-x-2.1.5\cocos2dx\include;..\cocos2d-x-2.1.5\cocos2dx\platform;..\cocos2d-x-2.1.5\cocos2dx\platform\win32;..\cocos2d-x-2.1.5\cocos2dx\platform\third_party\win32;..\cocos2d-x-2.1.5\cocos2dx\platform\third_party\win32\pthread;..\cocos2d-x-2.1.5\cocos2dx\platform\third_party\win32\OGLES;..\cocos2d-x-2.1.5\cocos2dx\kazmath\include;..\cocos2d-x-2.1.5\CocosDenshion\include;..\cocos2d-x-2.1.5\scripting\lua\cocos2dx_support;..\cocos2d-x-2.1.5\scripting\lua\lua;..\cocos2d-x-2.1.5\scripting\lua\tolua;..\cocos2d-x-2.1.5\external\chipmunk\include\;..\src;..\..\protobuf-2.4.1\src;..\src\protocol\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;COCOS2D_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>/wd4251 /wd4819 /wd4996 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>

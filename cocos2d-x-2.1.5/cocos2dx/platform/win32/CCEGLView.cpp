@@ -186,6 +186,7 @@ CCEGLView::CCEGLView()
 , m_wndproc(NULL)
 , m_fFrameZoomFactor(1.0f)
 , m_bSupportTouch(false)
+, m_bEditorMode(false)
 {
     strcpy(m_szViewName, "Cocos2dxWin32");
 }
@@ -269,6 +270,7 @@ bool CCEGLView::Create( HWND hWnd )
     if( hWnd != NULL )
     {
         m_hWnd = hWnd;
+		m_bEditorMode = true;
 
         if( !initGL() )
         {
@@ -277,7 +279,7 @@ bool CCEGLView::Create( HWND hWnd )
             return false;
         }
 
-        s_pMainWindow = this;
+        //s_pMainWindow = this;
 
         return true;
     }
@@ -571,19 +573,22 @@ bool CCEGLView::isOpenGLReady()
 
 void CCEGLView::end()
 {
-    if (m_hWnd)
-    {
-#if(_MSC_VER >= 1600)
-        if(m_bSupportTouch)
+	if( !m_bEditorMode )
+	{
+		if (m_hWnd)
 		{
-		    s_pfUnregisterTouchWindowFunction(m_hWnd);
-		}
+#if(_MSC_VER >= 1600)
+			if(m_bSupportTouch)
+			{
+				s_pfUnregisterTouchWindowFunction(m_hWnd);
+			}
 #endif /* #if(_MSC_VER >= 1600) */
-        DestroyWindow(m_hWnd);
-        m_hWnd = NULL;
-    }
-    s_pMainWindow = NULL;
-    UnregisterClass(kWindowClassName, GetModuleHandle(NULL));
+			DestroyWindow(m_hWnd);
+			m_hWnd = NULL;
+		}
+		s_pMainWindow = NULL;
+		UnregisterClass(kWindowClassName, GetModuleHandle(NULL));
+	}
     delete this;
 }
 
@@ -623,7 +628,7 @@ HWND CCEGLView::getHWnd()
 
 void CCEGLView::resize(int width, int height)
 {
-    if (! m_hWnd)
+    if (! m_hWnd || m_bEditorMode)
     {
         return;
     }
@@ -687,7 +692,7 @@ void CCEGLView::setFrameSize(float width, float height)
 
 void CCEGLView::centerWindow()
 {
-    if (! m_hWnd)
+    if (! m_hWnd || m_bEditorMode)
     {
         return;
     }
