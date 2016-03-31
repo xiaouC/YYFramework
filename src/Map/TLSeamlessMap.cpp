@@ -304,6 +304,14 @@ TLMapBlock* TLSeamlessMap::getMapBlock( float x, float y )
 	return NULL;
 }
 
+void TLSeamlessMap::setCurXY( float x, float y )
+{
+    m_fCurX = x;
+    m_fCurY = y;
+
+    updateBlock();
+}
+
 void TLSeamlessMap::addBlock( const std::string& strBlockName, float x, float y )
 {
     // 在修正前，先记录下来，作为当前的坐标

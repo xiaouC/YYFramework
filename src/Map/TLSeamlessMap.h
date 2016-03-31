@@ -44,6 +44,8 @@ public:
     BlockInfo* getBlockInfo( float x, float y );
 	TLMapBlock* getMapBlock( float x, float y );
 
+    void setCurXY( float x, float y );
+
 protected:
     std::string m_strSeamlessMapFile;
     float m_fCurX, m_fCurY;

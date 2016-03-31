@@ -23,5 +23,6 @@ $pfile "CCActionExtend.pkg"
 $pfile "SDKLoginUtilsForAndroid.pkg"
 $pfile "TLEditBox.pkg"
 $pfile "TLRenderNode.pkg"
+$pfile "TLMapBlock.pkg"
 
 
