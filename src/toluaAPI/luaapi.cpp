@@ -12513,6 +12513,152 @@ static int tolua_api_TLSeamlessMap_setCurXY00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: setIsEnablePass of class  TLSeamlessMap */
+#ifndef TOLUA_DISABLE_tolua_api_TLSeamlessMap_setIsEnablePass00
+static int tolua_api_TLSeamlessMap_setIsEnablePass00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TLSeamlessMap",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TLSeamlessMap* self = (TLSeamlessMap*)  tolua_tousertype(tolua_S,1,0);
+  float world_x = ((float)  tolua_tonumber(tolua_S,2,0));
+  float world_y = ((float)  tolua_tonumber(tolua_S,3,0));
+  bool bIsEnable = ((bool)  tolua_toboolean(tolua_S,4,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setIsEnablePass'", NULL);
+#endif
+  {
+   self->setIsEnablePass(world_x,world_y,bIsEnable);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setIsEnablePass'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getIsEnablePass of class  TLSeamlessMap */
+#ifndef TOLUA_DISABLE_tolua_api_TLSeamlessMap_getIsEnablePass00
+static int tolua_api_TLSeamlessMap_getIsEnablePass00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TLSeamlessMap",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TLSeamlessMap* self = (TLSeamlessMap*)  tolua_tousertype(tolua_S,1,0);
+  float world_x = ((float)  tolua_tonumber(tolua_S,2,0));
+  float world_y = ((float)  tolua_tonumber(tolua_S,3,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getIsEnablePass'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->getIsEnablePass(world_x,world_y);
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getIsEnablePass'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setIsEnablePlant of class  TLSeamlessMap */
+#ifndef TOLUA_DISABLE_tolua_api_TLSeamlessMap_setIsEnablePlant00
+static int tolua_api_TLSeamlessMap_setIsEnablePlant00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TLSeamlessMap",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TLSeamlessMap* self = (TLSeamlessMap*)  tolua_tousertype(tolua_S,1,0);
+  float world_x = ((float)  tolua_tonumber(tolua_S,2,0));
+  float world_y = ((float)  tolua_tonumber(tolua_S,3,0));
+  bool bIsEnable = ((bool)  tolua_toboolean(tolua_S,4,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setIsEnablePlant'", NULL);
+#endif
+  {
+   self->setIsEnablePlant(world_x,world_y,bIsEnable);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setIsEnablePlant'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getIsEnablePlant of class  TLSeamlessMap */
+#ifndef TOLUA_DISABLE_tolua_api_TLSeamlessMap_getIsEnablePlant00
+static int tolua_api_TLSeamlessMap_getIsEnablePlant00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TLSeamlessMap",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TLSeamlessMap* self = (TLSeamlessMap*)  tolua_tousertype(tolua_S,1,0);
+  float world_x = ((float)  tolua_tonumber(tolua_S,2,0));
+  float world_y = ((float)  tolua_tonumber(tolua_S,3,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getIsEnablePlant'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->getIsEnablePlant(world_x,world_y);
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getIsEnablePlant'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* Open function */
 TOLUA_API int tolua_api_open (lua_State* tolua_S)
 {
@@ -13138,6 +13284,10 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
    tolua_function(tolua_S,"getBlockInfo",tolua_api_TLSeamlessMap_getBlockInfo00);
    tolua_function(tolua_S,"getMapBlock",tolua_api_TLSeamlessMap_getMapBlock00);
    tolua_function(tolua_S,"setCurXY",tolua_api_TLSeamlessMap_setCurXY00);
+   tolua_function(tolua_S,"setIsEnablePass",tolua_api_TLSeamlessMap_setIsEnablePass00);
+   tolua_function(tolua_S,"getIsEnablePass",tolua_api_TLSeamlessMap_getIsEnablePass00);
+   tolua_function(tolua_S,"setIsEnablePlant",tolua_api_TLSeamlessMap_setIsEnablePlant00);
+   tolua_function(tolua_S,"getIsEnablePlant",tolua_api_TLSeamlessMap_getIsEnablePlant00);
   tolua_endmodule(tolua_S);
  tolua_endmodule(tolua_S);
  return 1;
