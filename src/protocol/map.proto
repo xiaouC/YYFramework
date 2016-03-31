@@ -3,6 +3,15 @@ option optimize_for = LITE_RUNTIME;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 一个地图块的数据
+message GridInfo {
+    required        int32           state       = 1;            // 
+    optional        string          file        = 2;            // 在这个格子上的装饰物，可能是草、木头、石头、树头、小树等等
+}
+
+message AllGridState {
+    repeated        GridInfo        grid_states = 1;
+}
+
 message SpriteInfo {
     required        string          file        = 1;
     required        float           x           = 2;
@@ -13,13 +22,14 @@ message SpriteInfo {
 }
 
 message MapBlock {
-    required        int32           row         = 1;
-    required        int32           col         = 2;
-    required        int32           width       = 3;
-    required        int32           height      = 4;
-    repeated        SpriteInfo      sprites     = 5;
-    repeated        int32           gridStates  = 6;
-    required        string          material    = 7;            // 地表材质
+    required        string          name        = 1;            // 名字
+    required        int32           row         = 2;
+    required        int32           col         = 3;
+    required        int32           width       = 4;
+    required        int32           height      = 5;
+    repeated        SpriteInfo      sprites     = 6;
+    repeated        GridInfo        grid_states = 7;
+    required        string          material    = 8;            // 地表材质
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

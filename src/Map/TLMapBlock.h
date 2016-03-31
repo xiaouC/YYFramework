@@ -2,10 +2,11 @@
 #include <sprite_nodes/CCSprite.h>
 #include <vector>
 
-// grid flag ------------------------------------------------------------------------------------
+// grid state flag ------------------------------------------------------------------------------------
 enum TL_GRID_FLAG
 {
 	TL_GRID_FLAG_PASS				    = 0x00000001,					// 能否通行
+	TL_GRID_FLAG_PLANT				    = 0x00000002,					// 能否种植
 };
 
 USING_NS_CC;
@@ -20,11 +21,37 @@ public:
 
     virtual bool init();
 
+    void clear();
+
 public:
-    bool load( const std::string& strFileName );
+    const char* getAllGridStateBuffer() const { return m_strAllGridStates.c_str(); }
+    int getAllGridStateLength() const { return m_strAllGridStates.length(); }
+
+    void setIsEnablePassByIndex( int nIndex, bool bIsEnable );
+    bool getIsEnablePassByIndex( int nIndex ) const;
+    void setIsEnablePass( float world_x, float world_y, bool bIsEnable );
+    bool getIsEnablePass( float world_x, float world_y );
+
+    void setIsEnablePlantByIndex( int nIndex, bool bIsEnable );
+    bool getIsEnablePlantByIndex( int nIndex ) const;
+    void setIsEnablePlant( float world_x, float world_y, bool bIsEnable );
+    bool getIsEnablePlant( float world_x, float world_y );
+
+    void convertLocal( float& x, float& y );
+    int getGridIndex( float x, float y );
 
 protected:
     CCSpriteBatchNode* m_pMaterialBatchNode;
+
+    int m_nRow, m_nCol;
+    int m_nWidth, m_nHeight;
+
+    struct GridInfo {
+        int nState;
+        std::string strFile;
+    };
+    std::vector<GridInfo*> m_vecGridStates;
+    std::string m_strAllGridStates;
 
     void updateMaterial( const std::string& strMaterial, int nBlockWidth, int nBlockHeight );
 
@@ -34,7 +61,6 @@ public:
     static bool newMapBlock( const std::string& strMapBlockFile, int nRow, int nCol, int nGridWidth, int nGridHeight, const std::string& strMaterial );
 
     void create( int nRow, int nCol, int nWidth, int nHeight );
-    void clear();
     void save();
 
     void setMaterial( const std::string& strMaterial );
@@ -54,8 +80,6 @@ public:
 
 protected:
     std::string m_strMapBlockFile;
-    int m_nRow, m_nCol;
-    int m_nWidth, m_nHeight;
     std::string m_strMaterial;
 
     struct SpriteInfo {
@@ -67,7 +91,6 @@ protected:
         int             z_order;
     };
     std::list<SpriteInfo*> m_listAllSprites;
-    std::vector<int> m_vecGridStates;
 
     bool m_bShowGridLine;
     CCSpriteBatchNode* m_pGridBatchNode;
