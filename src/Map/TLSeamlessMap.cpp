@@ -126,6 +126,47 @@ bool TLSeamlessMap::init()
     return true;
 }
 
+bool TLSeamlessMap::save()
+{
+    FILE* fp = fopen( m_strSeamlessMapFile.c_str(), "wb" );
+    if( fp == NULL )
+        return false;
+
+	for( int i=BLOCK_INDEX_CENTER; i < BLOCK_INDEX_MAX; ++i )
+    {
+		if( m_kBlocks[i].pMapBlock != NULL )
+			m_kBlocks[i].pMapBlock->save();
+	}
+
+    framework::SeamlessMap smData;
+    smData.set_blockrow( m_nBlockRow );
+    smData.set_blockcol( m_nBlockCol );
+    smData.set_gridwidth( m_nGridWidth );
+    smData.set_gridheight( m_nGridHeight );
+
+	std::list<BlockInfo*>::iterator iter = m_listAllBlocks.begin();
+	std::list<BlockInfo*>::iterator iter_end = m_listAllBlocks.end();
+	for( ; iter != iter_end; ++iter )
+	{
+		BlockInfo* pBlockInfo = (*iter);
+
+		framework::BlockInfo* bi = smData.add_blocks();
+		bi->set_file( pBlockInfo->strBlockFileName );
+		bi->set_x( pBlockInfo->x );
+		bi->set_y( pBlockInfo->y );
+	}
+
+    std::string strBuffer;
+    smData.SerializeToString( &strBuffer );
+
+    fwrite( strBuffer.c_str(), strBuffer.length(), 1, fp );
+
+    // 
+    fclose( fp );
+
+	return true;
+}
+
 TLMapBlock* TLSeamlessMap::loadBlock( const std::string& strFileName )
 {
     return TLMapBlock::create( strFileName );
@@ -219,6 +260,9 @@ void TLSeamlessMap::updateBlock()
     {
         if( m_kOldBlocks[i].pMapBlock != NULL )
         {
+#if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
+			m_kOldBlocks[i].pMapBlock->save();
+#endif
             m_kOldBlocks[i].pMapBlock->removeFromParentAndCleanup( true );
 
             m_kOldBlocks[i].pMapBlock = NULL;
@@ -234,22 +278,19 @@ void TLSeamlessMap::updateBlock( int nIndex, BlockInfo* pBlockInfo )
     if( pBlockInfo == NULL )
         return;
 
-    // 在备份里面查找
-    for( int i=BLOCK_INDEX_CENTER; i < BLOCK_INDEX_MAX; ++i )
-    {
-        // 同一个 block 的话，直接就赋值了，不需要重新加载
-        if( m_kOldBlocks[i].pMapBlock != NULL && pBlockInfo->strBlockFileName.compare( m_kOldBlocks[i].strBlockFileName ) == 0 )
-        {
-            m_kBlocks[nIndex] = m_kOldBlocks[i];
+	int nOldIndex = 0;
+	TLMapBlock* pMapBlock = getMapBlockFromOldBlocks( pBlockInfo->x, pBlockInfo->y, nOldIndex );
+	if( pMapBlock != NULL )
+	{
+		m_kBlocks[nIndex] = m_kOldBlocks[nOldIndex];
 
-            m_kOldBlocks[i].pMapBlock = NULL;
-            m_kOldBlocks[i].strBlockFileName.clear();
-            m_kOldBlocks[i].x = 0.0f;
-            m_kOldBlocks[i].y = 0.0f;
+        m_kOldBlocks[nOldIndex].pMapBlock = NULL;
+        m_kOldBlocks[nOldIndex].strBlockFileName.clear();
+        m_kOldBlocks[nOldIndex].x = 0.0f;
+        m_kOldBlocks[nOldIndex].y = 0.0f;
 
-            return;
-        }
-    }
+        return;
+	}
 
     // 备份里面没有，只好重新加载了
     m_kBlocks[nIndex].pMapBlock = loadBlock( pBlockInfo->strBlockFileName );
@@ -297,6 +338,30 @@ TLMapBlock* TLSeamlessMap::getMapBlock( float x, float y )
             mbInfo.y - m_nBlockHeight * 0.5f <= y &&
             mbInfo.y + m_nBlockHeight * 0.5f >= y )
         {
+            return mbInfo.pMapBlock;
+        }
+	}
+
+	return NULL;
+}
+
+TLMapBlock* TLSeamlessMap::getMapBlockFromOldBlocks( float x, float y, int& nOldIndex )
+{
+	correctCoordinate( x, y );
+
+	for( int i=BLOCK_INDEX_CENTER; i < BLOCK_INDEX_MAX; ++i )
+	{
+		MBInfo mbInfo = m_kOldBlocks[i];
+		if( mbInfo.pMapBlock == NULL )
+			continue;
+
+        if( mbInfo.x - m_nBlockWidth * 0.5f <= x &&
+            mbInfo.x + m_nBlockWidth * 0.5f >= x &&
+            mbInfo.y - m_nBlockHeight * 0.5f <= y &&
+            mbInfo.y + m_nBlockHeight * 0.5f >= y )
+        {
+			nOldIndex = i;
+
             return mbInfo.pMapBlock;
         }
 	}

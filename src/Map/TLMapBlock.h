@@ -48,6 +48,8 @@ public:
     // 
     CCSprite* hitSprite( float x, float y );
 
+	void setSelectSprite( CCSprite* pSprite );
+
     void recreateGridLine();
     void setIsShowGirdLine( bool bIsShow );
     bool getIsShowGridLine() const { return m_bShowGridLine; }
@@ -68,6 +70,10 @@ protected:
     };
     std::list<SpriteInfo*> m_listAllSprites;
     std::vector<int> m_vecGridStates;
+
+	CCSprite* m_pSelectedSprite;
+	CCSize m_kSelMarkSize;
+	CCSprite* m_pSelMarkSprite;
 
     bool m_bShowGridLine;
     CCSpriteBatchNode* m_pGridBatchNode;

@@ -37,12 +37,15 @@ public:
 
     virtual bool init();
 
+	bool save();
+
 public:
     TLMapBlock* loadBlock( const std::string& strFileName );
     void updateBlock();
 
     BlockInfo* getBlockInfo( float x, float y );
 	TLMapBlock* getMapBlock( float x, float y );
+	TLMapBlock* getMapBlockFromOldBlocks( float x, float y, int& nOldIndex );
 
 protected:
     std::string m_strSeamlessMapFile;
@@ -55,6 +58,8 @@ protected:
     };
     MBInfo m_kBlocks[BLOCK_INDEX_MAX];
     MBInfo m_kOldBlocks[BLOCK_INDEX_MAX];
+
+	std::list<TLMapBlock*> m_listEditMapBlock;
 
 public:
     void addBlock( const std::string& strBlockName, float x, float y );

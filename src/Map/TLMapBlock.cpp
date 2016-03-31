@@ -13,7 +13,13 @@ TLMapBlock::TLMapBlock( const std::string& strMapBlockFile )
     m_strMapBlockFile = strMapBlockFile;
     m_nRow = 0;
     m_nCol = 0;
-    m_bShowGridLine = false;
+
+	m_pSelectedSprite = NULL;
+	m_pSelMarkSprite = MCLoader::sharedMCLoader()->loadSprite( "images/selected.png" );
+	m_kSelMarkSize = m_pSelMarkSprite->getContentSize();
+	addChild( m_pSelMarkSprite, 1024 );
+
+    m_bShowGridLine = true;
 
 	CCTexture2D* pGridTexture = MCLoader::sharedMCLoader()->loadTexture( GRID_SPRITE_FILE );
     m_pGridBatchNode = CCSpriteBatchNode::createWithTexture( pGridTexture );
@@ -213,6 +219,7 @@ void TLMapBlock::save()
         mbData.set_col( m_nCol );
         mbData.set_width( m_nWidth );
         mbData.set_height( m_nHeight );
+		mbData.set_material( m_strMaterial );
 
         std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
         std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
@@ -256,7 +263,7 @@ CCSprite* TLMapBlock::addSprite( const std::string& strFileName, float x, float 
 		si->strFileName = strFileName;
 		si->x = x;
 		si->y = y;
-		si->scale = 0.0f;
+		si->scale = 1.0f;
 		si->rotation = 0.0f;
         si->z_order = 0;
 
@@ -264,6 +271,8 @@ CCSprite* TLMapBlock::addSprite( const std::string& strFileName, float x, float 
 
 		pRetSprite->setPosition( CCPoint( x, y ) );
 		addChild( pRetSprite );
+
+		setSelectSprite( pRetSprite );
 	}
 
 	return pRetSprite;
@@ -281,6 +290,8 @@ void TLMapBlock::removeSprite( CCSprite* pSprite )
             pSprite->removeFromParentAndCleanup( true );
 
             m_listAllSprites.erase( iter );
+
+			setSelectSprite( NULL );
 
             return;
         }
@@ -300,6 +311,9 @@ void TLMapBlock::moveSprite( CCSprite* pSprite, float mv_x, float mv_y )
             pSpriteInfo->y = pSpriteInfo->y + mv_y;
             pSpriteInfo->pSprite->setPosition( CCPoint( pSpriteInfo->x, pSpriteInfo->y ) );
 
+			m_pSelMarkSprite->setPositionX( pSprite->getPositionX() );
+			m_pSelMarkSprite->setPositionY( pSprite->getPositionY() );
+
             return;
         }
     }
@@ -314,7 +328,7 @@ void TLMapBlock::scaleSprite( CCSprite* pSprite, float scale )
         SpriteInfo* pSpriteInfo = (*iter);
         if( pSpriteInfo->pSprite == pSprite )
         {
-            pSpriteInfo->scale = scale;
+            pSpriteInfo->scale *= scale;
             pSpriteInfo->pSprite->setScale( pSpriteInfo->scale );
 
             return;
@@ -331,7 +345,7 @@ void TLMapBlock::rotateSprite( CCSprite* pSprite, float rotation )
         SpriteInfo* pSpriteInfo = (*iter);
         if( pSpriteInfo->pSprite == pSprite )
         {
-            pSpriteInfo->rotation = rotation;
+            pSpriteInfo->rotation += rotation;
             pSpriteInfo->pSprite->setRotation( pSpriteInfo->rotation );
 
             return;
@@ -365,7 +379,21 @@ CCSprite* TLMapBlock::hitSprite( float x, float y )
         }
     }
 
+	setSelectSprite( pRetSprite );
+
     return pRetSprite;
+}
+
+void TLMapBlock::setSelectSprite( CCSprite* pSprite )
+{
+	m_pSelectedSprite = pSprite;
+	m_pSelMarkSprite->setVisible( m_pSelectedSprite ? true : false );
+
+	if( m_pSelectedSprite != NULL )
+	{
+		m_pSelMarkSprite->setPositionX( m_pSelectedSprite->getPositionX() );
+		m_pSelMarkSprite->setPositionY( m_pSelectedSprite->getPositionY() );
+	}
 }
 
 void TLMapBlock::create( int nRow, int nCol, int nWidth, int nHeight )

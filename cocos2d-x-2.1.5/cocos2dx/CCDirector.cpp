@@ -246,7 +246,7 @@ void CCDirector::setGLDefaultValues(void)
     setProjection(m_eProjection);
 
     // set other opengl default values
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor( 83.0f / 255.0f, 212.0f / 255.0f, 220.0f / 255.0f, 1.0f );
 }
 
 // Draw the Scene
