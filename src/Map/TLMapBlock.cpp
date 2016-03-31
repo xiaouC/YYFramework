@@ -9,10 +9,13 @@ TLMapBlock::TLMapBlock( const std::string& strMapBlockFile )
 {
     m_pMaterialBatchNode = NULL;
 
-#if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
-    m_strMapBlockFile = strMapBlockFile;
     m_nRow = 0;
     m_nCol = 0;
+	m_nWidth = 0;
+	m_nHeight = 0;
+
+#if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
+    m_strMapBlockFile = strMapBlockFile;
 
 	m_pSelectedSprite = NULL;
 	m_pSelMarkSprite = MCLoader::sharedMCLoader()->loadSprite( "images/selected.png" );
@@ -23,15 +26,13 @@ TLMapBlock::TLMapBlock( const std::string& strMapBlockFile )
 
 	CCTexture2D* pGridTexture = MCLoader::sharedMCLoader()->loadTexture( GRID_SPRITE_FILE );
     m_pGridBatchNode = CCSpriteBatchNode::createWithTexture( pGridTexture );
-    addChild( m_pGridBatchNode, 1000 );
+    addChild( m_pGridBatchNode, 10000 );
 #endif
 }
 
 TLMapBlock::~TLMapBlock()
 {
-#if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
     clear();
-#endif
 }
 
 TLMapBlock* TLMapBlock::create( const std::string& strFileName )
@@ -77,7 +78,11 @@ bool TLMapBlock::newMapBlock( const std::string& strMapBlockFile, int nRow, int 
     //}
     
     for( int i=0; i < nRow * nCol; ++i )
-        mbData.add_gridstates( 0 );
+    {
+        framework::GridInfo* gi = mbData.add_grid_states();
+        gi->set_state( 0 );
+        gi->set_file( "" );
+    }
 
     std::string strBuffer;
     mbData.SerializeToString( &strBuffer );
@@ -104,7 +109,6 @@ bool TLMapBlock::init()
 
 	delete[] pBuffer;
 
-#if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
     // 先清理
     clear();
 
@@ -113,6 +117,7 @@ bool TLMapBlock::init()
     m_nCol = mbData.col();
     m_nWidth = mbData.width();
     m_nHeight = mbData.height();
+#if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
     m_strMaterial = mbData.material();
 #endif
 
@@ -149,11 +154,144 @@ bool TLMapBlock::init()
     // 地表上摆放的物件
 
     // 地表网格的状态
-#if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
-    m_vecGridStates.resize( m_nRow * m_nCol, 0 );
-#endif
+    framework::AllGridState ags;
+    m_vecGridStates.reserve( m_nRow * m_nCol );
+    for( int i=0; i < mbData.grid_states_size(); ++i )
+    {
+        const ::framework::GridInfo& gi = mbData.grid_states( i );
+
+        GridInfo* pGridInfo = new GridInfo;
+        framework::GridInfo* ngi = ags.add_grid_states();
+
+        pGridInfo->nState = gi.state();
+        ngi->set_state( gi.state() );
+
+        if( gi.has_file() )
+        {
+            pGridInfo->strFile = gi.file();
+            ngi->set_file( gi.file() );
+        }
+
+        m_vecGridStates.push_back( pGridInfo );
+    }
+
+    ags.SerializeToString( &m_strAllGridStates );
 
     return true;
+}
+
+void TLMapBlock::clear()
+{
+    m_nRow = 0;
+    m_nCol = 0;
+
+    std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
+    std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
+    for( ; iter != iter_end; ++iter )
+    {
+        SpriteInfo* pSpriteInfo = (*iter);
+        delete pSpriteInfo;
+    }
+    m_listAllSprites.clear();
+
+    for( int i=0; i < (int)m_vecGridStates.size(); ++i )
+        delete m_vecGridStates[i];
+    m_vecGridStates.clear();
+}
+
+void TLMapBlock::setIsEnablePassByIndex( int nIndex, bool bIsEnable )
+{
+    if( nIndex < 0 || nIndex >= (int)m_vecGridStates.size() )
+        return;
+
+    GridInfo* pGridInfo = m_vecGridStates[nIndex];
+
+    if( bIsEnable )
+    {
+        pGridInfo->nState |= TL_GRID_FLAG_PASS;
+    }
+    else
+    {
+        pGridInfo->nState &= (~TL_GRID_FLAG_PASS);
+    }
+}
+
+bool TLMapBlock::getIsEnablePassByIndex( int nIndex ) const
+{
+    if( nIndex < 0 || nIndex >= (int)m_vecGridStates.size() )
+        return false;
+
+    GridInfo* pGridInfo = m_vecGridStates[nIndex];
+	return ( pGridInfo->nState & TL_GRID_FLAG_PASS ) ? true : false;
+}
+
+void TLMapBlock::setIsEnablePass( float world_x, float world_y, bool bIsEnable )
+{
+    convertLocal( world_x, world_y );
+
+    setIsEnablePassByIndex( getGridIndex( world_x, world_y ), bIsEnable );
+}
+
+bool TLMapBlock::getIsEnablePass( float world_x, float world_y )
+{
+    convertLocal( world_x, world_y );
+
+    return getIsEnablePassByIndex( getGridIndex( world_x, world_y ) );
+}
+
+void TLMapBlock::setIsEnablePlantByIndex( int nIndex, bool bIsEnable )
+{
+    if( nIndex < 0 || nIndex >= (int)m_vecGridStates.size() )
+        return;
+
+    GridInfo* pGridInfo = m_vecGridStates[nIndex];
+
+    if( bIsEnable )
+    {
+        pGridInfo->nState |= TL_GRID_FLAG_PLANT;
+    }
+    else
+    {
+        pGridInfo->nState &= (~TL_GRID_FLAG_PLANT);
+    }
+}
+
+bool TLMapBlock::getIsEnablePlantByIndex( int nIndex ) const
+{
+    if( nIndex < 0 || nIndex >= (int)m_vecGridStates.size() )
+        return false;
+
+    GridInfo* pGridInfo = m_vecGridStates[nIndex];
+	return ( pGridInfo->nState & TL_GRID_FLAG_PLANT ) ? true : false;
+}
+
+void TLMapBlock::setIsEnablePlant( float world_x, float world_y, bool bIsEnable )
+{
+    convertLocal( world_x, world_y );
+
+    setIsEnablePlantByIndex( getGridIndex( world_x, world_y ), bIsEnable );
+}
+
+bool TLMapBlock::getIsEnablePlant( float world_x, float world_y )
+{
+    convertLocal( world_x, world_y );
+
+    return getIsEnablePlantByIndex( getGridIndex( world_x, world_y ) );
+}
+
+void TLMapBlock::convertLocal( float& x, float& y )
+{
+}
+
+int TLMapBlock::getGridIndex( float x, float y )
+{
+    int nBlockWidth = m_nWidth * m_nCol;
+    int nBlockHeight = m_nHeight * m_nRow;
+
+    int nCol = ( nBlockWidth * 0.5 + x ) / m_nWidth;
+    int nRow = ( nBlockHeight * 0.5 - y ) / m_nHeight;
+
+    return nRow * m_nCol + nCol;
 }
 
 void TLMapBlock::updateMaterial( const std::string& strMaterial, int nBlockWidth, int nBlockHeight )
@@ -237,7 +375,11 @@ void TLMapBlock::save()
         }
 
         for( int i=0; i < (int)m_vecGridStates.size(); ++i )
-            mbData.add_gridstates( m_vecGridStates[i] );
+        {
+            framework::GridInfo* gi = mbData.add_grid_states();
+            gi->set_state( m_vecGridStates[i]->nState );
+            gi->set_file( m_vecGridStates[i]->strFile );
+        }
 
         std::string strBuffer;
         mbData.SerializeToString( &strBuffer );
@@ -440,22 +582,5 @@ void TLMapBlock::setIsShowGirdLine( bool bIsShow )
 {
     m_bShowGridLine = bIsShow;
     m_pGridBatchNode->setVisible( bIsShow );
-}
-
-void TLMapBlock::clear()
-{
-    m_nRow = 0;
-    m_nCol = 0;
-
-    std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
-    std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
-    for( ; iter != iter_end; ++iter )
-    {
-        SpriteInfo* pSpriteInfo = (*iter);
-        delete pSpriteInfo;
-    }
-    m_listAllSprites.clear();
-
-    m_vecGridStates.clear();
 }
 #endif

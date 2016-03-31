@@ -369,6 +369,42 @@ TLMapBlock* TLSeamlessMap::getMapBlockFromOldBlocks( float x, float y, int& nOld
 	return NULL;
 }
 
+void TLSeamlessMap::setCurXY( float x, float y )
+{
+    m_fCurX = x;
+    m_fCurY = y;
+
+    updateBlock();
+}
+
+void TLSeamlessMap::setIsEnablePass( float world_x, float world_y, bool bIsEnable )
+{
+    TLMapBlock* pMapBlock = getMapBlock( world_x, world_y );
+    if( pMapBlock != NULL )
+        pMapBlock->setIsEnablePass( world_x, world_y, bIsEnable );
+}
+
+bool TLSeamlessMap::getIsEnablePass( float world_x, float world_y )
+{
+    TLMapBlock* pMapBlock = getMapBlock( world_x, world_y );
+    if( pMapBlock != NULL )
+        return pMapBlock->getIsEnablePass( world_x, world_y );
+}
+
+void TLSeamlessMap::setIsEnablePlant( float world_x, float world_y, bool bIsEnable )
+{
+    TLMapBlock* pMapBlock = getMapBlock( world_x, world_y );
+    if( pMapBlock != NULL )
+        pMapBlock->setIsEnablePlant( world_x, world_y, bIsEnable );
+}
+
+bool TLSeamlessMap::getIsEnablePlant( float world_x, float world_y )
+{
+    TLMapBlock* pMapBlock = getMapBlock( world_x, world_y );
+    if( pMapBlock != NULL )
+        return pMapBlock->getIsEnablePlant( world_x, world_y );
+}
+
 void TLSeamlessMap::addBlock( const std::string& strBlockName, float x, float y )
 {
     // 在修正前，先记录下来，作为当前的坐标

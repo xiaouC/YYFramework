@@ -1,0 +1,36 @@
+$#include "Map/TLMapBlock.h"
+$#include "Map/TLSeamlessMap.h"
+
+class TLMapBlock : public CCNode
+{
+    static TLMapBlock* create( const std::string& strFileName );
+
+    const char* getAllGridStateBuffer() const;
+    int getAllGridStateLength() const;
+
+    void setIsEnablePassByIndex( int nIndex, bool bIsEnable );
+    bool getIsEnablePassByIndex( int nIndex ) const ;
+    void setIsEnablePass( float x, float y, bool bIsEnable );
+    bool getIsEnablePass( float x, float y );
+
+    void setIsEnablePlantByIndex( int nIndex, bool bIsEnable );
+    bool getIsEnablePlantByIndex( int nIndex ) const;
+    void setIsEnablePlant( float x, float y, bool bIsEnable );
+    bool getIsEnablePlant( float x, float y );
+};
+
+class TLSeamlessMap : public CCNode
+{
+    static TLSeamlessMap* create( const std::string& strSeamlessMapFile, float x, float y );
+
+    BlockInfo* getBlockInfo( float x, float y );
+	TLMapBlock* getMapBlock( float x, float y );
+
+    void setCurXY( float x, float y );
+
+    void setIsEnablePass( float world_x, float world_y, bool bIsEnable );
+    bool getIsEnablePass( float world_x, float world_y );
+
+    void setIsEnablePlant( float world_x, float world_y, bool bIsEnable );
+    bool getIsEnablePlant( float world_x, float world_y );
+};

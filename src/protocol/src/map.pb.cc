@@ -13,6 +13,8 @@
 namespace framework {
 
 void protobuf_ShutdownFile_map_2eproto() {
+  delete GridInfo::default_instance_;
+  delete AllGridState::default_instance_;
   delete SpriteInfo::default_instance_;
   delete MapBlock::default_instance_;
   delete BlockInfo::default_instance_;
@@ -25,10 +27,14 @@ void protobuf_AddDesc_map_2eproto() {
   already_here = true;
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
+  GridInfo::default_instance_ = new GridInfo();
+  AllGridState::default_instance_ = new AllGridState();
   SpriteInfo::default_instance_ = new SpriteInfo();
   MapBlock::default_instance_ = new MapBlock();
   BlockInfo::default_instance_ = new BlockInfo();
   SeamlessMap::default_instance_ = new SeamlessMap();
+  GridInfo::default_instance_->InitAsDefaultInstance();
+  AllGridState::default_instance_->InitAsDefaultInstance();
   SpriteInfo::default_instance_->InitAsDefaultInstance();
   MapBlock::default_instance_->InitAsDefaultInstance();
   BlockInfo::default_instance_->InitAsDefaultInstance();
@@ -42,6 +48,360 @@ struct StaticDescriptorInitializer_map_2eproto {
     protobuf_AddDesc_map_2eproto();
   }
 } static_descriptor_initializer_map_2eproto_;
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int GridInfo::kStateFieldNumber;
+const int GridInfo::kFileFieldNumber;
+#endif  // !_MSC_VER
+
+GridInfo::GridInfo()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void GridInfo::InitAsDefaultInstance() {
+}
+
+GridInfo::GridInfo(const GridInfo& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void GridInfo::SharedCtor() {
+  _cached_size_ = 0;
+  state_ = 0;
+  file_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+GridInfo::~GridInfo() {
+  SharedDtor();
+}
+
+void GridInfo::SharedDtor() {
+  if (file_ != &::google::protobuf::internal::kEmptyString) {
+    delete file_;
+  }
+  if (this != default_instance_) {
+  }
+}
+
+void GridInfo::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const GridInfo& GridInfo::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_map_2eproto();  return *default_instance_;
+}
+
+GridInfo* GridInfo::default_instance_ = NULL;
+
+GridInfo* GridInfo::New() const {
+  return new GridInfo;
+}
+
+void GridInfo::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    state_ = 0;
+    if (has_file()) {
+      if (file_ != &::google::protobuf::internal::kEmptyString) {
+        file_->clear();
+      }
+    }
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool GridInfo::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required int32 state = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &state_)));
+          set_has_state();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(18)) goto parse_file;
+        break;
+      }
+      
+      // optional string file = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_file:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_file()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+      
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void GridInfo::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required int32 state = 1;
+  if (has_state()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->state(), output);
+  }
+  
+  // optional string file = 2;
+  if (has_file()) {
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      2, this->file(), output);
+  }
+  
+}
+
+int GridInfo::ByteSize() const {
+  int total_size = 0;
+  
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required int32 state = 1;
+    if (has_state()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->state());
+    }
+    
+    // optional string file = 2;
+    if (has_file()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->file());
+    }
+    
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void GridInfo::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const GridInfo*>(&from));
+}
+
+void GridInfo::MergeFrom(const GridInfo& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_state()) {
+      set_state(from.state());
+    }
+    if (from.has_file()) {
+      set_file(from.file());
+    }
+  }
+}
+
+void GridInfo::CopyFrom(const GridInfo& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GridInfo::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+  
+  return true;
+}
+
+void GridInfo::Swap(GridInfo* other) {
+  if (other != this) {
+    std::swap(state_, other->state_);
+    std::swap(file_, other->file_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string GridInfo::GetTypeName() const {
+  return "framework.GridInfo";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int AllGridState::kGridStatesFieldNumber;
+#endif  // !_MSC_VER
+
+AllGridState::AllGridState()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void AllGridState::InitAsDefaultInstance() {
+}
+
+AllGridState::AllGridState(const AllGridState& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void AllGridState::SharedCtor() {
+  _cached_size_ = 0;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+AllGridState::~AllGridState() {
+  SharedDtor();
+}
+
+void AllGridState::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void AllGridState::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const AllGridState& AllGridState::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_map_2eproto();  return *default_instance_;
+}
+
+AllGridState* AllGridState::default_instance_ = NULL;
+
+AllGridState* AllGridState::New() const {
+  return new AllGridState;
+}
+
+void AllGridState::Clear() {
+  grid_states_.Clear();
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool AllGridState::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // repeated .framework.GridInfo grid_states = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_grid_states:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_grid_states()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(10)) goto parse_grid_states;
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+      
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void AllGridState::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // repeated .framework.GridInfo grid_states = 1;
+  for (int i = 0; i < this->grid_states_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      1, this->grid_states(i), output);
+  }
+  
+}
+
+int AllGridState::ByteSize() const {
+  int total_size = 0;
+  
+  // repeated .framework.GridInfo grid_states = 1;
+  total_size += 1 * this->grid_states_size();
+  for (int i = 0; i < this->grid_states_size(); i++) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        this->grid_states(i));
+  }
+  
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void AllGridState::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const AllGridState*>(&from));
+}
+
+void AllGridState::MergeFrom(const AllGridState& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  grid_states_.MergeFrom(from.grid_states_);
+}
+
+void AllGridState::CopyFrom(const AllGridState& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool AllGridState::IsInitialized() const {
+  
+  for (int i = 0; i < grid_states_size(); i++) {
+    if (!this->grid_states(i).IsInitialized()) return false;
+  }
+  return true;
+}
+
+void AllGridState::Swap(AllGridState* other) {
+  if (other != this) {
+    grid_states_.Swap(&other->grid_states_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string AllGridState::GetTypeName() const {
+  return "framework.AllGridState";
+}
 
 
 // ===================================================================
@@ -379,6 +739,7 @@ void SpriteInfo::Swap(SpriteInfo* other) {
 // ===================================================================
 
 #ifndef _MSC_VER
+const int MapBlock::kNameFieldNumber;
 const int MapBlock::kRowFieldNumber;
 const int MapBlock::kColFieldNumber;
 const int MapBlock::kWidthFieldNumber;
@@ -404,6 +765,7 @@ MapBlock::MapBlock(const MapBlock& from)
 
 void MapBlock::SharedCtor() {
   _cached_size_ = 0;
+  name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   row_ = 0;
   col_ = 0;
   width_ = 0;
@@ -417,6 +779,9 @@ MapBlock::~MapBlock() {
 }
 
 void MapBlock::SharedDtor() {
+  if (name_ != &::google::protobuf::internal::kEmptyString) {
+    delete name_;
+  }
   if (material_ != &::google::protobuf::internal::kEmptyString) {
     delete material_;
   }
@@ -441,6 +806,11 @@ MapBlock* MapBlock::New() const {
 
 void MapBlock::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (has_name()) {
+      if (name_ != &::google::protobuf::internal::kEmptyString) {
+        name_->clear();
+      }
+    }
     row_ = 0;
     col_ = 0;
     width_ = 0;
@@ -452,7 +822,7 @@ void MapBlock::Clear() {
     }
   }
   sprites_.Clear();
-  gridstates_.Clear();
+  grid_states_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -462,10 +832,24 @@ bool MapBlock::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required int32 row = 1;
+      // required string name = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_name()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_row;
+        break;
+      }
+      
+      // required int32 row = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_row:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &row_)));
@@ -473,12 +857,12 @@ bool MapBlock::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(16)) goto parse_col;
+        if (input->ExpectTag(24)) goto parse_col;
         break;
       }
       
-      // required int32 col = 2;
-      case 2: {
+      // required int32 col = 3;
+      case 3: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
          parse_col:
@@ -489,12 +873,12 @@ bool MapBlock::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(24)) goto parse_width;
+        if (input->ExpectTag(32)) goto parse_width;
         break;
       }
       
-      // required int32 width = 3;
-      case 3: {
+      // required int32 width = 4;
+      case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
          parse_width:
@@ -505,12 +889,12 @@ bool MapBlock::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(32)) goto parse_height;
+        if (input->ExpectTag(40)) goto parse_height;
         break;
       }
       
-      // required int32 height = 4;
-      case 4: {
+      // required int32 height = 5;
+      case 5: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
          parse_height:
@@ -521,12 +905,12 @@ bool MapBlock::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(42)) goto parse_sprites;
+        if (input->ExpectTag(50)) goto parse_sprites;
         break;
       }
       
-      // repeated .framework.SpriteInfo sprites = 5;
-      case 5: {
+      // repeated .framework.SpriteInfo sprites = 6;
+      case 6: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_sprites:
@@ -535,35 +919,28 @@ bool MapBlock::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(42)) goto parse_sprites;
-        if (input->ExpectTag(48)) goto parse_gridStates;
+        if (input->ExpectTag(50)) goto parse_sprites;
+        if (input->ExpectTag(58)) goto parse_grid_states;
         break;
       }
       
-      // repeated int32 gridStates = 6;
-      case 6: {
+      // repeated .framework.GridInfo grid_states = 7;
+      case 7: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
-         parse_gridStates:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 1, 48, input, this->mutable_gridstates())));
-        } else if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag)
-                   == ::google::protobuf::internal::WireFormatLite::
-                      WIRETYPE_LENGTH_DELIMITED) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, this->mutable_gridstates())));
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_grid_states:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_grid_states()));
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(48)) goto parse_gridStates;
-        if (input->ExpectTag(58)) goto parse_material;
+        if (input->ExpectTag(58)) goto parse_grid_states;
+        if (input->ExpectTag(66)) goto parse_material;
         break;
       }
       
-      // required string material = 7;
-      case 7: {
+      // required string material = 8;
+      case 8: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_material:
@@ -593,42 +970,48 @@ bool MapBlock::MergePartialFromCodedStream(
 
 void MapBlock::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required int32 row = 1;
+  // required string name = 1;
+  if (has_name()) {
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      1, this->name(), output);
+  }
+  
+  // required int32 row = 2;
   if (has_row()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->row(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->row(), output);
   }
   
-  // required int32 col = 2;
+  // required int32 col = 3;
   if (has_col()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->col(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->col(), output);
   }
   
-  // required int32 width = 3;
+  // required int32 width = 4;
   if (has_width()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->width(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->width(), output);
   }
   
-  // required int32 height = 4;
+  // required int32 height = 5;
   if (has_height()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->height(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->height(), output);
   }
   
-  // repeated .framework.SpriteInfo sprites = 5;
+  // repeated .framework.SpriteInfo sprites = 6;
   for (int i = 0; i < this->sprites_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      5, this->sprites(i), output);
+      6, this->sprites(i), output);
   }
   
-  // repeated int32 gridStates = 6;
-  for (int i = 0; i < this->gridstates_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(
-      6, this->gridstates(i), output);
+  // repeated .framework.GridInfo grid_states = 7;
+  for (int i = 0; i < this->grid_states_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      7, this->grid_states(i), output);
   }
   
-  // required string material = 7;
+  // required string material = 8;
   if (has_material()) {
     ::google::protobuf::internal::WireFormatLite::WriteString(
-      7, this->material(), output);
+      8, this->material(), output);
   }
   
 }
@@ -637,35 +1020,42 @@ int MapBlock::ByteSize() const {
   int total_size = 0;
   
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required int32 row = 1;
+    // required string name = 1;
+    if (has_name()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->name());
+    }
+    
+    // required int32 row = 2;
     if (has_row()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->row());
     }
     
-    // required int32 col = 2;
+    // required int32 col = 3;
     if (has_col()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->col());
     }
     
-    // required int32 width = 3;
+    // required int32 width = 4;
     if (has_width()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->width());
     }
     
-    // required int32 height = 4;
+    // required int32 height = 5;
     if (has_height()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->height());
     }
     
-    // required string material = 7;
+    // required string material = 8;
     if (has_material()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -673,7 +1063,7 @@ int MapBlock::ByteSize() const {
     }
     
   }
-  // repeated .framework.SpriteInfo sprites = 5;
+  // repeated .framework.SpriteInfo sprites = 6;
   total_size += 1 * this->sprites_size();
   for (int i = 0; i < this->sprites_size(); i++) {
     total_size +=
@@ -681,14 +1071,12 @@ int MapBlock::ByteSize() const {
         this->sprites(i));
   }
   
-  // repeated int32 gridStates = 6;
-  {
-    int data_size = 0;
-    for (int i = 0; i < this->gridstates_size(); i++) {
-      data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->gridstates(i));
-    }
-    total_size += 1 * this->gridstates_size() + data_size;
+  // repeated .framework.GridInfo grid_states = 7;
+  total_size += 1 * this->grid_states_size();
+  for (int i = 0; i < this->grid_states_size(); i++) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        this->grid_states(i));
   }
   
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
@@ -705,8 +1093,11 @@ void MapBlock::CheckTypeAndMergeFrom(
 void MapBlock::MergeFrom(const MapBlock& from) {
   GOOGLE_CHECK_NE(&from, this);
   sprites_.MergeFrom(from.sprites_);
-  gridstates_.MergeFrom(from.gridstates_);
+  grid_states_.MergeFrom(from.grid_states_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_name()) {
+      set_name(from.name());
+    }
     if (from.has_row()) {
       set_row(from.row());
     }
@@ -732,22 +1123,26 @@ void MapBlock::CopyFrom(const MapBlock& from) {
 }
 
 bool MapBlock::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000004f) != 0x0000004f) return false;
+  if ((_has_bits_[0] & 0x0000009f) != 0x0000009f) return false;
   
   for (int i = 0; i < sprites_size(); i++) {
     if (!this->sprites(i).IsInitialized()) return false;
+  }
+  for (int i = 0; i < grid_states_size(); i++) {
+    if (!this->grid_states(i).IsInitialized()) return false;
   }
   return true;
 }
 
 void MapBlock::Swap(MapBlock* other) {
   if (other != this) {
+    std::swap(name_, other->name_);
     std::swap(row_, other->row_);
     std::swap(col_, other->col_);
     std::swap(width_, other->width_);
     std::swap(height_, other->height_);
     sprites_.Swap(&other->sprites_);
-    gridstates_.Swap(&other->gridstates_);
+    grid_states_.Swap(&other->grid_states_);
     std::swap(material_, other->material_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);

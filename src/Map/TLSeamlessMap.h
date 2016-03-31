@@ -47,6 +47,14 @@ public:
 	TLMapBlock* getMapBlock( float x, float y );
 	TLMapBlock* getMapBlockFromOldBlocks( float x, float y, int& nOldIndex );
 
+    void setCurXY( float x, float y );
+
+    void setIsEnablePass( float world_x, float world_y, bool bIsEnable );
+    bool getIsEnablePass( float world_x, float world_y );
+
+    void setIsEnablePlant( float world_x, float world_y, bool bIsEnable );
+    bool getIsEnablePlant( float world_x, float world_y );
+
 protected:
     std::string m_strSeamlessMapFile;
     float m_fCurX, m_fCurY;
