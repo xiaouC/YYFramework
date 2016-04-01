@@ -8,8 +8,8 @@ USING_NS_CC;
 
 #define USE_GAME_NAME "LuLeLu"
 
-float g_fFrameWidth = 640;
-float g_fFrameHeight = 1136;
+float g_fFrameWidth = 1136;
+float g_fFrameHeight = 640;
 
 #ifdef WIN32
 #include "main.h"

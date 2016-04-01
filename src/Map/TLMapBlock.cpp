@@ -14,9 +14,9 @@ TLMapBlock::TLMapBlock( const std::string& strMapBlockFile )
 	m_nWidth = 0;
 	m_nHeight = 0;
 
-#if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
     m_strMapBlockFile = strMapBlockFile;
 
+#if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
 	m_pSelectedSprite = NULL;
 	m_pSelMarkSprite = MCLoader::sharedMCLoader()->loadSprite( "images/selected.png" );
 	m_kSelMarkSize = m_pSelMarkSprite->getContentSize();

@@ -41,6 +41,7 @@ public:
     int getGridIndex( float x, float y );
 
 protected:
+    std::string m_strMapBlockFile;
     CCSpriteBatchNode* m_pMaterialBatchNode;
 
     int m_nRow, m_nCol;
@@ -81,7 +82,6 @@ public:
     bool getIsShowGridLine() const { return m_bShowGridLine; }
 
 protected:
-    std::string m_strMapBlockFile;
     std::string m_strMaterial;
 
     struct SpriteInfo {
