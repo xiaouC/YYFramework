@@ -1,10 +1,7 @@
 #ifndef __LOADING_DIALOG_H__
 #define __LOADING_DIALOG_H__
 
-//void showLoading(const char* sMsg=0);
-//void hideLoading();
-//bool isLoadingShowing();
-#include<string>
+#include <string>
 
 void quitConfirm();
 void quitApplication();

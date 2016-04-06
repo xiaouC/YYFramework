@@ -41,29 +41,6 @@ void createLocalNotification( const char* nDaysLater, const char* nHour, const c
 void releaseLocalNotification( const char* key = "" );
 void releaseAllLocalNotification();
 
-// 注意注意，请不要在中间插入，影响原来的值。
-enum CbType {
-    CB_LOGIN_SUCCESS = 0,
-    CB_LOGIN_FAIL,
-
-    CB_LOGOUT_SUCCESS,
-    CB_LOGOUT_FAIL,
-
-    CB_PAY_SUCCESS,
-    CB_PAY_FAIL,
-
-    CB_EXIT_CUSTOM,
-    CB_DONT_SUPPORT_LOGIN,
-
-    CB_UNLOCK_LOGIN,
-    CB_ITUNES_IAP_VALIDATION,
-    CB_REACHABILITY_CHANGED,
-
-    CB_SDK_INIT_END,
-
-    CB_MAX,
-};
-
-void register_platform_callback(CbType t, LUA_FUNCTION cb);
+void register_platform_callback( const char* szCallbackType, LUA_FUNCTION cb);
 
 const char* getAvailMemory();

@@ -45,7 +45,7 @@ const char* getMAC()
 {
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t
-                , "org/weilan/poem"
+                , "org/yy/poem"
                 , "getLocalMacAddress"
                 , "()Ljava/lang/String;"))
     {
@@ -73,7 +73,7 @@ const char* getDeviceId()
 {
 	JniMethodInfo t;
 	if (JniHelper::getStaticMethodInfo(t
-		, "org/weilan/poem"
+		, "org/yy/poem"
 		, "getDeviceId"
 		, "()Ljava/lang/String;"))
 	{
@@ -91,7 +91,7 @@ const char* getIMSI()
     return NULL;
     //JniMethodInfo t;
     //if (JniHelper::getStaticMethodInfo(t
-    //            , "org/weilan/poem"
+    //            , "org/yy/poem"
     //            , "getIMSI"
     //            , "()Ljava/lang/String;"))
     //{
@@ -109,7 +109,7 @@ const char* getUUID()
     return NULL;
     //JniMethodInfo t;
     //if (JniHelper::getStaticMethodInfo(t
-    //            , "org/weilan/poem"
+    //            , "org/yy/poem"
     //            , "getUUID"
     //            , "()Ljava/lang/String;"))
     //{
@@ -126,7 +126,7 @@ bool acquireWakeLock()
 {
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t
-                , "org/weilan/poem"
+                , "org/yy/poem"
                 , "acquireWakeLock"
                 , "()Z"))
     {
@@ -141,7 +141,7 @@ bool releaseWakeLock()
 {
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t
-                , "org/weilan/poem"
+                , "org/yy/poem"
                 , "releaseWakeLock"
                 , "()Z"))
     {
@@ -157,7 +157,7 @@ bool userActivity()
     return false;
     //JniMethodInfo t;
     //if (JniHelper::getStaticMethodInfo(t
-    //            , "org/weilan/poem"
+    //            , "org/yy/poem"
     //            , "userActivity"
     //            , "()Z"))
     //{
@@ -172,7 +172,7 @@ void quitConfirm()
 {
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t
-                , "org/weilan/poem"
+                , "org/yy/poem"
                 , "quitConfirm"
                 , "()V"))
     {
@@ -185,7 +185,7 @@ void quitApplication()
 {
 	JniMethodInfo t;
 	if (JniHelper::getStaticMethodInfo(t
-		, "org/weilan/poem"
+		, "org/yy/poem"
 		, "quitApplication"
 		, "()V"))
 	{
@@ -198,7 +198,7 @@ int getPackageVersion()
 {
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t
-                , "org/weilan/poem"
+                , "org/yy/poem"
                 , "getVersionCode"
                 , "()I"))
     {
@@ -232,7 +232,7 @@ const char* getNetworkTypeName()
 {
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t
-                , "org/weilan/poem"
+                , "org/yy/poem"
                 , "getNetworkType"
                 , "()Ljava/lang/String;"))
     {
@@ -253,7 +253,7 @@ void openURL(const char* sUrl)
 	}
 	JniMethodInfo t;
 	if (JniHelper::getStaticMethodInfo(t
-		, "org/weilan/poem"
+		, "org/yy/poem"
 		, "openURL"
 		, "(Ljava/lang/String;)V"))
 	{
@@ -269,7 +269,7 @@ bool isETC1Supported()
     return false;
     //JniMethodInfo t;
     //if (JniHelper::getStaticMethodInfo(t
-    //            , "org/weilan/poem"
+    //            , "org/yy/poem"
     //            , "isETC1Supported"
     //            , "()Z"))
     //{
@@ -280,68 +280,12 @@ bool isETC1Supported()
     //return false;
 }
 
-static inline bool is_login_platform(framework::SDKType sdkType)
-{
-    return sdkType == framework::SDK_YY;
-}
-
-void EnterPlatform()
-{
-	if (is_login_platform(GetSdkType()))
-	{
-		return;
-	}
-
-	JniMethodInfo t;
-	if (JniHelper::getStaticMethodInfo(t, "org/weilan/poem",
-		"openCommunity", "()V"))
-	{
-		t.env->CallStaticVoidMethod(t.classID, t.methodID);
-		t.env->DeleteLocalRef(t.classID);
-	}
-}
-
-
-void OpenPlatformLogin()
-{
-	if (is_login_platform(GetSdkType()))
-	{
-		calllua_void("login_with_device");
-		return;
-	}
-
-	JniMethodInfo t;
-	if (JniHelper::getStaticMethodInfo(t, "org/weilan/poem",
-			"accountLogin", "()V"))
-	{
-		t.env->CallStaticVoidMethod(t.classID, t.methodID);
-		t.env->DeleteLocalRef(t.classID);
-	}
-}
-
-void OpenPlatformLoginout()
-{
-	if (is_login_platform(GetSdkType()))
-	{
-		calllua_void("logout");
-		return;
-	}
-
-	JniMethodInfo t;
-	if (JniHelper::getStaticMethodInfo(t, "org/weilan/poem",
-		"accountSwitch", "()V"))
-	{
-		t.env->CallStaticVoidMethod(t.classID, t.methodID);
-		t.env->DeleteLocalRef(t.classID);
-	}
-}
-
 const char* getOSVersion()
 {
     return NULL;
     //JniMethodInfo t;
     //if (JniHelper::getStaticMethodInfo(t
-    //            , "org/weilan/poem"
+    //            , "org/yy/poem"
     //            , "getOSVersion"
     //            , "()Ljava/lang/String;"))
     //{
@@ -358,7 +302,7 @@ const char* getResolution()
 {
     //JniMethodInfo t;
     //if (JniHelper::getStaticMethodInfo(t
-    //            , "org/weilan/poem"
+    //            , "org/yy/poem"
     //            , "getResolution"
     //            , "()Ljava/lang/String;"))
     //{
@@ -375,7 +319,7 @@ const char* getUA()
 {
     //JniMethodInfo t;
     //if (JniHelper::getStaticMethodInfo(t
-    //            , "org/weilan/poem"
+    //            , "org/yy/poem"
     //            , "getUA"
     //            , "()Ljava/lang/String;"))
     //{
@@ -393,7 +337,7 @@ const char* getMetaData(const char* name)
     CCLog("getMetaData %s", name);
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t
-                , "org/weilan/poem"
+                , "org/yy/poem"
                 , "getMetaData"
                 , "(Ljava/lang/String;)Ljava/lang/String;"))
     {
@@ -552,29 +496,6 @@ const char* getUUID()
 //	return false;
 //}
 
-void EnterPlatform()
-{
-
-}
-
-void OpenPlatformLogin()
-{
-}
-
-void OpenPlatformLoginout()
-{
-
-}
-
-void OpenPayInterface(char* szSerialNo, float money)
-{
-}
-
-void payWithAndroidSDK(char *orderID, char *serverID, char *roleID, char *roleName, char *roleLevel, char *loginName, char *pbID )
-{
-
-}
-
 framework::SDKType GetSdkType()
 {
 	return framework::SDK_YY;
@@ -658,170 +579,6 @@ void finiLog()
 	}
 }
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-void payWithAndroidSDK(char *orderID, char *serverID, char *roleID, char *roleName, char *roleLevel, char *loginName, char *pbID ){
-    JniMethodInfo t;
-    const char* sActivity = "org/weilan/poem"; //"com/weilan/poem/xp/MainActivity";
-    const char* sSignature = "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V";
-
-    if (JniHelper::getStaticMethodInfo(t, sActivity,
-                "Pay", sSignature))
-    {
-        jstring order_id = t.env->NewStringUTF(orderID);         //订单号
-        jstring server_id = t.env->NewStringUTF(serverID);       //服务器id
-        jstring role_id = t.env->NewStringUTF(roleID);           //角色id
-        jstring role_name = t.env->NewStringUTF(roleName);       //角色名称
-        jstring role_level = t.env->NewStringUTF(roleLevel);     //角色等级
-        jstring login_name = t.env->NewStringUTF(loginName);       //用户名称
-        jstring pd_id = t.env->NewStringUTF(pbID);               //道具id
-
-        t.env->CallStaticVoidMethod(t.classID, t.methodID, order_id, server_id, role_id, role_name, role_level, login_name, pd_id);
-
-        t.env->DeleteLocalRef(order_id);  
-        t.env->DeleteLocalRef(server_id);
-        t.env->DeleteLocalRef(role_id);
-        t.env->DeleteLocalRef(role_name);
-        t.env->DeleteLocalRef(role_level);
-        t.env->DeleteLocalRef(login_name);
-        t.env->DeleteLocalRef(pd_id);
-        t.env->DeleteLocalRef(t.classID);
-
-    }
-}
-
-
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-void payWithAndroidSDK(char *orderID, char *serverID, char *roleID, char *roleName, char *roleLevel, char *loginName, char *pbID )
-{
-
-}
-#endif
-
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-
-#ifndef APP_STORE_IOS
-void OpenPayInterface(char* szSerialNo, float money)
-{
-    // PayWithSDK
-    char snum[32] = {0};
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    JniMethodInfo t;
-    // default config
-    const char* sActivity = "";
-    const char* sSignature = "";
-
-    if (GetSdkType()==framework::SDK_YY)
-    {
-        sActivity = "com/weilan/poem/xp/MainActivity";
-        sSignature = "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V";
-    }
-    //else if (GetSdkType()==framework::SDK_UC)
-    //{
-    //    sActivity = "com/weilan/poem/uc/MainActivity";
-    //    sSignature = "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V";
-
-    //}
-
-    if (JniHelper::getStaticMethodInfo(t, sActivity,
-                "Pay", sSignature))
-    {
-        jstring sno = t.env->NewStringUTF(szSerialNo);  // 游戏中传的支付流水号
-
-        int server_id = 0;  // 服务器id
-        int role_id = 0;    // 角色id
-        calllua(server_id, "getCurrentWorldId");
-        calllua(role_id, "getCurrentRoleId");
-
-        snprintf(snum, sizeof(snum)-1, "%d", server_id);
-        jstring serverId = t.env->NewStringUTF(snum);            // 服务器id
-
-        snprintf(snum, sizeof(snum)-1, "%d", role_id);
-        jstring roleId = t.env->NewStringUTF(snum);              // 角色id
-
-        std::string strTemp;
-        calllua(strTemp, "getCurrentRoleProperty", "name");
-        jstring roleName = t.env->NewStringUTF(strTemp.c_str()); //角色名称
-
-        calllua(strTemp, "getCurrentRoleProperty", "level");
-        jstring roleLv = t.env->NewStringUTF(strTemp.c_str());   // 角色等级
-
-        calllua(strTemp, "get_property_id", money);
-        jstring pbId = t.env->NewStringUTF(strTemp.c_str());     // 道具id
-
-        calllua(strTemp, "getUserAccount");
-        jstring loginId = t.env->NewStringUTF(strTemp.c_str());  // 登录id
-
-        calllua(strTemp, "getPlatformUin");
-        jstring uid = t.env->NewStringUTF(strTemp.c_str());      // 掌趣分配的用户ID或第三方返回的用户ID
-
-
-
-        calllua(strTemp, "get_payment_channel");
-        jstring chanId = t.env->NewStringUTF(strTemp.c_str());   // 渠道id
-
-
-        t.env->CallStaticVoidMethod(t.classID, t.methodID, sno, uid, loginId, serverId, roleId, roleName, roleLv, pbId, chanId);
-
-        t.env->DeleteLocalRef(sno);
-        t.env->DeleteLocalRef(loginId);
-        t.env->DeleteLocalRef(uid);
-        t.env->DeleteLocalRef(serverId);
-        t.env->DeleteLocalRef(roleId);
-        t.env->DeleteLocalRef(roleName);
-        t.env->DeleteLocalRef(roleLv);
-        t.env->DeleteLocalRef(pbId);
-        t.env->DeleteLocalRef(chanId);
-        t.env->DeleteLocalRef(t.classID);
-    }
-    return;
-
-#endif
-#if OP_GAME_SDK_ENABLE
-//    PurchaseParam* param = new PurchaseParam;
-//
-//    calllua(param->pb, "get_property_id", money);
-////    param->pb = "2770074436553162";
-//    param->cd = getMetaData("OPGameSDK_GAME_KEY");
-//    param->pd = param->cd.substr(10, 4);
-//    CCLOG("cd: %s, pb: %s, pd: %s\n", param->cd.c_str(), param->pb.c_str(), param->pd.c_str());
-//    param->platform = "1";     // 手机平台类型（1是ios,2是android，3是WP8）
-//    
-//    // 设置其他购买参数
-//    int role_id = 0;
-//
-//    param->user_serverid = "0"; // 服务器id
-//    
-//    snprintf(snum, sizeof(snum)-1, "%d", role_id);
-//    param->user_roleid = snum; // 角色id
-//    
-//    param->user_account = ""; // 登陆账号（一般是第三方返回的用户id@xx.com形式）
-//    param->uid = ""; // 掌趣分配的用户ID或第三方返回的用户ID
-//    CCLOG("username: %s, uid: %s", param->user_account.c_str(), param->uid.c_str());
-//
-//    param->orderId = szSerialNo; // 游戏中传的支付流水号
-//    
-//    snprintf(snum, sizeof(snum)-1, "%d", AssetsManager::sharedAssetsManager()->getVersion());
-//    param->gameVersion = snum;   // 游戏版本号
-//     
-//    calllua(param->roleName, "get_role_property", "name"); // 角色等级
-//    calllua(param->roleLv, "get_role_property", "level"); // 角色名称
-//    CCLOG("name: %s, level: %s\n", param->roleName.c_str(), param->roleLv.c_str());
-//
-//    param->price = "";         // 价格
-//    param->syn = false;        // 是否同步发放道具（单机为true，网游为false）
-//    param->sign = "";          // 参数md5校验签名，目前只有人人网渠道需要添加此参数
-//    param->gcustom = "";       // 游戏自定义信息
-//    
-//    ourpalmpay::OPGameSDK::GetInstance().Purchase(param);
-#endif
-    
-}
-#endif
-
-#endif
-
-
 void useConsole() //  π”√øÿ÷∆Ã®
 {
 #ifdef WIN32
@@ -850,7 +607,7 @@ void createLocalNotification( const char* nDaysLater, const char* nHour, const c
 #if( CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID )
     JniMethodInfo t;
     if( JniHelper::getStaticMethodInfo( t
-                , "org/weilan/poem"
+                , "org/yy/poem"
                 , "createLocalNotification"
                 , "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V" ) )
     {
@@ -881,7 +638,7 @@ void releaseLocalNotification( const char* key )
 #if( CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID )
     JniMethodInfo t;
     if( JniHelper::getStaticMethodInfo( t
-                , "org/weilan/poem"
+                , "org/yy/poem"
                 , "releaseLocalNotification"
                 , "(Ljava/lang/String;)V" ) )
     {
@@ -901,7 +658,7 @@ void releaseAllLocalNotification()
 #if( CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID )
     JniMethodInfo t;
     if( JniHelper::getStaticMethodInfo( t
-                , "org/weilan/poem"
+                , "org/yy/poem"
                 , "releaseAllLocalNotification"
                 , "()V" ) )
     {
@@ -918,7 +675,7 @@ void playMedia( const char* szPath )
 #if( CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID )
     JniMethodInfo t;
     if( JniHelper::getStaticMethodInfo( t
-                , "org/weilan/poem"
+                , "org/yy/poem"
                 , "playVideo"
                 , "(Ljava/lang/String;)V" ) )
     {
@@ -935,7 +692,7 @@ void stopMedia()
 #if( CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID )
     JniMethodInfo t;
     if( JniHelper::getStaticMethodInfo( t
-                , "org/weilan/poem"
+                , "org/yy/poem"
                 , "stopMdeia"
                 , "()V" ) )
     {
@@ -957,22 +714,22 @@ void hideWindow()
 #if( CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID )
 extern "C"
 {
-JNIEXPORT jboolean JNICALL Java_org_weilan_sdk_sendTalkStr(JNIEnv* env, jobject thiz, jstring talkStr)
+JNIEXPORT jboolean JNICALL Java_org_yy_sdk_sendTalkStr(JNIEnv* env, jobject thiz, jstring talkStr)
 {
     TLEditBox *s_TLEditBox = TLEditBox::getCurrentTLEditBox();
     s_TLEditBox->sentNetMsgToSelf(env->GetStringUTFChars(talkStr, 0));
 	return true;
 }
 
-JNIEXPORT jboolean JNICALL Java_org_weilan_sdk_checkTalkStr(JNIEnv* env, jobject thiz, jstring talkStr, jint talkStrLength)
+JNIEXPORT jboolean JNICALL Java_org_yy_sdk_checkTalkStr(JNIEnv* env, jobject thiz, jstring talkStr, jint talkStrLength)
 {
     TLEditBox *s_TLEditBox = TLEditBox::getCurrentTLEditBox();
     return s_TLEditBox->checkText(env->GetStringUTFChars(talkStr, 0), talkStrLength);
 }
 
-JNIEXPORT jboolean JNICALL Java_org_weilan_sdk_platformCallback(JNIEnv* env, jobject thiz, jint type, jstring args)
+JNIEXPORT jboolean JNICALL Java_org_yy_sdk_platformCallback(JNIEnv* env, jobject thiz, jstring type, jstring args)
 {
-    platform_callback((CbType) type, env->GetStringUTFChars(args, 0));
+    platform_callback(env->GetStringUTFChars(type, 0), env->GetStringUTFChars(args, 0));
     return true;
 }
 
@@ -986,7 +743,7 @@ const char* getAvailMemory()
 #if( CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID )
     JniMethodInfo t;
     if( JniHelper::getStaticMethodInfo(t
-                , "org/weilan/poem"
+                , "org/yy/poem"
                 , "getAvailMemory"
                 , "()Ljava/lang/String;"))
     {

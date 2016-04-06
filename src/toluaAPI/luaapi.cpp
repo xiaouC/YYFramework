@@ -9102,114 +9102,6 @@ static int tolua_api_TLDropDragHelper_AppendShow00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* function: OpenPlatformLogin */
-#ifndef TOLUA_DISABLE_tolua_api_OpenPlatformLogin00
-static int tolua_api_OpenPlatformLogin00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
-     !tolua_isnoobj(tolua_S,1,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  {
-   OpenPlatformLogin();
-  }
- }
- return 0;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'OpenPlatformLogin'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* function: OpenPlatformLoginout */
-#ifndef TOLUA_DISABLE_tolua_api_OpenPlatformLoginout00
-static int tolua_api_OpenPlatformLoginout00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
-     !tolua_isnoobj(tolua_S,1,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  {
-   OpenPlatformLoginout();
-  }
- }
- return 0;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'OpenPlatformLoginout'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* function: OpenPayInterface */
-#ifndef TOLUA_DISABLE_tolua_api_OpenPayInterface00
-static int tolua_api_OpenPayInterface00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
-     !tolua_isstring(tolua_S,1,0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,3,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  char* szSerialNo = ((char*)  tolua_tostring(tolua_S,1,0));
-  float money = ((float)  tolua_tonumber(tolua_S,2,0));
-  {
-   OpenPayInterface(szSerialNo,money);
-  }
- }
- return 0;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'OpenPayInterface'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* function: EnterPlatform */
-#ifndef TOLUA_DISABLE_tolua_api_EnterPlatform00
-static int tolua_api_EnterPlatform00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
-     !tolua_isnoobj(tolua_S,1,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  {
-   EnterPlatform();
-  }
- }
- return 0;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'EnterPlatform'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
 /* function: GetSdkType */
 #ifndef TOLUA_DISABLE_tolua_api_GetSdkType00
 static int tolua_api_GetSdkType00(lua_State* tolua_S)
@@ -9232,46 +9124,6 @@ static int tolua_api_GetSdkType00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'GetSdkType'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* function: payWithAndroidSDK */
-#ifndef TOLUA_DISABLE_tolua_api_payWithAndroidSDK00
-static int tolua_api_payWithAndroidSDK00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
-     !tolua_isstring(tolua_S,1,0,&tolua_err) ||
-     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
-     !tolua_isstring(tolua_S,3,0,&tolua_err) ||
-     !tolua_isstring(tolua_S,4,0,&tolua_err) ||
-     !tolua_isstring(tolua_S,5,0,&tolua_err) ||
-     !tolua_isstring(tolua_S,6,0,&tolua_err) ||
-     !tolua_isstring(tolua_S,7,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,8,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  char* orderID = ((char*)  tolua_tostring(tolua_S,1,0));
-  char* serverID = ((char*)  tolua_tostring(tolua_S,2,0));
-  char* roleID = ((char*)  tolua_tostring(tolua_S,3,0));
-  char* roleName = ((char*)  tolua_tostring(tolua_S,4,0));
-  char* roleLevel = ((char*)  tolua_tostring(tolua_S,5,0));
-  char* loginName = ((char*)  tolua_tostring(tolua_S,6,0));
-  char* pbID = ((char*)  tolua_tostring(tolua_S,7,0));
-  {
-   payWithAndroidSDK(orderID,serverID,roleID,roleName,roleLevel,loginName,pbID);
-  }
- }
- return 0;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'payWithAndroidSDK'.",&tolua_err);
  return 0;
 #endif
 }
@@ -10134,7 +9986,7 @@ static int tolua_api_register_platform_callback00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
  if (
-     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isstring(tolua_S,1,0,&tolua_err) ||
      (tolua_isvaluenil(tolua_S,2,&tolua_err) || !toluafix_isfunction(tolua_S,2,"LUA_FUNCTION",0,&tolua_err)) ||
      !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
@@ -10142,10 +9994,10 @@ static int tolua_api_register_platform_callback00(lua_State* tolua_S)
  else
 #endif
  {
-  CbType t = ((CbType) (int)  tolua_tonumber(tolua_S,1,0));
+  const char* szCallbackType = ((const char*)  tolua_tostring(tolua_S,1,0));
   LUA_FUNCTION cb = (  toluafix_ref_function(tolua_S,2,0));
   {
-   register_platform_callback(t,cb);
+   register_platform_callback(szCallbackType,cb);
   }
  }
  return 0;
@@ -13102,12 +12954,7 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
   tolua_beginmodule(tolua_S,"TLDropDragHelper");
    tolua_function(tolua_S,"AppendShow",tolua_api_TLDropDragHelper_AppendShow00);
   tolua_endmodule(tolua_S);
-  tolua_function(tolua_S,"OpenPlatformLogin",tolua_api_OpenPlatformLogin00);
-  tolua_function(tolua_S,"OpenPlatformLoginout",tolua_api_OpenPlatformLoginout00);
-  tolua_function(tolua_S,"OpenPayInterface",tolua_api_OpenPayInterface00);
-  tolua_function(tolua_S,"EnterPlatform",tolua_api_EnterPlatform00);
   tolua_function(tolua_S,"GetSdkType",tolua_api_GetSdkType00);
-  tolua_function(tolua_S,"payWithAndroidSDK",tolua_api_payWithAndroidSDK00);
   tolua_function(tolua_S,"quitConfirm",tolua_api_quitConfirm00);
   tolua_function(tolua_S,"quitApplication",tolua_api_quitApplication00);
   tolua_function(tolua_S,"hideWindow",tolua_api_hideWindow00);
@@ -13139,19 +12986,6 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
   tolua_function(tolua_S,"createLocalNotification",tolua_api_createLocalNotification00);
   tolua_function(tolua_S,"releaseLocalNotification",tolua_api_releaseLocalNotification00);
   tolua_function(tolua_S,"releaseAllLocalNotification",tolua_api_releaseAllLocalNotification00);
-  tolua_constant(tolua_S,"CB_LOGIN_SUCCESS",CB_LOGIN_SUCCESS);
-  tolua_constant(tolua_S,"CB_LOGIN_FAIL",CB_LOGIN_FAIL);
-  tolua_constant(tolua_S,"CB_LOGOUT_SUCCESS",CB_LOGOUT_SUCCESS);
-  tolua_constant(tolua_S,"CB_LOGOUT_FAIL",CB_LOGOUT_FAIL);
-  tolua_constant(tolua_S,"CB_PAY_SUCCESS",CB_PAY_SUCCESS);
-  tolua_constant(tolua_S,"CB_PAY_FAIL",CB_PAY_FAIL);
-  tolua_constant(tolua_S,"CB_EXIT_CUSTOM",CB_EXIT_CUSTOM);
-  tolua_constant(tolua_S,"CB_DONT_SUPPORT_LOGIN",CB_DONT_SUPPORT_LOGIN);
-  tolua_constant(tolua_S,"CB_UNLOCK_LOGIN",CB_UNLOCK_LOGIN);
-  tolua_constant(tolua_S,"CB_ITUNES_IAP_VALIDATION",CB_ITUNES_IAP_VALIDATION);
-  tolua_constant(tolua_S,"CB_REACHABILITY_CHANGED",CB_REACHABILITY_CHANGED);
-  tolua_constant(tolua_S,"CB_SDK_INIT_END",CB_SDK_INIT_END);
-  tolua_constant(tolua_S,"CB_MAX",CB_MAX);
   tolua_function(tolua_S,"register_platform_callback",tolua_api_register_platform_callback00);
   tolua_function(tolua_S,"getAvailMemory",tolua_api_getAvailMemory00);
   tolua_cclass(tolua_S,"TLModel","TLModel","CCSpriteBatchNode",NULL);

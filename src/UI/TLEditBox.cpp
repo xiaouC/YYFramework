@@ -90,7 +90,7 @@ TLEditBox::~TLEditBox()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
         JniMethodInfo t;
         if( JniHelper::getStaticMethodInfo( t
-                    , "org/weilan/poem"
+                    , "org/yy/poem"
                     , "closeCustomKeyBoard"
                     , "()V" ) )
         {
@@ -146,7 +146,7 @@ bool TLEditBox::attachWithIME()
             #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
             JniMethodInfo t;
             if( JniHelper::getStaticMethodInfo( t
-                        , "org/weilan/poem"
+                        , "org/yy/poem"
                         , "openCustomKeyBoard"
                         , "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V" ) )
             {

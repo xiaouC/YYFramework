@@ -64,6 +64,8 @@ ${SRC_ROOT}/MC/BatchNodeMC.cpp \
 ${SRC_ROOT}/MC/ClipNode.cpp \
 ${SRC_ROOT}/MC/AssetsManager.cpp \
 ${SRC_ROOT}/MC/MovieClip.cpp \
+${SRC_ROOT}/Map/TLMapBlock.cpp \
+${SRC_ROOT}/Map/TLSeamlessMap.cpp \
 ${SRC_ROOT}/pbc/proto.c \
 ${SRC_ROOT}/pbc/varint.c \
 ${SRC_ROOT}/pbc/stringpool.c \
@@ -95,8 +97,8 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/$(SRC_ROOT) \
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(SRC_ROOT) \
 					$(LOCAL_PATH)/$(SRC_ROOT)/pbc \
 					$(LOCAL_PATH)/${SRC_ROOT}/toluaAPI/lua-cjson-2.1.0 \
-					$(LOCAL_PATH)/$(SRC_ROOT)/../protocol/src\
-					$(LOCAL_PATH)/$(SRC_ROOT)/../protobuf-android/protobuf/src \
+					$(LOCAL_PATH)/$(SRC_ROOT)/protocol/src\
+					$(LOCAL_PATH)/$(SRC_ROOT)/../../protobuf-android/protobuf/src \
 					$(LOCAL_PATH)/$(SRC_ROOT)/../cocos2d-x-2.1.5/cocos2dx \
 					$(LOCAL_PATH)/$(SRC_ROOT)/../cocos2d-x-2.1.5/cocos2dx/cocoa \
 					$(LOCAL_PATH)/$(SRC_ROOT)/../cocos2d-x-2.1.5/cocos2dx/support \
@@ -120,5 +122,5 @@ $(call import-module,cocos2dx) \
 $(call import-module,CocosDenshion/android) \
 $(call import-module,scripting/lua/proj.android) \
 $(call import-module,cocos2dx/platform/third_party/android/prebuilt/libcurl)
-$(call import-module,protocol) \
-$(call import-module,protobuf-android) \
+$(call import-module,src/protocol) \
+$(call import-module,../protobuf-android) \

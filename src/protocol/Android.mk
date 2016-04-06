@@ -13,9 +13,10 @@ LOCAL_SRC_FILES := \
 ./src/files.pb.cc \
 ./src/anim.pb.cc \
 ./src/platform.pb.cc \
+./src/map.pb.cc \
 
 #路径的可选配置
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/src \
-					$(LOCAL_PATH)/../protobuf-android/protobuf/src/ \
+					$(LOCAL_PATH)/../../../protobuf-android/protobuf/src/ \
 
 include $(BUILD_STATIC_LIBRARY)     #生成.a 的动态链接库

@@ -12,7 +12,7 @@ void OpenPayWithAndroid(char *ID, char *name, char *orderID, char *goodsID, char
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     JniMethodInfo t;
-    const char* sActivity = "org/weilan/poem"; 
+    const char* sActivity = "org/yy/poem"; 
     const char* sSignature = "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V";
 
     if (JniHelper::getStaticMethodInfo(t, sActivity,

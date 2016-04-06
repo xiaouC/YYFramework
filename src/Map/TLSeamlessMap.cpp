@@ -5,8 +5,7 @@
 
 const float g_fLoadNewBlockFlag = 0.2f;
 TLSeamlessMap::TLSeamlessMap( const std::string& strSeamlessMapFile, float x, float y )
-: m_strSeamlessMapFile(strSeamlessMapFile)
-, m_fCurX(x)
+: m_fCurX(x)
 , m_fCurY(y)
 , m_nBlockRow(0)
 , m_nBlockCol(0)
@@ -15,6 +14,12 @@ TLSeamlessMap::TLSeamlessMap( const std::string& strSeamlessMapFile, float x, fl
 , m_nBlockWidth(0)
 , m_nBlockHeight(0)
 {
+#if( CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS )
+    m_strSeamlessMapFile = "map/" + strSeamlessMapFile;
+#else
+    m_strSeamlessMapFile = strSeamlessMapFile;
+#endif
+
     for( int i=BLOCK_INDEX_CENTER; i < BLOCK_INDEX_MAX; ++i )
     {
         m_kBlocks[i].pMapBlock = NULL;
@@ -53,6 +58,7 @@ TLSeamlessMap* TLSeamlessMap::create( const std::string& strSeamlessMapFile, flo
     return pRet;
 }
 
+#if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
 bool TLSeamlessMap::newSeamlessMap( const std::string& strSeamlessMapFile, int nBlockRow, int nBlockCol, int nGridWidth, int nGridHeight, const std::string& strMaterial )
 {
     std::string strFirstBlockFileName = strSeamlessMapFile + ".mb";
@@ -83,45 +89,6 @@ bool TLSeamlessMap::newSeamlessMap( const std::string& strSeamlessMapFile, int n
 
     // 
     fclose( fp );
-
-    return true;
-}
-
-bool TLSeamlessMap::init()
-{
-    if( !CCNode::init() )
-        return false;
-
-    unsigned long iSize = 0;
-	unsigned char* pBuffer = AssetsManager::sharedAssetsManager()->getFileContent( m_strSeamlessMapFile.c_str(), "rb", &iSize );
-    if( pBuffer == NULL )
-        return false;
-
-    framework::SeamlessMap smData;
-	smData.ParseFromArray( (void*)pBuffer, iSize );
-
-	delete[] pBuffer;
-
-    m_nBlockRow = smData.blockrow();
-    m_nBlockCol = smData.blockcol();
-    m_nGridWidth = smData.gridwidth();
-    m_nGridHeight = smData.gridheight();
-
-    m_nBlockWidth = m_nBlockCol * m_nGridWidth;
-    m_nBlockHeight = m_nBlockRow * m_nGridHeight;
-
-    for( int i=0; i < smData.blocks_size(); ++i )
-    {
-        const framework::BlockInfo& bi = smData.blocks( i );
-
-        BlockInfo* pBlockInfo = new BlockInfo;
-        pBlockInfo->strBlockFileName = bi.file();
-        pBlockInfo->x = bi.x();
-        pBlockInfo->y = bi.y();
-        m_listAllBlocks.push_back( pBlockInfo );
-    }
-
-    updateBlock();
 
     return true;
 }
@@ -165,6 +132,46 @@ bool TLSeamlessMap::save()
     fclose( fp );
 
 	return true;
+}
+#endif
+
+bool TLSeamlessMap::init()
+{
+    if( !CCNode::init() )
+        return false;
+
+    unsigned long iSize = 0;
+	unsigned char* pBuffer = AssetsManager::sharedAssetsManager()->getFileContent( m_strSeamlessMapFile.c_str(), "rb", &iSize );
+    if( pBuffer == NULL )
+        return false;
+
+    framework::SeamlessMap smData;
+	smData.ParseFromArray( (void*)pBuffer, iSize );
+
+	delete[] pBuffer;
+
+    m_nBlockRow = smData.blockrow();
+    m_nBlockCol = smData.blockcol();
+    m_nGridWidth = smData.gridwidth();
+    m_nGridHeight = smData.gridheight();
+
+    m_nBlockWidth = m_nBlockCol * m_nGridWidth;
+    m_nBlockHeight = m_nBlockRow * m_nGridHeight;
+
+    for( int i=0; i < smData.blocks_size(); ++i )
+    {
+        const framework::BlockInfo& bi = smData.blocks( i );
+
+        BlockInfo* pBlockInfo = new BlockInfo;
+        pBlockInfo->strBlockFileName = bi.file();
+        pBlockInfo->x = bi.x();
+        pBlockInfo->y = bi.y();
+        m_listAllBlocks.push_back( pBlockInfo );
+    }
+
+    updateBlock();
+
+    return true;
 }
 
 TLMapBlock* TLSeamlessMap::loadBlock( const std::string& strFileName )

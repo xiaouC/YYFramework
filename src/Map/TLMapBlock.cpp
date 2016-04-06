@@ -14,9 +14,9 @@ TLMapBlock::TLMapBlock( const std::string& strMapBlockFile )
 	m_nWidth = 0;
 	m_nHeight = 0;
 
+#if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
     m_strMapBlockFile = strMapBlockFile;
 
-#if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
 	m_pSelectedSprite = NULL;
 	m_pSelMarkSprite = MCLoader::sharedMCLoader()->loadSprite( "images/selected.png" );
 	m_kSelMarkSize = m_pSelMarkSprite->getContentSize();
@@ -27,6 +27,15 @@ TLMapBlock::TLMapBlock( const std::string& strMapBlockFile )
 	CCTexture2D* pGridTexture = MCLoader::sharedMCLoader()->loadTexture( GRID_SPRITE_FILE );
     m_pGridBatchNode = CCSpriteBatchNode::createWithTexture( pGridTexture );
     addChild( m_pGridBatchNode, 10000 );
+#else
+    if( strMapBlockFile.find( "./" ) != std::string::npos )
+    {
+        m_strMapBlockFile = strMapBlockFile.substr( 2 );
+    }
+    else
+    {
+        m_strMapBlockFile = strMapBlockFile;
+    }
 #endif
 }
 
@@ -49,6 +58,7 @@ TLMapBlock* TLMapBlock::create( const std::string& strFileName )
     return pRet;
 }
 
+#if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
 bool TLMapBlock::newMapBlock( const std::string& strMapBlockFile, int nRow, int nCol, int nGridWidth, int nGridHeight, const std::string& strMaterial )
 {
     FILE* fp = fopen( strMapBlockFile.c_str(), "wb" );
@@ -93,6 +103,7 @@ bool TLMapBlock::newMapBlock( const std::string& strMapBlockFile, int nRow, int 
 
     return true;
 }
+#endif
 
 bool TLMapBlock::init()
 {
@@ -185,6 +196,7 @@ void TLMapBlock::clear()
     m_nRow = 0;
     m_nCol = 0;
 
+#if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
     std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
     std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
     for( ; iter != iter_end; ++iter )
@@ -193,6 +205,7 @@ void TLMapBlock::clear()
         delete pSpriteInfo;
     }
     m_listAllSprites.clear();
+#endif
 
     for( int i=0; i < (int)m_vecGridStates.size(); ++i )
         delete m_vecGridStates[i];
