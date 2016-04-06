@@ -33,4 +33,9 @@ class TLSeamlessMap : public CCNode
 
     void setIsEnablePlant( float world_x, float world_y, bool bIsEnable );
     bool getIsEnablePlant( float world_x, float world_y );
+
+    int getBlockRow() const;
+    int getBlockCol() const;
+    int getGridWidth() const;
+    int getGridHeight() const;
 };

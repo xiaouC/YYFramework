@@ -12511,6 +12511,134 @@ static int tolua_api_TLSeamlessMap_getIsEnablePlant00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: getBlockRow of class  TLSeamlessMap */
+#ifndef TOLUA_DISABLE_tolua_api_TLSeamlessMap_getBlockRow00
+static int tolua_api_TLSeamlessMap_getBlockRow00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const TLSeamlessMap",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const TLSeamlessMap* self = (const TLSeamlessMap*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getBlockRow'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->getBlockRow();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getBlockRow'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getBlockCol of class  TLSeamlessMap */
+#ifndef TOLUA_DISABLE_tolua_api_TLSeamlessMap_getBlockCol00
+static int tolua_api_TLSeamlessMap_getBlockCol00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const TLSeamlessMap",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const TLSeamlessMap* self = (const TLSeamlessMap*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getBlockCol'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->getBlockCol();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getBlockCol'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getGridWidth of class  TLSeamlessMap */
+#ifndef TOLUA_DISABLE_tolua_api_TLSeamlessMap_getGridWidth00
+static int tolua_api_TLSeamlessMap_getGridWidth00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const TLSeamlessMap",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const TLSeamlessMap* self = (const TLSeamlessMap*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getGridWidth'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->getGridWidth();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getGridWidth'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getGridHeight of class  TLSeamlessMap */
+#ifndef TOLUA_DISABLE_tolua_api_TLSeamlessMap_getGridHeight00
+static int tolua_api_TLSeamlessMap_getGridHeight00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const TLSeamlessMap",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const TLSeamlessMap* self = (const TLSeamlessMap*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getGridHeight'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->getGridHeight();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getGridHeight'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* Open function */
 TOLUA_API int tolua_api_open (lua_State* tolua_S)
 {
@@ -13122,6 +13250,10 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
    tolua_function(tolua_S,"getIsEnablePass",tolua_api_TLSeamlessMap_getIsEnablePass00);
    tolua_function(tolua_S,"setIsEnablePlant",tolua_api_TLSeamlessMap_setIsEnablePlant00);
    tolua_function(tolua_S,"getIsEnablePlant",tolua_api_TLSeamlessMap_getIsEnablePlant00);
+   tolua_function(tolua_S,"getBlockRow",tolua_api_TLSeamlessMap_getBlockRow00);
+   tolua_function(tolua_S,"getBlockCol",tolua_api_TLSeamlessMap_getBlockCol00);
+   tolua_function(tolua_S,"getGridWidth",tolua_api_TLSeamlessMap_getGridWidth00);
+   tolua_function(tolua_S,"getGridHeight",tolua_api_TLSeamlessMap_getGridHeight00);
   tolua_endmodule(tolua_S);
  tolua_endmodule(tolua_S);
  return 1;

@@ -58,6 +58,11 @@ public:
     void setIsEnablePlant( float world_x, float world_y, bool bIsEnable );
     bool getIsEnablePlant( float world_x, float world_y );
 
+    int getBlockRow() const { return m_nBlockRow; }
+    int getBlockCol() const { return m_nBlockCol; }
+    int getGridWidth() const { return m_nGridWidth; }
+    int getGridHeight() const { return m_nGridHeight; }
+
 protected:
     std::string m_strSeamlessMapFile;
     float m_fCurX, m_fCurY;
