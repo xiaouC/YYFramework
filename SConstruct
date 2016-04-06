@@ -29,10 +29,6 @@ cpp_path = [ 'src/pbc',
 if bits == '64bit':
     cpp_path.insert( 0, 'cocos2d-x-2.1.5/cocos2dx/platform/third_party/linux/include64' )
 
-
-
-
-
 lib_path = [ 'cocos2d-x-2.1.5/lib/linux/debug', 'cocos2d-x-2.1.5/cocos2dx/proj.linux', ]
 
 if bits == '64bit':
@@ -41,8 +37,6 @@ if bits == '64bit':
 else:
     lib_path.append( 'cocos2d-x-2.1.5/cocos2dx/platform/third_party/linux/libraries' )
     lib_path.append( 'cocos2d-x-2.1.5/CocosDenshion/third_party/fmod/api/lib' )
-
-
 
 libs = [ 'lua',
      'cocosdenshion',
@@ -73,9 +67,7 @@ libs = [ 'lua',
 if bits == '64bit':
     libs.append( 'fmodex64' )
 else:
-    libs.append( 'fmodex64' )
-
-
+    libs.append( 'fmodex' )
 
 env = Environment(
         CCFLAGS=['-Wall', '-g3', '-pg'],
