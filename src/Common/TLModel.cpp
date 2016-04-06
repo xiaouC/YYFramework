@@ -1176,7 +1176,7 @@ void TLModel::clearFrameColor()
 	m_bUseFrameColor = false;
 }
 
-const ccColor4B& TLModel::getFrameColor(void)		// 获取帧颜色 
+ccColor4B TLModel::getFrameColor(void)		// 获取帧颜色 
 {
 	return ccc4(_realColor.r,_realColor.g,_realColor.b,_realOpacity);
 }

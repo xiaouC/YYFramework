@@ -9,6 +9,7 @@ TLWindow* TLWindow::ms_pFocusWindow = NULL;
 TLWindow* TLWindow::ms_pDownWindow = NULL;
 std::set<TLWindow*> TLWindow::ms_setButtonDownWindow;
 std::list<TLWindow*> TLWindow::ms_listAllWindows;
+ccColor3B TLWindow::ms_kDefaultColor = ccc3( 255, 255, 255 );
 TLWindow::TLWindow( CCNode* pMCNode, unsigned int uiWindowFlag )
 : m_pMCNode(pMCNode)
 , m_listChildWindow(NULL)
@@ -415,7 +416,7 @@ void TLWindow::setTextColor( const ccColor3B& kTextColor )
 
 const ccColor3B& TLWindow::getTextColor()
 {
-    return m_pEditBox != NULL ? m_pEditBox->getTextColor() : ccc3( 255, 255, 255 );
+    return m_pEditBox != NULL ? m_pEditBox->getTextColor() : ms_kDefaultColor;
 }
 
 void TLWindow::setPlaceHolder( const char* pszText )
@@ -437,7 +438,7 @@ void TLWindow::setPlaceHolderColor( const ccColor3B& kPlaceHolderColor )
 
 const ccColor3B& TLWindow::getPlaceHolderColor()
 {
-    return m_pEditBox != NULL ? m_pEditBox->getPlaceHolderColor() : ccc3( 255, 255, 255 );
+    return m_pEditBox != NULL ? m_pEditBox->getPlaceHolderColor() : ms_kDefaultColor;
 }
 
 void TLWindow::setFontSize( int nFontSize )

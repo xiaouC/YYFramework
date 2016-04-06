@@ -12,3 +12,4 @@ cocos2d-x-2.1.5/cocos2dx/proj.linux/libcocos2dx.a
 proj.android/bin
 proj.android/gen
 proj.android/obj
+proj.android/libs/armeabi

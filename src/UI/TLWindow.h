@@ -172,6 +172,7 @@ public:
 	static std::set<TLWindow*> ms_setButtonDownWindow;
 
     static std::list<TLWindow*> ms_listAllWindows;
+    static ccColor3B ms_kDefaultColor;
 };
 
 #include "TLWindowInline.h"

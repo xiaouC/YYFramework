@@ -22,7 +22,7 @@ public:
 
 	void setFrameColor(const ccColor4B& color);	// 每帧都会变化的 颜色值 
 	void clearFrameColor();
-	const ccColor4B& getFrameColor(void);		// 获取帧颜色 
+	ccColor4B getFrameColor(void);		// 获取帧颜色 
 
 	virtual void update( float dt );
 	void SetPreCallScript(int nLuaPreCallScript);
