@@ -11,36 +11,36 @@ cpp_path = [ 'src/pbc',
          'src/toluaAPI/lua-cjson-2.1.0',
          'src/protocol/src/',
          '../protobuf-2.4.1/src',
-         '../MCC/cocos2dx',
-         '../MCC/cocos2dx/include',
-         '../MCC/cocos2dx/support',
-         '../MCC/cocos2dx/platform',
-         '../MCC/cocos2dx/platform/third_party/linux',
-         '../MCC/cocos2dx/platform/linux',
-         '../MCC/cocos2dx/kazmath/include',
-         '../MCC/CocosDenshion/include',
-         '../MCC/extensions',
-         '../MCC/scripting/lua/cocos2dx_support',
-         '../MCC/scripting/lua/lua',
-         '../MCC/scripting/lua/tolua',
-         '../MCC/external/chipmunk/include',
+         'cocos2d-x-2.1.5/cocos2dx',
+         'cocos2d-x-2.1.5/cocos2dx/include',
+         'cocos2d-x-2.1.5/cocos2dx/support',
+         'cocos2d-x-2.1.5/cocos2dx/platform',
+         'cocos2d-x-2.1.5/cocos2dx/platform/third_party/linux',
+         'cocos2d-x-2.1.5/cocos2dx/platform/linux',
+         'cocos2d-x-2.1.5/cocos2dx/kazmath/include',
+         'cocos2d-x-2.1.5/CocosDenshion/include',
+         'cocos2d-x-2.1.5/extensions',
+         'cocos2d-x-2.1.5/scripting/lua/cocos2dx_support',
+         'cocos2d-x-2.1.5/scripting/lua/lua',
+         'cocos2d-x-2.1.5/scripting/lua/tolua',
+         'cocos2d-x-2.1.5/external/chipmunk/include',
      ]
 
 if bits == '64bit':
-    cpp_path.insert( 0, '../MCC/cocos2dx/platform/third_party/linux/include64' )
+    cpp_path.insert( 0, 'cocos2d-x-2.1.5/cocos2dx/platform/third_party/linux/include64' )
 
 
 
 
 
-lib_path = [ '../MCC/lib/linux/debug', '../MCC/cocos2dx/proj.linux', ]
+lib_path = [ 'cocos2d-x-2.1.5/lib/linux/debug', 'cocos2d-x-2.1.5/cocos2dx/proj.linux', ]
 
 if bits == '64bit':
-    lib_path.append( '../MCC/cocos2dx/platform/third_party/linux/libraries/lib64' )
-    lib_path.append( '../MCC/CocosDenshion/third_party/fmod/lib64/api/lib' )
+    lib_path.append( 'cocos2d-x-2.1.5/cocos2dx/platform/third_party/linux/libraries/lib64' )
+    lib_path.append( 'cocos2d-x-2.1.5/CocosDenshion/third_party/fmod/lib64/api/lib' )
 else:
-    lib_path.append( '../MCC/cocos2dx/platform/third_party/linux/libraries' )
-    lib_path.append( '../MCC/CocosDenshion/third_party/fmod/api/lib' )
+    lib_path.append( 'cocos2d-x-2.1.5/cocos2dx/platform/third_party/linux/libraries' )
+    lib_path.append( 'cocos2d-x-2.1.5/CocosDenshion/third_party/fmod/api/lib' )
 
 
 
