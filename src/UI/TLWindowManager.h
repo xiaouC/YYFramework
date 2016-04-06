@@ -86,6 +86,7 @@ public:
     void setTouchBeganHandler( int nHandler );
     void setTouchMovedHandler( int nHandler );
     void setTouchEndedHandler( int nHandler );
+    void setUpdateHandler( int nHandler );
 
     void setCheckInputTextHandler( int nHandler );
 protected:
@@ -107,6 +108,7 @@ protected:
     int m_nTouchBeganHandler;
     int m_nTouchMovedHandler;
     int m_nTouchEndedHandler;
+    int m_nUpdateHandler;
 
     int m_nCheckInputTextHandler;
 public:

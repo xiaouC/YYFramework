@@ -23,6 +23,7 @@ TLWindowManager::TLWindowManager()
 , m_nTouchBeganHandler(0)
 , m_nTouchMovedHandler(0)
 , m_nTouchEndedHandler(0)
+, m_nUpdateHandler(0)
 , m_nCheckInputTextHandler(0)
 , m_pSystemWindow(NULL)
 , m_pGuideWindow(NULL)
@@ -63,6 +64,12 @@ TLWindowManager::~TLWindowManager()
     {
         CCLuaEngine::defaultEngine()->removeScriptHandler( m_nTouchEndedHandler );
         m_nTouchEndedHandler = 0;
+    }
+
+    if( m_nUpdateHandler > 0 )
+    {
+        CCLuaEngine::defaultEngine()->removeScriptHandler( m_nUpdateHandler );
+        m_nUpdateHandler = 0;
     }
 
     if( m_nCheckInputTextHandler > 0 )
@@ -244,6 +251,15 @@ void TLWindowManager::update( float dt )
                 m_pDownWindow = NULL;
             }
         }
+    }
+
+    if( m_nUpdateHandler > 0 )
+    {
+        CCLuaEngine::defaultEngine()->getLuaStack()->pushFloat( m_kLastPoint.x );
+        CCLuaEngine::defaultEngine()->getLuaStack()->pushFloat( m_kLastPoint.y );
+        CCLuaEngine::defaultEngine()->getLuaStack()->pushFloat( m_fWorldTime );
+        CCLuaEngine::defaultEngine()->getLuaStack()->pushFloat( dt );
+        CCLuaEngine::defaultEngine()->getLuaStack()->executeFunctionByHandler( m_nUpdateHandler, 4 );
     }
 
     // 清理
@@ -892,6 +908,14 @@ void TLWindowManager::setTouchEndedHandler( int nHandler )
         CCLuaEngine::defaultEngine()->removeScriptHandler( m_nTouchEndedHandler );
 
     m_nTouchEndedHandler = nHandler;
+}
+
+void TLWindowManager::setUpdateHandler( int nHandler )
+{
+    if( m_nUpdateHandler > 0 )
+        CCLuaEngine::defaultEngine()->removeScriptHandler( m_nUpdateHandler );
+
+    m_nUpdateHandler = nHandler;
 }
 
 void TLWindowManager::setCheckInputTextHandler( int nHandler )

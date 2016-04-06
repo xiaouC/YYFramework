@@ -8738,6 +8738,39 @@ static int tolua_api_TLWindowManager_setTouchEndedHandler00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: setUpdateHandler of class  TLWindowManager */
+#ifndef TOLUA_DISABLE_tolua_api_TLWindowManager_setUpdateHandler00
+static int tolua_api_TLWindowManager_setUpdateHandler00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TLWindowManager",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !toluafix_isfunction(tolua_S,2,"LUA_FUNCTION",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TLWindowManager* self = (TLWindowManager*)  tolua_tousertype(tolua_S,1,0);
+  LUA_FUNCTION nHandler = (  toluafix_ref_function(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setUpdateHandler'", NULL);
+#endif
+  {
+   self->setUpdateHandler(nHandler);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setUpdateHandler'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: SetModalWindow of class  TLWindowManager */
 #ifndef TOLUA_DISABLE_tolua_api_TLWindowManager_SetModalWindow00
 static int tolua_api_TLWindowManager_SetModalWindow00(lua_State* tolua_S)
@@ -13067,6 +13100,7 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
    tolua_function(tolua_S,"setTouchBeganHandler",tolua_api_TLWindowManager_setTouchBeganHandler00);
    tolua_function(tolua_S,"setTouchMovedHandler",tolua_api_TLWindowManager_setTouchMovedHandler00);
    tolua_function(tolua_S,"setTouchEndedHandler",tolua_api_TLWindowManager_setTouchEndedHandler00);
+   tolua_function(tolua_S,"setUpdateHandler",tolua_api_TLWindowManager_setUpdateHandler00);
    tolua_function(tolua_S,"SetModalWindow",tolua_api_TLWindowManager_SetModalWindow00);
    tolua_function(tolua_S,"SetSystemWindow",tolua_api_TLWindowManager_SetSystemWindow00);
    tolua_function(tolua_S,"SetGuideWindow",tolua_api_TLWindowManager_SetGuideWindow00);
