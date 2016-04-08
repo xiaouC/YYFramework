@@ -7,7 +7,7 @@ enum TL_GRID_FLAG
 {
 	TL_GRID_FLAG_PASS				    = 0x00000001,					// 能否通行
 	TL_GRID_FLAG_PLANT				    = 0x00000002,					// 能否种植
-    TL_GRID_FLAG_FILL_WATER             = 0x00000003,                   // 能否取水
+    TL_GRID_FLAG_FILL_WATER             = 0x00000004,                   // 能否取水
 };
 
 USING_NS_CC;
@@ -37,6 +37,11 @@ public:
     bool getIsEnablePlantByIndex( int nIndex ) const;
     void setIsEnablePlant( float world_x, float world_y, bool bIsEnable );
     bool getIsEnablePlant( float world_x, float world_y );
+
+    void setIsEnableFillWaterByIndex( int nIndex, bool bIsEnable );
+    bool getIsEnableFillWaterByIndex( int nIndex ) const;
+    void setIsEnableFillWater( float world_x, float world_y, bool bIsEnable );
+    bool getIsEnableFillWater( float world_x, float world_y );
 
     void convertLocal( float& x, float& y );
     int getGridIndex( float x, float y );

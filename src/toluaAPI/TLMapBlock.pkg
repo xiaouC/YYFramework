@@ -25,6 +25,11 @@ class TLMapBlock : public CCNode
     bool getIsEnablePlantByIndex( int nIndex ) const;
     void setIsEnablePlant( float x, float y, bool bIsEnable );
     bool getIsEnablePlant( float x, float y );
+
+    void setIsEnableFillWaterByIndex( int nIndex, bool bIsEnable );
+    bool getIsEnableFillWaterByIndex( int nIndex ) const;
+    void setIsEnableFillWater( float world_x, float world_y, bool bIsEnable );
+    bool getIsEnableFillWater( float world_x, float world_y );
 };
 
 class TLSeamlessMap : public CCNode
@@ -41,6 +46,9 @@ class TLSeamlessMap : public CCNode
 
     void setIsEnablePlant( float world_x, float world_y, bool bIsEnable );
     bool getIsEnablePlant( float world_x, float world_y );
+
+    void setIsEnableFillWater( float world_x, float world_y, bool bIsEnable );
+    bool getIsEnableFillWater( float world_x, float world_y );
 
     int getBlockRow() const;
     int getBlockCol() const;

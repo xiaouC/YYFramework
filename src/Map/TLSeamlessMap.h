@@ -58,6 +58,9 @@ public:
     void setIsEnablePlant( float world_x, float world_y, bool bIsEnable );
     bool getIsEnablePlant( float world_x, float world_y );
 
+    void setIsEnableFillWater( float world_x, float world_y, bool bIsEnable );
+    bool getIsEnableFillWater( float world_x, float world_y );
+
     int getBlockRow() const { return m_nBlockRow; }
     int getBlockCol() const { return m_nBlockCol; }
     int getGridWidth() const { return m_nGridWidth; }

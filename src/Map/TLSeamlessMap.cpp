@@ -305,7 +305,7 @@ void TLSeamlessMap::updateBlock( int nIndex, BlockInfo* pBlockInfo )
     m_kBlocks[nIndex].x = pBlockInfo->x;
     m_kBlocks[nIndex].y = pBlockInfo->y;
 
-    addChild( m_kBlocks[nIndex].pMapBlock );
+    addChild( m_kBlocks[nIndex].pMapBlock, -1000 );
 }
 
 BlockInfo* TLSeamlessMap::getBlockInfo( float x, float y )
@@ -412,6 +412,22 @@ bool TLSeamlessMap::getIsEnablePlant( float world_x, float world_y )
     TLMapBlock* pMapBlock = getMapBlock( world_x, world_y );
     if( pMapBlock != NULL )
         return pMapBlock->getIsEnablePlant( world_x, world_y );
+
+    return false;
+}
+
+void TLSeamlessMap::setIsEnableFillWater( float world_x, float world_y, bool bIsEnable )
+{
+    TLMapBlock* pMapBlock = getMapBlock( world_x, world_y );
+    if( pMapBlock != NULL )
+        pMapBlock->setIsEnableFillWater( world_x, world_y, bIsEnable );
+}
+
+bool TLSeamlessMap::getIsEnableFillWater( float world_x, float world_y )
+{
+    TLMapBlock* pMapBlock = getMapBlock( world_x, world_y );
+    if( pMapBlock != NULL )
+        return pMapBlock->getIsEnableFillWater( world_x, world_y );
 
     return false;
 }

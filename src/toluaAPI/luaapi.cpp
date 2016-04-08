@@ -12256,6 +12256,148 @@ static int tolua_api_TLMapBlock_getIsEnablePlant00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: setIsEnableFillWaterByIndex of class  TLMapBlock */
+#ifndef TOLUA_DISABLE_tolua_api_TLMapBlock_setIsEnableFillWaterByIndex00
+static int tolua_api_TLMapBlock_setIsEnableFillWaterByIndex00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TLMapBlock",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TLMapBlock* self = (TLMapBlock*)  tolua_tousertype(tolua_S,1,0);
+  int nIndex = ((int)  tolua_tonumber(tolua_S,2,0));
+  bool bIsEnable = ((bool)  tolua_toboolean(tolua_S,3,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setIsEnableFillWaterByIndex'", NULL);
+#endif
+  {
+   self->setIsEnableFillWaterByIndex(nIndex,bIsEnable);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setIsEnableFillWaterByIndex'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getIsEnableFillWaterByIndex of class  TLMapBlock */
+#ifndef TOLUA_DISABLE_tolua_api_TLMapBlock_getIsEnableFillWaterByIndex00
+static int tolua_api_TLMapBlock_getIsEnableFillWaterByIndex00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const TLMapBlock",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const TLMapBlock* self = (const TLMapBlock*)  tolua_tousertype(tolua_S,1,0);
+  int nIndex = ((int)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getIsEnableFillWaterByIndex'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->getIsEnableFillWaterByIndex(nIndex);
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getIsEnableFillWaterByIndex'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setIsEnableFillWater of class  TLMapBlock */
+#ifndef TOLUA_DISABLE_tolua_api_TLMapBlock_setIsEnableFillWater00
+static int tolua_api_TLMapBlock_setIsEnableFillWater00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TLMapBlock",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TLMapBlock* self = (TLMapBlock*)  tolua_tousertype(tolua_S,1,0);
+  float world_x = ((float)  tolua_tonumber(tolua_S,2,0));
+  float world_y = ((float)  tolua_tonumber(tolua_S,3,0));
+  bool bIsEnable = ((bool)  tolua_toboolean(tolua_S,4,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setIsEnableFillWater'", NULL);
+#endif
+  {
+   self->setIsEnableFillWater(world_x,world_y,bIsEnable);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setIsEnableFillWater'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getIsEnableFillWater of class  TLMapBlock */
+#ifndef TOLUA_DISABLE_tolua_api_TLMapBlock_getIsEnableFillWater00
+static int tolua_api_TLMapBlock_getIsEnableFillWater00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TLMapBlock",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TLMapBlock* self = (TLMapBlock*)  tolua_tousertype(tolua_S,1,0);
+  float world_x = ((float)  tolua_tonumber(tolua_S,2,0));
+  float world_y = ((float)  tolua_tonumber(tolua_S,3,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getIsEnableFillWater'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->getIsEnableFillWater(world_x,world_y);
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getIsEnableFillWater'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: create of class  TLSeamlessMap */
 #ifndef TOLUA_DISABLE_tolua_api_TLSeamlessMap_create00
 static int tolua_api_TLSeamlessMap_create00(lua_State* tolua_S)
@@ -12539,6 +12681,79 @@ static int tolua_api_TLSeamlessMap_getIsEnablePlant00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'getIsEnablePlant'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setIsEnableFillWater of class  TLSeamlessMap */
+#ifndef TOLUA_DISABLE_tolua_api_TLSeamlessMap_setIsEnableFillWater00
+static int tolua_api_TLSeamlessMap_setIsEnableFillWater00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TLSeamlessMap",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TLSeamlessMap* self = (TLSeamlessMap*)  tolua_tousertype(tolua_S,1,0);
+  float world_x = ((float)  tolua_tonumber(tolua_S,2,0));
+  float world_y = ((float)  tolua_tonumber(tolua_S,3,0));
+  bool bIsEnable = ((bool)  tolua_toboolean(tolua_S,4,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setIsEnableFillWater'", NULL);
+#endif
+  {
+   self->setIsEnableFillWater(world_x,world_y,bIsEnable);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setIsEnableFillWater'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getIsEnableFillWater of class  TLSeamlessMap */
+#ifndef TOLUA_DISABLE_tolua_api_TLSeamlessMap_getIsEnableFillWater00
+static int tolua_api_TLSeamlessMap_getIsEnableFillWater00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TLSeamlessMap",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TLSeamlessMap* self = (TLSeamlessMap*)  tolua_tousertype(tolua_S,1,0);
+  float world_x = ((float)  tolua_tonumber(tolua_S,2,0));
+  float world_y = ((float)  tolua_tonumber(tolua_S,3,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getIsEnableFillWater'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->getIsEnableFillWater(world_x,world_y);
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getIsEnableFillWater'.",&tolua_err);
  return 0;
 #endif
 }
@@ -13276,6 +13491,10 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
    tolua_function(tolua_S,"getIsEnablePlantByIndex",tolua_api_TLMapBlock_getIsEnablePlantByIndex00);
    tolua_function(tolua_S,"setIsEnablePlant",tolua_api_TLMapBlock_setIsEnablePlant00);
    tolua_function(tolua_S,"getIsEnablePlant",tolua_api_TLMapBlock_getIsEnablePlant00);
+   tolua_function(tolua_S,"setIsEnableFillWaterByIndex",tolua_api_TLMapBlock_setIsEnableFillWaterByIndex00);
+   tolua_function(tolua_S,"getIsEnableFillWaterByIndex",tolua_api_TLMapBlock_getIsEnableFillWaterByIndex00);
+   tolua_function(tolua_S,"setIsEnableFillWater",tolua_api_TLMapBlock_setIsEnableFillWater00);
+   tolua_function(tolua_S,"getIsEnableFillWater",tolua_api_TLMapBlock_getIsEnableFillWater00);
   tolua_endmodule(tolua_S);
   tolua_cclass(tolua_S,"TLSeamlessMap","TLSeamlessMap","CCNode",NULL);
   tolua_beginmodule(tolua_S,"TLSeamlessMap");
@@ -13287,6 +13506,8 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
    tolua_function(tolua_S,"getIsEnablePass",tolua_api_TLSeamlessMap_getIsEnablePass00);
    tolua_function(tolua_S,"setIsEnablePlant",tolua_api_TLSeamlessMap_setIsEnablePlant00);
    tolua_function(tolua_S,"getIsEnablePlant",tolua_api_TLSeamlessMap_getIsEnablePlant00);
+   tolua_function(tolua_S,"setIsEnableFillWater",tolua_api_TLSeamlessMap_setIsEnableFillWater00);
+   tolua_function(tolua_S,"getIsEnableFillWater",tolua_api_TLSeamlessMap_getIsEnableFillWater00);
    tolua_function(tolua_S,"getBlockRow",tolua_api_TLSeamlessMap_getBlockRow00);
    tolua_function(tolua_S,"getBlockCol",tolua_api_TLSeamlessMap_getBlockCol00);
    tolua_function(tolua_S,"getGridWidth",tolua_api_TLSeamlessMap_getGridWidth00);

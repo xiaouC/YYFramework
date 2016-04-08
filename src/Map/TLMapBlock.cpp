@@ -19,6 +19,7 @@ TLMapBlock::TLMapBlock( const std::string& strMapBlockFile )
 
 	m_pSelectedSprite = NULL;
 	m_pSelMarkSprite = MCLoader::sharedMCLoader()->loadSprite( "images/selected.png" );
+    m_pSelMarkSprite->setVisible( false );
 	m_kSelMarkSize = m_pSelMarkSprite->getContentSize();
 	addChild( m_pSelMarkSprite, 1024 );
 
@@ -188,6 +189,8 @@ bool TLMapBlock::init()
 
     ags.SerializeToString( &m_strAllGridStates );
 
+    recreateGridLine();
+
     return true;
 }
 
@@ -286,6 +289,46 @@ void TLMapBlock::setIsEnablePlant( float world_x, float world_y, bool bIsEnable 
 }
 
 bool TLMapBlock::getIsEnablePlant( float world_x, float world_y )
+{
+    convertLocal( world_x, world_y );
+
+    return getIsEnablePlantByIndex( getGridIndex( world_x, world_y ) );
+}
+
+void TLMapBlock::setIsEnableFillWaterByIndex( int nIndex, bool bIsEnable )
+{
+    if( nIndex < 0 || nIndex >= (int)m_vecGridStates.size() )
+        return;
+
+    GridInfo* pGridInfo = m_vecGridStates[nIndex];
+
+    if( bIsEnable )
+    {
+        pGridInfo->nState |= TL_GRID_FLAG_FILL_WATER;
+    }
+    else
+    {
+        pGridInfo->nState &= (~TL_GRID_FLAG_FILL_WATER);
+    }
+}
+
+bool TLMapBlock::getIsEnableFillWaterByIndex( int nIndex ) const
+{
+    if( nIndex < 0 || nIndex >= (int)m_vecGridStates.size() )
+        return false;
+
+    GridInfo* pGridInfo = m_vecGridStates[nIndex];
+	return ( pGridInfo->nState & TL_GRID_FLAG_FILL_WATER ) ? true : false;
+}
+
+void TLMapBlock::setIsEnableFillWater( float world_x, float world_y, bool bIsEnable )
+{
+    convertLocal( world_x, world_y );
+
+    setIsEnablePlantByIndex( getGridIndex( world_x, world_y ), bIsEnable );
+}
+
+bool TLMapBlock::getIsEnableFillWater( float world_x, float world_y )
 {
     convertLocal( world_x, world_y );
 
