@@ -7,6 +7,7 @@ enum TL_GRID_FLAG
 {
 	TL_GRID_FLAG_PASS				    = 0x00000001,					// 能否通行
 	TL_GRID_FLAG_PLANT				    = 0x00000002,					// 能否种植
+    TL_GRID_FLAG_FILL_WATER             = 0x00000003,                   // 能否取水
 };
 
 USING_NS_CC;

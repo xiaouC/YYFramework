@@ -396,6 +396,8 @@ bool TLSeamlessMap::getIsEnablePass( float world_x, float world_y )
     TLMapBlock* pMapBlock = getMapBlock( world_x, world_y );
     if( pMapBlock != NULL )
         return pMapBlock->getIsEnablePass( world_x, world_y );
+
+    return false;
 }
 
 void TLSeamlessMap::setIsEnablePlant( float world_x, float world_y, bool bIsEnable )
@@ -410,6 +412,8 @@ bool TLSeamlessMap::getIsEnablePlant( float world_x, float world_y )
     TLMapBlock* pMapBlock = getMapBlock( world_x, world_y );
     if( pMapBlock != NULL )
         return pMapBlock->getIsEnablePlant( world_x, world_y );
+
+    return false;
 }
 
 void TLSeamlessMap::addBlock( const std::string& strBlockName, float x, float y )

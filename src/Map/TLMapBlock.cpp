@@ -562,8 +562,19 @@ void TLMapBlock::create( int nRow, int nCol, int nWidth, int nHeight )
     m_nWidth = nWidth;
     m_nHeight = nHeight;
 
+    m_vecGridStates.reserve( nRow * nCol );
+
     int nGridState = TL_GRID_FLAG_PLANT | TL_GRID_FLAG_PASS;
-    m_vecGridStates.resize( nRow * nCol, nGridState );
+    for( int i=0; i < m_nRow; ++i )
+    {
+        for( int j=0; j < m_nCol; ++j )
+        {
+            GridInfo* pGridInfo = new GridInfo;
+            pGridInfo->nState = nGridState;
+
+            m_vecGridStates.push_back( pGridInfo );
+        }
+    }
 
     // 重新生成网格
     recreateGridLine();

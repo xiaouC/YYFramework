@@ -13260,6 +13260,9 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
    tolua_function(tolua_S,"setCustomUniformsEx",tolua_api_TLRenderNode_setCustomUniformsEx00);
    tolua_function(tolua_S,"setRenderSize",tolua_api_TLRenderNode_setRenderSize00);
   tolua_endmodule(tolua_S);
+  tolua_constant(tolua_S,"TL_GRID_FLAG_PASS",TL_GRID_FLAG_PASS);
+  tolua_constant(tolua_S,"TL_GRID_FLAG_PLANT",TL_GRID_FLAG_PLANT);
+  tolua_constant(tolua_S,"TL_GRID_FLAG_FILL_WATER",TL_GRID_FLAG_FILL_WATER);
   tolua_cclass(tolua_S,"TLMapBlock","TLMapBlock","CCNode",NULL);
   tolua_beginmodule(tolua_S,"TLMapBlock");
    tolua_function(tolua_S,"create",tolua_api_TLMapBlock_create00);
