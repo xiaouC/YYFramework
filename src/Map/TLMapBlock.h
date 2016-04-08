@@ -83,9 +83,9 @@ public:
 
 	void setSelectSprite( CCSprite* pSprite );
 
-    void recreateGridLine();
-    void setIsShowGirdLine( bool bIsShow );
-    bool getIsShowGridLine() const { return m_bShowGridLine; }
+    //void recreateGridLine();
+    //void setIsShowGirdLine( bool bIsShow );
+    //bool getIsShowGridLine() const { return m_bShowGridLine; }
 
 protected:
     std::string m_strMaterial;
@@ -104,7 +104,11 @@ protected:
 	CCSize m_kSelMarkSize;
 	CCSprite* m_pSelMarkSprite;
 
+#endif
+    void recreateGridLine();
+    void setIsShowGirdLine( bool bIsShow );
+    bool getIsShowGridLine() const { return m_bShowGridLine; }
+
     bool m_bShowGridLine;
     CCSpriteBatchNode* m_pGridBatchNode;
-#endif
 };

@@ -14,6 +14,12 @@ TLMapBlock::TLMapBlock( const std::string& strMapBlockFile )
 	m_nWidth = 0;
 	m_nHeight = 0;
 
+    m_bShowGridLine = true;
+
+	CCTexture2D* pGridTexture = MCLoader::sharedMCLoader()->loadTexture( GRID_SPRITE_FILE );
+    m_pGridBatchNode = CCSpriteBatchNode::createWithTexture( pGridTexture );
+    addChild( m_pGridBatchNode, 10000 );
+
 #if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
     m_strMapBlockFile = strMapBlockFile;
 
@@ -23,11 +29,6 @@ TLMapBlock::TLMapBlock( const std::string& strMapBlockFile )
 	m_kSelMarkSize = m_pSelMarkSprite->getContentSize();
 	addChild( m_pSelMarkSprite, 1024 );
 
-    m_bShowGridLine = true;
-
-	CCTexture2D* pGridTexture = MCLoader::sharedMCLoader()->loadTexture( GRID_SPRITE_FILE );
-    m_pGridBatchNode = CCSpriteBatchNode::createWithTexture( pGridTexture );
-    addChild( m_pGridBatchNode, 10000 );
 #else
     if( strMapBlockFile.find( "./" ) != std::string::npos )
     {
@@ -623,6 +624,7 @@ void TLMapBlock::create( int nRow, int nCol, int nWidth, int nHeight )
     recreateGridLine();
 }
 
+#endif
 void TLMapBlock::recreateGridLine()
 {
     float fHalfTotalWidth = m_nCol * m_nWidth * 0.5f;
@@ -651,4 +653,3 @@ void TLMapBlock::setIsShowGirdLine( bool bIsShow )
     m_bShowGridLine = bIsShow;
     m_pGridBatchNode->setVisible( bIsShow );
 }
-#endif
