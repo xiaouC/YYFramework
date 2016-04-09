@@ -57,7 +57,7 @@ protected:
     // 下面的是编辑器独有的
 #if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
 public:
-    static bool newMapBlock( const std::string& strMapBlockFile, int nRow, int nCol, int nGridWidth, int nGridHeight, const std::string& strMaterial );
+    static bool newMapBlock( const std::string& strMapBlockFile, const std::string& strBlockName, int nRow, int nCol, int nGridWidth, int nGridHeight, const std::string& strMaterial );
 
     void create( int nRow, int nCol, int nWidth, int nHeight );
     void save();
@@ -65,23 +65,17 @@ public:
     void setMaterial( const std::string& strMaterial );
 
     // sprite
-	CCSprite* addSprite( const std::string& strFileName, float x, float y );
-	void removeSprite( CCSprite* pSprite );
-	void moveSprite( CCSprite* pSprite, float mv_x, float mv_y );
-	void scaleSprite( CCSprite* pSprite, float scale );
-	void rotateSprite( CCSprite* pSprite, float rotation );
-
-    // 
-    CCSprite* hitSprite( float x, float y );
-
+	CCNode* addSprite( const std::string& strFileName, float x, float y );
     // model
 	CCNode* addModel( const std::string& strFileName, float x, float y );
-	void removeModel( CCNode* pkModel );
-	void moveModel( CCNode* pkModel, float mv_x, float mv_y );
-	void scaleModel( CCNode* pkModel, float scale );
-	void rotateModel( CCNode* pkModel, float rotation );
-	void setModelOffset( CCNode* pkModel, float offset_x, float offset_y );
 
+	void removeObject( CCNode* pkNode );
+	void moveObject( CCNode* pkNode, float mv_x, float mv_y );
+	void scaleObject( CCNode* pkNode, float scale );
+	void rotateObject( CCNode* pkNode, float rotation );
+	void setObjectOffset( CCNode* pkNode, float offset_x, float offset_y );
+
+    CCNode* hitSprite( float x, float y );
     CCNode* hitModel( float x, float y );
 
 	void setSelectedObject( CCNode* pkSelObj );
@@ -91,10 +85,11 @@ public:
     //bool getIsShowGridLine() const { return m_bShowGridLine; }
 
 protected:
+	std::string m_strBlockName;
     std::string m_strMaterial;
 
     struct SpriteInfo {
-        CCSprite*       pSprite;
+        CCNode*         pSprite;
         std::string     strFileName;
         float           x, y;
         float           scale;

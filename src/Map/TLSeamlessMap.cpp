@@ -59,10 +59,10 @@ TLSeamlessMap* TLSeamlessMap::create( const std::string& strSeamlessMapFile, flo
 }
 
 #if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
-bool TLSeamlessMap::newSeamlessMap( const std::string& strSeamlessMapFile, int nBlockRow, int nBlockCol, int nGridWidth, int nGridHeight, const std::string& strMaterial )
+bool TLSeamlessMap::newSeamlessMap( const std::string& strSeamlessMapFile, const std::string& strBlockName, int nBlockRow, int nBlockCol, int nGridWidth, int nGridHeight, const std::string& strMaterial )
 {
     std::string strFirstBlockFileName = strSeamlessMapFile + ".mb";
-    if( !TLMapBlock::newMapBlock( strFirstBlockFileName, nBlockRow, nBlockCol, nGridWidth, nGridHeight, strMaterial ) )
+    if( !TLMapBlock::newMapBlock( strFirstBlockFileName, strBlockName, nBlockRow, nBlockCol, nGridWidth, nGridHeight, strMaterial ) )
         return false;
 
     std::string strSMFileName = strSeamlessMapFile + ".sm";

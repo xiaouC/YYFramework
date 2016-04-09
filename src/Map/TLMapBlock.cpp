@@ -62,13 +62,14 @@ TLMapBlock* TLMapBlock::create( const std::string& strFileName )
 }
 
 #if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
-bool TLMapBlock::newMapBlock( const std::string& strMapBlockFile, int nRow, int nCol, int nGridWidth, int nGridHeight, const std::string& strMaterial )
+bool TLMapBlock::newMapBlock( const std::string& strMapBlockFile, const std::string& strBlockName, int nRow, int nCol, int nGridWidth, int nGridHeight, const std::string& strMaterial )
 {
     FILE* fp = fopen( strMapBlockFile.c_str(), "wb" );
     if( fp == NULL )
         return false;
 
     framework::MapBlock mbData;
+	mbData.set_name( strBlockName );
     mbData.set_row( nRow );
     mbData.set_col( nCol );
     mbData.set_width( nGridWidth );
@@ -109,6 +110,7 @@ bool TLMapBlock::init()
 	delete[] pBuffer;
 
     // 
+	m_strBlockName = mbData.name();
     m_nRow = mbData.row();
     m_nCol = mbData.col();
     m_nWidth = mbData.width();
@@ -162,9 +164,9 @@ bool TLMapBlock::init()
             const framework::ModelInfo& mi = mbData.models( i );
 
             CCNode* pkModel = addModel( mi.model_file(), mi.x(), mi.y() );
-            scaleModel( pkModel, mi.scale() );
-            rotateModel( pkModel, mi.rotation() );
-            setModelOffset( pkModel, mi.offset_x(), mi.offset_y() );
+            scaleObject( pkModel, mi.scale() );
+            rotateObject( pkModel, mi.rotation() );
+            setObjectOffset( pkModel, mi.offset_x(), mi.offset_y() );
         }
 
         setSelectedObject( NULL );
@@ -324,8 +326,8 @@ int TLMapBlock::getGridIndex( float x, float y )
     int nBlockWidth = m_nWidth * m_nCol;
     int nBlockHeight = m_nHeight * m_nRow;
 
-    int nCol = ( nBlockWidth * 0.5 + x ) / m_nWidth;
-    int nRow = ( nBlockHeight * 0.5 - y ) / m_nHeight;
+    int nCol = (int)( ( nBlockWidth * 0.5 + x ) / m_nWidth );
+    int nRow = (int)( ( nBlockHeight * 0.5 - y ) / m_nHeight );
 
     return nRow * m_nCol + nCol;
 }
@@ -350,16 +352,16 @@ void TLMapBlock::updateMaterial( const std::string& strMaterial, int nBlockWidth
     m_pMaterialBatchNode->addChild( pFirstMaterialSprite );
     const CCSize& size = pFirstMaterialSprite->getContentSize();
 
-    int nRowCount = nBlockHeight / size.height;
+    int nRowCount = (int)( nBlockHeight / size.height );
     if( nRowCount * size.height < nBlockHeight )
         nRowCount = nRowCount + 1;
 
-    int nColCount = nBlockWidth / size.width;
+    int nColCount = (int)( nBlockWidth / size.width );
     if( nColCount * size.width < nBlockWidth )
         nColCount = nColCount + 1;
 
-    int nRealWidth = nColCount * size.width;
-    int nRealHeight = nRowCount * size.height;
+    int nRealWidth = (int)( nColCount * size.width );
+    int nRealHeight = (int)( nRowCount * size.height );
 
     float x = ( size.width - nRealWidth ) * 0.5f;
     float y = ( nRealHeight - size.height ) * 0.5f;
@@ -389,6 +391,7 @@ void TLMapBlock::save()
     if( fp != NULL )
     {
         framework::MapBlock mbData;
+		mbData.set_name( m_strBlockName );
         mbData.set_row( m_nRow );
         mbData.set_col( m_nCol );
         mbData.set_width( m_nWidth );
@@ -443,7 +446,7 @@ void TLMapBlock::setMaterial( const std::string& strMaterial )
     updateMaterial( strMaterial, m_nCol * m_nWidth, m_nRow * m_nHeight );
 }
 
-CCSprite* TLMapBlock::addSprite( const std::string& strFileName, float x, float y )
+CCNode* TLMapBlock::addSprite( const std::string& strFileName, float x, float y )
 {
     CCSprite* pRetSprite = MCLoader::sharedMCLoader()->loadSprite( strFileName.c_str() );
 	if( pRetSprite != NULL )
@@ -468,85 +471,10 @@ CCSprite* TLMapBlock::addSprite( const std::string& strFileName, float x, float 
 	return pRetSprite;
 }
 
-void TLMapBlock::removeSprite( CCSprite* pSprite )
-{
-    std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
-    std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
-    for( ; iter != iter_end; ++iter )
-    {
-        SpriteInfo* pSpriteInfo = (*iter);
-        if( pSpriteInfo->pSprite == pSprite )
-        {
-            pSprite->removeFromParentAndCleanup( true );
-
-            m_listAllSprites.erase( iter );
-
-			setSelectedObject( NULL );
-
-            return;
-        }
-    }
-}
-
-void TLMapBlock::moveSprite( CCSprite* pSprite, float mv_x, float mv_y )
-{
-    std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
-    std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
-    for( ; iter != iter_end; ++iter )
-    {
-        SpriteInfo* pSpriteInfo = (*iter);
-        if( pSpriteInfo->pSprite == pSprite )
-        {
-            pSpriteInfo->x = pSpriteInfo->x + mv_x;
-            pSpriteInfo->y = pSpriteInfo->y + mv_y;
-            pSpriteInfo->pSprite->setPosition( CCPoint( pSpriteInfo->x, pSpriteInfo->y ) );
-
-			m_pSelMarkSprite->setPositionX( pSprite->getPositionX() );
-			m_pSelMarkSprite->setPositionY( pSprite->getPositionY() );
-
-            return;
-        }
-    }
-}
-
-void TLMapBlock::scaleSprite( CCSprite* pSprite, float scale )
-{
-    std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
-    std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
-    for( ; iter != iter_end; ++iter )
-    {
-        SpriteInfo* pSpriteInfo = (*iter);
-        if( pSpriteInfo->pSprite == pSprite )
-        {
-            pSpriteInfo->scale *= scale;
-            pSpriteInfo->pSprite->setScale( pSpriteInfo->scale );
-
-            return;
-        }
-    }
-}
-
-void TLMapBlock::rotateSprite( CCSprite* pSprite, float rotation )
-{
-    std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
-    std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
-    for( ; iter != iter_end; ++iter )
-    {
-        SpriteInfo* pSpriteInfo = (*iter);
-        if( pSpriteInfo->pSprite == pSprite )
-        {
-            pSpriteInfo->rotation += rotation;
-            pSpriteInfo->pSprite->setRotation( pSpriteInfo->rotation );
-
-            return;
-        }
-    }
-}
-
-CCSprite* TLMapBlock::hitSprite( float x, float y )
+CCNode* TLMapBlock::hitSprite( float x, float y )
 {
     int nZOrder = -9999999;
-    CCSprite* pRetSprite = NULL;
+    CCNode* pRetSprite = NULL;
 
     std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
     std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
@@ -601,18 +529,35 @@ CCNode* TLMapBlock::addModel( const std::string& strFileName, float x, float y )
 	return pkRetModel;
 }
 
-void TLMapBlock::removeModel( CCNode* pkModel )
+void TLMapBlock::removeObject( CCNode* pkNode )
 {
-    std::list<ModelInfo*>::iterator iter = m_listAllModels.begin();
-    std::list<ModelInfo*>::iterator iter_end = m_listAllModels.end();
-    for( ; iter != iter_end; ++iter )
+    std::list<ModelInfo*>::iterator iter1 = m_listAllModels.begin();
+    std::list<ModelInfo*>::iterator iter1_end = m_listAllModels.end();
+    for( ; iter1 != iter1_end; ++iter1 )
     {
-        ModelInfo* pkModelInfo = (*iter);
-        if( pkModelInfo->pkModelNode == pkModel )
+        ModelInfo* pkModelInfo = (*iter1);
+        if( pkModelInfo->pkModelNode == pkNode )
         {
-            pkModel->removeFromParentAndCleanup( true );
+            pkNode->removeFromParentAndCleanup( true );
 
-            m_listAllModels.erase( iter );
+            m_listAllModels.erase( iter1 );
+
+			setSelectedObject( NULL );
+
+            return;
+        }
+    }
+
+	std::list<SpriteInfo*>::iterator iter2 = m_listAllSprites.begin();
+    std::list<SpriteInfo*>::iterator iter2_end = m_listAllSprites.end();
+    for( ; iter2 != iter2_end; ++iter2 )
+    {
+        SpriteInfo* pSpriteInfo = (*iter2);
+        if( pSpriteInfo->pSprite == pkNode )
+        {
+            pkNode->removeFromParentAndCleanup( true );
+
+            m_listAllSprites.erase( iter2 );
 
 			setSelectedObject( NULL );
 
@@ -621,77 +566,123 @@ void TLMapBlock::removeModel( CCNode* pkModel )
     }
 }
 
-void TLMapBlock::moveModel( CCNode* pkModel, float mv_x, float mv_y )
+void TLMapBlock::moveObject( CCNode* pkNode, float mv_x, float mv_y )
 {
-    std::list<ModelInfo*>::iterator iter = m_listAllModels.begin();
-    std::list<ModelInfo*>::iterator iter_end = m_listAllModels.end();
-    for( ; iter != iter_end; ++iter )
+    std::list<ModelInfo*>::iterator iter1 = m_listAllModels.begin();
+    std::list<ModelInfo*>::iterator iter1_end = m_listAllModels.end();
+    for( ; iter1 != iter1_end; ++iter1 )
     {
-        ModelInfo* pkModelInfo = (*iter);
-        if( pkModelInfo->pkModelNode == pkModel )
+        ModelInfo* pkModelInfo = (*iter1);
+        if( pkModelInfo->pkModelNode == pkNode )
         {
             pkModelInfo->x = pkModelInfo->x + mv_x;
             pkModelInfo->y = pkModelInfo->y + mv_y;
-            pkModel->setPosition( CCPoint( pkModelInfo->x + pkModelInfo->offset_x, pkModelInfo->y + pkModelInfo->offset_y ) );
-            reorderChild( pkModel, (int)pkModelInfo->y );
+            pkNode->setPosition( CCPoint( pkModelInfo->x + pkModelInfo->offset_x, pkModelInfo->y + pkModelInfo->offset_y ) );
+            reorderChild( pkNode, (int)pkModelInfo->y );
 
-			m_pSelectedNode->setPositionX( pkModel->getPositionX() );
-			m_pSelectedNode->setPositionY( pkModel->getPositionY() );
+			m_pSelectedNode->setPositionX( pkNode->getPositionX() );
+			m_pSelectedNode->setPositionY( pkNode->getPositionY() );
+
+            return;
+        }
+    }
+
+	std::list<SpriteInfo*>::iterator iter2 = m_listAllSprites.begin();
+    std::list<SpriteInfo*>::iterator iter2_end = m_listAllSprites.end();
+    for( ; iter2 != iter2_end; ++iter2 )
+    {
+        SpriteInfo* pSpriteInfo = (*iter2);
+        if( pSpriteInfo->pSprite == pkNode )
+        {
+            pSpriteInfo->x = pSpriteInfo->x + mv_x;
+            pSpriteInfo->y = pSpriteInfo->y + mv_y;
+            pkNode->setPosition( CCPoint( pSpriteInfo->x, pSpriteInfo->y ) );
+
+			m_pSelMarkSprite->setPositionX( pkNode->getPositionX() );
+			m_pSelMarkSprite->setPositionY( pkNode->getPositionY() );
 
             return;
         }
     }
 }
 
-void TLMapBlock::scaleModel( CCNode* pkModel, float scale )
+void TLMapBlock::scaleObject( CCNode* pkNode, float scale )
 {
-    std::list<ModelInfo*>::iterator iter = m_listAllModels.begin();
-    std::list<ModelInfo*>::iterator iter_end = m_listAllModels.end();
-    for( ; iter != iter_end; ++iter )
+    std::list<ModelInfo*>::iterator iter1 = m_listAllModels.begin();
+    std::list<ModelInfo*>::iterator iter1_end = m_listAllModels.end();
+    for( ; iter1 != iter1_end; ++iter1 )
     {
-        ModelInfo* pkModelInfo = (*iter);
-        if( pkModelInfo->pkModelNode == pkModel )
+        ModelInfo* pkModelInfo = (*iter1);
+        if( pkModelInfo->pkModelNode == pkNode )
         {
             pkModelInfo->scale *= scale;
-            pkModel->setScale( pkModelInfo->scale );
+            pkNode->setScale( pkModelInfo->scale );
 
             return;
         }
     }
-}
 
-void TLMapBlock::rotateModel( CCNode* pkModel, float rotation )
-{
-    std::list<ModelInfo*>::iterator iter = m_listAllModels.begin();
-    std::list<ModelInfo*>::iterator iter_end = m_listAllModels.end();
-    for( ; iter != iter_end; ++iter )
+	std::list<SpriteInfo*>::iterator iter2 = m_listAllSprites.begin();
+    std::list<SpriteInfo*>::iterator iter2_end = m_listAllSprites.end();
+    for( ; iter2 != iter2_end; ++iter2 )
     {
-        ModelInfo* pkModelInfo = (*iter);
-        if( pkModelInfo->pkModelNode == pkModel )
+        SpriteInfo* pSpriteInfo = (*iter2);
+        if( pSpriteInfo->pSprite == pkNode )
         {
-            pkModelInfo->rotation += rotation;
-            pkModel->setRotation( pkModelInfo->rotation );
+            pSpriteInfo->scale *= scale;
+            pkNode->setScale( pSpriteInfo->scale );
 
             return;
         }
     }
 }
 
-void TLMapBlock::setModelOffset( CCNode* pkModel, float offset_x, float offset_y )
+void TLMapBlock::rotateObject( CCNode* pkNode, float rotation )
+{
+    std::list<ModelInfo*>::iterator iter1 = m_listAllModels.begin();
+    std::list<ModelInfo*>::iterator iter1_end = m_listAllModels.end();
+    for( ; iter1 != iter1_end; ++iter1 )
+    {
+        ModelInfo* pkModelInfo = (*iter1);
+        if( pkModelInfo->pkModelNode == pkNode )
+        {
+            pkModelInfo->rotation = rotation;
+            pkNode->setRotation( pkModelInfo->rotation );
+
+            return;
+        }
+    }
+
+	std::list<SpriteInfo*>::iterator iter2 = m_listAllSprites.begin();
+    std::list<SpriteInfo*>::iterator iter2_end = m_listAllSprites.end();
+    for( ; iter2 != iter2_end; ++iter2 )
+    {
+        SpriteInfo* pSpriteInfo = (*iter2);
+        if( pSpriteInfo->pSprite == pkNode )
+        {
+            pSpriteInfo->rotation = rotation;
+            pkNode->setRotation( pSpriteInfo->rotation );
+
+            return;
+        }
+    }
+}
+
+void TLMapBlock::setObjectOffset( CCNode* pkNode, float offset_x, float offset_y )
 {
     std::list<ModelInfo*>::iterator iter = m_listAllModels.begin();
     std::list<ModelInfo*>::iterator iter_end = m_listAllModels.end();
     for( ; iter != iter_end; ++iter )
     {
         ModelInfo* pkModelInfo = (*iter);
-        if( pkModelInfo->pkModelNode == pkModel )
+        if( pkModelInfo->pkModelNode == pkNode )
         {
             pkModelInfo->offset_x = offset_x;
             pkModelInfo->offset_y = offset_y;
-            pkModel->setPosition( CCPoint( pkModelInfo->x + pkModelInfo->offset_x, pkModelInfo->y + pkModelInfo->offset_y ) );
+            pkNode->setPosition( CCPoint( pkModelInfo->x + pkModelInfo->offset_x, pkModelInfo->y + pkModelInfo->offset_y ) );
 
-			m_pSelectedNode->setPositionX( pkModel->getPositionX() );
-			m_pSelectedNode->setPositionY( pkModel->getPositionY() );
+			m_pSelectedNode->setPositionX( pkNode->getPositionX() );
+			m_pSelectedNode->setPositionY( pkNode->getPositionY() );
 
             return;
         }
