@@ -74,6 +74,8 @@ public:
 
     virtual void setViewPortInPoints(float x , float y , float w , float h);
     virtual void setScissorInPoints(float x , float y , float w , float h);
+
+    bool getIsEditorMode() const { return m_bEditorMode; }
     
     // static function
     /**

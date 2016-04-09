@@ -13,9 +13,6 @@ class TLMapBlock : public CCNode
 {
     static TLMapBlock* create( const std::string& strFileName );
 
-    const char* getAllGridStateBuffer() const;
-    int getAllGridStateLength() const;
-
     void setIsEnablePassByIndex( int nIndex, bool bIsEnable );
     bool getIsEnablePassByIndex( int nIndex ) const ;
     void setIsEnablePass( float x, float y, bool bIsEnable );

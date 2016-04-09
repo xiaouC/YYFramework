@@ -13,8 +13,7 @@
 namespace framework {
 
 void protobuf_ShutdownFile_map_2eproto() {
-  delete GridInfo::default_instance_;
-  delete AllGridState::default_instance_;
+  delete ModelInfo::default_instance_;
   delete SpriteInfo::default_instance_;
   delete MapBlock::default_instance_;
   delete BlockInfo::default_instance_;
@@ -27,14 +26,12 @@ void protobuf_AddDesc_map_2eproto() {
   already_here = true;
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-  GridInfo::default_instance_ = new GridInfo();
-  AllGridState::default_instance_ = new AllGridState();
+  ModelInfo::default_instance_ = new ModelInfo();
   SpriteInfo::default_instance_ = new SpriteInfo();
   MapBlock::default_instance_ = new MapBlock();
   BlockInfo::default_instance_ = new BlockInfo();
   SeamlessMap::default_instance_ = new SeamlessMap();
-  GridInfo::default_instance_->InitAsDefaultInstance();
-  AllGridState::default_instance_->InitAsDefaultInstance();
+  ModelInfo::default_instance_->InitAsDefaultInstance();
   SpriteInfo::default_instance_->InitAsDefaultInstance();
   MapBlock::default_instance_->InitAsDefaultInstance();
   BlockInfo::default_instance_->InitAsDefaultInstance();
@@ -53,98 +50,193 @@ struct StaticDescriptorInitializer_map_2eproto {
 // ===================================================================
 
 #ifndef _MSC_VER
-const int GridInfo::kStateFieldNumber;
-const int GridInfo::kFileFieldNumber;
+const int ModelInfo::kModelFileFieldNumber;
+const int ModelInfo::kXFieldNumber;
+const int ModelInfo::kYFieldNumber;
+const int ModelInfo::kOffsetXFieldNumber;
+const int ModelInfo::kOffsetYFieldNumber;
+const int ModelInfo::kScaleFieldNumber;
+const int ModelInfo::kRotationFieldNumber;
 #endif  // !_MSC_VER
 
-GridInfo::GridInfo()
+ModelInfo::ModelInfo()
   : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
-void GridInfo::InitAsDefaultInstance() {
+void ModelInfo::InitAsDefaultInstance() {
 }
 
-GridInfo::GridInfo(const GridInfo& from)
+ModelInfo::ModelInfo(const ModelInfo& from)
   : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
 
-void GridInfo::SharedCtor() {
+void ModelInfo::SharedCtor() {
   _cached_size_ = 0;
-  state_ = 0;
-  file_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  model_file_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  x_ = 0;
+  y_ = 0;
+  offset_x_ = 0;
+  offset_y_ = 0;
+  scale_ = 0;
+  rotation_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
-GridInfo::~GridInfo() {
+ModelInfo::~ModelInfo() {
   SharedDtor();
 }
 
-void GridInfo::SharedDtor() {
-  if (file_ != &::google::protobuf::internal::kEmptyString) {
-    delete file_;
+void ModelInfo::SharedDtor() {
+  if (model_file_ != &::google::protobuf::internal::kEmptyString) {
+    delete model_file_;
   }
   if (this != default_instance_) {
   }
 }
 
-void GridInfo::SetCachedSize(int size) const {
+void ModelInfo::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const GridInfo& GridInfo::default_instance() {
+const ModelInfo& ModelInfo::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_map_2eproto();  return *default_instance_;
 }
 
-GridInfo* GridInfo::default_instance_ = NULL;
+ModelInfo* ModelInfo::default_instance_ = NULL;
 
-GridInfo* GridInfo::New() const {
-  return new GridInfo;
+ModelInfo* ModelInfo::New() const {
+  return new ModelInfo;
 }
 
-void GridInfo::Clear() {
+void ModelInfo::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    state_ = 0;
-    if (has_file()) {
-      if (file_ != &::google::protobuf::internal::kEmptyString) {
-        file_->clear();
+    if (has_model_file()) {
+      if (model_file_ != &::google::protobuf::internal::kEmptyString) {
+        model_file_->clear();
       }
     }
+    x_ = 0;
+    y_ = 0;
+    offset_x_ = 0;
+    offset_y_ = 0;
+    scale_ = 0;
+    rotation_ = 0;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
-bool GridInfo::MergePartialFromCodedStream(
+bool ModelInfo::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) return false
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required int32 state = 1;
+      // required string model_file = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &state_)));
-          set_has_state();
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_model_file()));
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(18)) goto parse_file;
+        if (input->ExpectTag(21)) goto parse_x;
         break;
       }
       
-      // optional string file = 2;
+      // required float x = 2;
       case 2: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_file:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_file()));
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_x:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &x_)));
+          set_has_x();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(29)) goto parse_y;
+        break;
+      }
+      
+      // required float y = 3;
+      case 3: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_y:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &y_)));
+          set_has_y();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(37)) goto parse_offset_x;
+        break;
+      }
+      
+      // required float offset_x = 4;
+      case 4: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_offset_x:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &offset_x_)));
+          set_has_offset_x();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(45)) goto parse_offset_y;
+        break;
+      }
+      
+      // required float offset_y = 5;
+      case 5: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_offset_y:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &offset_y_)));
+          set_has_offset_y();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(53)) goto parse_scale;
+        break;
+      }
+      
+      // required float scale = 6;
+      case 6: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_scale:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &scale_)));
+          set_has_scale();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(61)) goto parse_rotation;
+        break;
+      }
+      
+      // required float rotation = 7;
+      case 7: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_rotation:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &rotation_)));
+          set_has_rotation();
         } else {
           goto handle_uninterpreted;
         }
@@ -167,37 +259,85 @@ bool GridInfo::MergePartialFromCodedStream(
 #undef DO_
 }
 
-void GridInfo::SerializeWithCachedSizes(
+void ModelInfo::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required int32 state = 1;
-  if (has_state()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->state(), output);
+  // required string model_file = 1;
+  if (has_model_file()) {
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      1, this->model_file(), output);
   }
   
-  // optional string file = 2;
-  if (has_file()) {
-    ::google::protobuf::internal::WireFormatLite::WriteString(
-      2, this->file(), output);
+  // required float x = 2;
+  if (has_x()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(2, this->x(), output);
+  }
+  
+  // required float y = 3;
+  if (has_y()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->y(), output);
+  }
+  
+  // required float offset_x = 4;
+  if (has_offset_x()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(4, this->offset_x(), output);
+  }
+  
+  // required float offset_y = 5;
+  if (has_offset_y()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(5, this->offset_y(), output);
+  }
+  
+  // required float scale = 6;
+  if (has_scale()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(6, this->scale(), output);
+  }
+  
+  // required float rotation = 7;
+  if (has_rotation()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(7, this->rotation(), output);
   }
   
 }
 
-int GridInfo::ByteSize() const {
+int ModelInfo::ByteSize() const {
   int total_size = 0;
   
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required int32 state = 1;
-    if (has_state()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-          this->state());
-    }
-    
-    // optional string file = 2;
-    if (has_file()) {
+    // required string model_file = 1;
+    if (has_model_file()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->file());
+          this->model_file());
+    }
+    
+    // required float x = 2;
+    if (has_x()) {
+      total_size += 1 + 4;
+    }
+    
+    // required float y = 3;
+    if (has_y()) {
+      total_size += 1 + 4;
+    }
+    
+    // required float offset_x = 4;
+    if (has_offset_x()) {
+      total_size += 1 + 4;
+    }
+    
+    // required float offset_y = 5;
+    if (has_offset_y()) {
+      total_size += 1 + 4;
+    }
+    
+    // required float scale = 6;
+    if (has_scale()) {
+      total_size += 1 + 4;
+    }
+    
+    // required float rotation = 7;
+    if (has_rotation()) {
+      total_size += 1 + 4;
     }
     
   }
@@ -207,200 +347,66 @@ int GridInfo::ByteSize() const {
   return total_size;
 }
 
-void GridInfo::CheckTypeAndMergeFrom(
+void ModelInfo::CheckTypeAndMergeFrom(
     const ::google::protobuf::MessageLite& from) {
-  MergeFrom(*::google::protobuf::down_cast<const GridInfo*>(&from));
+  MergeFrom(*::google::protobuf::down_cast<const ModelInfo*>(&from));
 }
 
-void GridInfo::MergeFrom(const GridInfo& from) {
+void ModelInfo::MergeFrom(const ModelInfo& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_state()) {
-      set_state(from.state());
+    if (from.has_model_file()) {
+      set_model_file(from.model_file());
     }
-    if (from.has_file()) {
-      set_file(from.file());
+    if (from.has_x()) {
+      set_x(from.x());
+    }
+    if (from.has_y()) {
+      set_y(from.y());
+    }
+    if (from.has_offset_x()) {
+      set_offset_x(from.offset_x());
+    }
+    if (from.has_offset_y()) {
+      set_offset_y(from.offset_y());
+    }
+    if (from.has_scale()) {
+      set_scale(from.scale());
+    }
+    if (from.has_rotation()) {
+      set_rotation(from.rotation());
     }
   }
 }
 
-void GridInfo::CopyFrom(const GridInfo& from) {
+void ModelInfo::CopyFrom(const ModelInfo& from) {
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool GridInfo::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+bool ModelInfo::IsInitialized() const {
+  if ((_has_bits_[0] & 0x0000007f) != 0x0000007f) return false;
   
   return true;
 }
 
-void GridInfo::Swap(GridInfo* other) {
+void ModelInfo::Swap(ModelInfo* other) {
   if (other != this) {
-    std::swap(state_, other->state_);
-    std::swap(file_, other->file_);
+    std::swap(model_file_, other->model_file_);
+    std::swap(x_, other->x_);
+    std::swap(y_, other->y_);
+    std::swap(offset_x_, other->offset_x_);
+    std::swap(offset_y_, other->offset_y_);
+    std::swap(scale_, other->scale_);
+    std::swap(rotation_, other->rotation_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::std::string GridInfo::GetTypeName() const {
-  return "framework.GridInfo";
-}
-
-
-// ===================================================================
-
-#ifndef _MSC_VER
-const int AllGridState::kGridStatesFieldNumber;
-#endif  // !_MSC_VER
-
-AllGridState::AllGridState()
-  : ::google::protobuf::MessageLite() {
-  SharedCtor();
-}
-
-void AllGridState::InitAsDefaultInstance() {
-}
-
-AllGridState::AllGridState(const AllGridState& from)
-  : ::google::protobuf::MessageLite() {
-  SharedCtor();
-  MergeFrom(from);
-}
-
-void AllGridState::SharedCtor() {
-  _cached_size_ = 0;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-}
-
-AllGridState::~AllGridState() {
-  SharedDtor();
-}
-
-void AllGridState::SharedDtor() {
-  if (this != default_instance_) {
-  }
-}
-
-void AllGridState::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const AllGridState& AllGridState::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_map_2eproto();  return *default_instance_;
-}
-
-AllGridState* AllGridState::default_instance_ = NULL;
-
-AllGridState* AllGridState::New() const {
-  return new AllGridState;
-}
-
-void AllGridState::Clear() {
-  grid_states_.Clear();
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-}
-
-bool AllGridState::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
-  ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated .framework.GridInfo grid_states = 1;
-      case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_grid_states:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-                input, add_grid_states()));
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectTag(10)) goto parse_grid_states;
-        if (input->ExpectAtEnd()) return true;
-        break;
-      }
-      
-      default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
-        }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
-        break;
-      }
-    }
-  }
-  return true;
-#undef DO_
-}
-
-void AllGridState::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // repeated .framework.GridInfo grid_states = 1;
-  for (int i = 0; i < this->grid_states_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      1, this->grid_states(i), output);
-  }
-  
-}
-
-int AllGridState::ByteSize() const {
-  int total_size = 0;
-  
-  // repeated .framework.GridInfo grid_states = 1;
-  total_size += 1 * this->grid_states_size();
-  for (int i = 0; i < this->grid_states_size(); i++) {
-    total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->grid_states(i));
-  }
-  
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void AllGridState::CheckTypeAndMergeFrom(
-    const ::google::protobuf::MessageLite& from) {
-  MergeFrom(*::google::protobuf::down_cast<const AllGridState*>(&from));
-}
-
-void AllGridState::MergeFrom(const AllGridState& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  grid_states_.MergeFrom(from.grid_states_);
-}
-
-void AllGridState::CopyFrom(const AllGridState& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool AllGridState::IsInitialized() const {
-  
-  for (int i = 0; i < grid_states_size(); i++) {
-    if (!this->grid_states(i).IsInitialized()) return false;
-  }
-  return true;
-}
-
-void AllGridState::Swap(AllGridState* other) {
-  if (other != this) {
-    grid_states_.Swap(&other->grid_states_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
-}
-
-::std::string AllGridState::GetTypeName() const {
-  return "framework.AllGridState";
+::std::string ModelInfo::GetTypeName() const {
+  return "framework.ModelInfo";
 }
 
 
@@ -744,9 +750,10 @@ const int MapBlock::kRowFieldNumber;
 const int MapBlock::kColFieldNumber;
 const int MapBlock::kWidthFieldNumber;
 const int MapBlock::kHeightFieldNumber;
-const int MapBlock::kSpritesFieldNumber;
-const int MapBlock::kGridStatesFieldNumber;
 const int MapBlock::kMaterialFieldNumber;
+const int MapBlock::kGridStatesFieldNumber;
+const int MapBlock::kSpritesFieldNumber;
+const int MapBlock::kModelsFieldNumber;
 #endif  // !_MSC_VER
 
 MapBlock::MapBlock()
@@ -821,8 +828,9 @@ void MapBlock::Clear() {
       }
     }
   }
-  sprites_.Clear();
   grid_states_.Clear();
+  sprites_.Clear();
+  models_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -905,42 +913,12 @@ bool MapBlock::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(50)) goto parse_sprites;
+        if (input->ExpectTag(50)) goto parse_material;
         break;
       }
       
-      // repeated .framework.SpriteInfo sprites = 6;
+      // required string material = 6;
       case 6: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_sprites:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-                input, add_sprites()));
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectTag(50)) goto parse_sprites;
-        if (input->ExpectTag(58)) goto parse_grid_states;
-        break;
-      }
-      
-      // repeated .framework.GridInfo grid_states = 7;
-      case 7: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_grid_states:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-                input, add_grid_states()));
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectTag(58)) goto parse_grid_states;
-        if (input->ExpectTag(66)) goto parse_material;
-        break;
-      }
-      
-      // required string material = 8;
-      case 8: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_material:
@@ -949,6 +927,58 @@ bool MapBlock::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(56)) goto parse_grid_states;
+        break;
+      }
+      
+      // repeated int32 grid_states = 7;
+      case 7: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_grid_states:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 1, 56, input, this->mutable_grid_states())));
+        } else if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag)
+                   == ::google::protobuf::internal::WireFormatLite::
+                      WIRETYPE_LENGTH_DELIMITED) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, this->mutable_grid_states())));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(56)) goto parse_grid_states;
+        if (input->ExpectTag(66)) goto parse_sprites;
+        break;
+      }
+      
+      // repeated .framework.SpriteInfo sprites = 8;
+      case 8: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_sprites:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_sprites()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(66)) goto parse_sprites;
+        if (input->ExpectTag(74)) goto parse_models;
+        break;
+      }
+      
+      // repeated .framework.ModelInfo models = 9;
+      case 9: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_models:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_models()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(74)) goto parse_models;
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -996,22 +1026,28 @@ void MapBlock::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->height(), output);
   }
   
-  // repeated .framework.SpriteInfo sprites = 6;
-  for (int i = 0; i < this->sprites_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      6, this->sprites(i), output);
+  // required string material = 6;
+  if (has_material()) {
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      6, this->material(), output);
   }
   
-  // repeated .framework.GridInfo grid_states = 7;
+  // repeated int32 grid_states = 7;
   for (int i = 0; i < this->grid_states_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(
       7, this->grid_states(i), output);
   }
   
-  // required string material = 8;
-  if (has_material()) {
-    ::google::protobuf::internal::WireFormatLite::WriteString(
-      8, this->material(), output);
+  // repeated .framework.SpriteInfo sprites = 8;
+  for (int i = 0; i < this->sprites_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      8, this->sprites(i), output);
+  }
+  
+  // repeated .framework.ModelInfo models = 9;
+  for (int i = 0; i < this->models_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      9, this->models(i), output);
   }
   
 }
@@ -1055,7 +1091,7 @@ int MapBlock::ByteSize() const {
           this->height());
     }
     
-    // required string material = 8;
+    // required string material = 6;
     if (has_material()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -1063,7 +1099,17 @@ int MapBlock::ByteSize() const {
     }
     
   }
-  // repeated .framework.SpriteInfo sprites = 6;
+  // repeated int32 grid_states = 7;
+  {
+    int data_size = 0;
+    for (int i = 0; i < this->grid_states_size(); i++) {
+      data_size += ::google::protobuf::internal::WireFormatLite::
+        Int32Size(this->grid_states(i));
+    }
+    total_size += 1 * this->grid_states_size() + data_size;
+  }
+  
+  // repeated .framework.SpriteInfo sprites = 8;
   total_size += 1 * this->sprites_size();
   for (int i = 0; i < this->sprites_size(); i++) {
     total_size +=
@@ -1071,12 +1117,12 @@ int MapBlock::ByteSize() const {
         this->sprites(i));
   }
   
-  // repeated .framework.GridInfo grid_states = 7;
-  total_size += 1 * this->grid_states_size();
-  for (int i = 0; i < this->grid_states_size(); i++) {
+  // repeated .framework.ModelInfo models = 9;
+  total_size += 1 * this->models_size();
+  for (int i = 0; i < this->models_size(); i++) {
     total_size +=
       ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->grid_states(i));
+        this->models(i));
   }
   
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
@@ -1092,8 +1138,9 @@ void MapBlock::CheckTypeAndMergeFrom(
 
 void MapBlock::MergeFrom(const MapBlock& from) {
   GOOGLE_CHECK_NE(&from, this);
-  sprites_.MergeFrom(from.sprites_);
   grid_states_.MergeFrom(from.grid_states_);
+  sprites_.MergeFrom(from.sprites_);
+  models_.MergeFrom(from.models_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_name()) {
       set_name(from.name());
@@ -1123,13 +1170,13 @@ void MapBlock::CopyFrom(const MapBlock& from) {
 }
 
 bool MapBlock::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000009f) != 0x0000009f) return false;
+  if ((_has_bits_[0] & 0x0000003f) != 0x0000003f) return false;
   
   for (int i = 0; i < sprites_size(); i++) {
     if (!this->sprites(i).IsInitialized()) return false;
   }
-  for (int i = 0; i < grid_states_size(); i++) {
-    if (!this->grid_states(i).IsInitialized()) return false;
+  for (int i = 0; i < models_size(); i++) {
+    if (!this->models(i).IsInitialized()) return false;
   }
   return true;
 }
@@ -1141,9 +1188,10 @@ void MapBlock::Swap(MapBlock* other) {
     std::swap(col_, other->col_);
     std::swap(width_, other->width_);
     std::swap(height_, other->height_);
-    sprites_.Swap(&other->sprites_);
-    grid_states_.Swap(&other->grid_states_);
     std::swap(material_, other->material_);
+    grid_states_.Swap(&other->grid_states_);
+    sprites_.Swap(&other->sprites_);
+    models_.Swap(&other->models_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }

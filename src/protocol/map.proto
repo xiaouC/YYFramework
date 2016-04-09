@@ -3,15 +3,19 @@ option optimize_for = LITE_RUNTIME;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 一个地图块的数据
-message GridInfo {
-    required        int32           state       = 1;            // 
-    optional        string          file        = 2;            // 在这个格子上的装饰物，可能是草、木头、石头、树头、小树等等
+
+// 地表上的物件模型，会盖住地表装饰物，与人物之间可以相互覆盖，基于 y 来决定谁盖住谁
+message ModelInfo {
+    required        string          model_file  = 1;
+    required        float           x           = 2;    // 坐标最主要用于决定 z_order
+    required        float           y           = 3;
+    required        float           offset_x    = 4;    // 
+    required        float           offset_y    = 5;
+    required        float           scale       = 6;
+    required        float           rotation    = 7;
 }
 
-message AllGridState {
-    repeated        GridInfo        grid_states = 1;
-}
-
+// 地表上的装饰物，会被人物和模型之类的盖住
 message SpriteInfo {
     required        string          file        = 1;
     required        float           x           = 2;
@@ -27,9 +31,10 @@ message MapBlock {
     required        int32           col         = 3;
     required        int32           width       = 4;
     required        int32           height      = 5;
-    repeated        SpriteInfo      sprites     = 6;
-    repeated        GridInfo        grid_states = 7;
-    required        string          material    = 8;            // 地表材质
+    required        string          material    = 6;            // 地表材质
+    repeated        int32           grid_states = 7;            // 地表格子的属性，这是不能改变的属性，动态属性存在玩家身上
+    repeated        SpriteInfo      sprites     = 8;            // 地表装饰物
+    repeated        ModelInfo       models      = 9;            // 地表上的物件模型
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,7 @@
 #include "Map/TLMapBlock.h"
 #include "MC/AssetsManager.h"
 #include "MC/MCLoader.h"
+#include "Common/TLModel.h"
 #include "map.pb.h"
 
 #define GRID_SPRITE_FILE "images/GridLine.png"
@@ -23,7 +24,7 @@ TLMapBlock::TLMapBlock( const std::string& strMapBlockFile )
 #if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX )
     m_strMapBlockFile = strMapBlockFile;
 
-	m_pSelectedSprite = NULL;
+	m_pSelectedNode = NULL;
 	m_pSelMarkSprite = MCLoader::sharedMCLoader()->loadSprite( "images/selected.png" );
     m_pSelMarkSprite->setVisible( false );
 	m_kSelMarkSize = m_pSelMarkSprite->getContentSize();
@@ -73,28 +74,10 @@ bool TLMapBlock::newMapBlock( const std::string& strMapBlockFile, int nRow, int 
     mbData.set_width( nGridWidth );
     mbData.set_height( nGridHeight );
     mbData.set_material( strMaterial );
-
-    //std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
-    //std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
-    //for( ; iter != iter_end; ++iter )
-    //{
-    //    SpriteInfo* pSpriteInfo = (*iter);
-
-    //    framework::SpriteInfo* si = mbData.add_sprites();
-    //    si.set_file( pSpriteInfo->strFileName );
-    //    si.set_x( pSpriteInfo->x );
-    //    si.set_y( pSpriteInfo->y );
-    //    si.set_scale( pSpriteInfo->scale );
-    //    si.set_rotation( pSpriteInfo->rotation );
-    //    si.set_z_order( pSpriteInfo->z_order );
-    //}
     
+    int nGridState = TL_GRID_FLAG_PLANT | TL_GRID_FLAG_PASS;
     for( int i=0; i < nRow * nCol; ++i )
-    {
-        framework::GridInfo* gi = mbData.add_grid_states();
-        gi->set_state( 0 );
-        gi->set_file( "" );
-    }
+        mbData.add_grid_states( nGridState );
 
     std::string strBuffer;
     mbData.SerializeToString( &strBuffer );
@@ -117,13 +100,13 @@ bool TLMapBlock::init()
     if( pBuffer == NULL )
         return false;
 
+    // 先清理
+    clear();
+
     framework::MapBlock mbData;
 	mbData.ParseFromArray( (void*)pBuffer, iSize );
 
 	delete[] pBuffer;
-
-    // 先清理
-    clear();
 
     // 
     m_nRow = mbData.row();
@@ -137,6 +120,11 @@ bool TLMapBlock::init()
     // 地表材质
     std::string strMaterial = mbData.material();
     updateMaterial( strMaterial, mbData.col() * mbData.width(), mbData.row() * mbData.height() );
+
+    // 地表网格的状态
+    m_vecGridStates.resize( m_nRow * m_nCol );
+    for( int i=0; i < mbData.grid_states_size(); ++i )
+        m_vecGridStates[i] = mbData.grid_states( i );
 
     // 地表装饰物
     for( int i=0; i < mbData.sprites_size(); ++i )
@@ -164,31 +152,24 @@ bool TLMapBlock::init()
 #endif
     }
 
-    // 地表上摆放的物件
-
-    // 地表网格的状态
-    framework::AllGridState ags;
-    m_vecGridStates.reserve( m_nRow * m_nCol );
-    for( int i=0; i < mbData.grid_states_size(); ++i )
+    // 地表上摆放的物件，只有在编辑器下，才这样创建
+    // 在游戏模式下，地表上的物件，将是动态加载的，并且父节点是 TLSeamlessMap
+#if( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 )
+    if( CCEGLView::sharedOpenGLView()->getIsEditorMode() )
     {
-        const ::framework::GridInfo& gi = mbData.grid_states( i );
-
-        GridInfo* pGridInfo = new GridInfo;
-        framework::GridInfo* ngi = ags.add_grid_states();
-
-        pGridInfo->nState = gi.state();
-        ngi->set_state( gi.state() );
-
-        if( gi.has_file() )
+        for( int i=0; i < mbData.models_size(); ++i )
         {
-            pGridInfo->strFile = gi.file();
-            ngi->set_file( gi.file() );
+            const framework::ModelInfo& mi = mbData.models( i );
+
+            CCNode* pkModel = addModel( mi.model_file(), mi.x(), mi.y() );
+            scaleModel( pkModel, mi.scale() );
+            rotateModel( pkModel, mi.rotation() );
+            setModelOffset( pkModel, mi.offset_x(), mi.offset_y() );
         }
 
-        m_vecGridStates.push_back( pGridInfo );
+        setSelectedObject( NULL );
     }
-
-    ags.SerializeToString( &m_strAllGridStates );
+#endif
 
     recreateGridLine();
 
@@ -209,10 +190,17 @@ void TLMapBlock::clear()
         delete pSpriteInfo;
     }
     m_listAllSprites.clear();
+
+    std::list<ModelInfo*>::iterator iter1 = m_listAllModels.begin();
+    std::list<ModelInfo*>::iterator iter1_end = m_listAllModels.end();
+    for( ; iter1 != iter1_end; ++iter1 )
+    {
+        ModelInfo* pkModelInfo = (*iter1);
+        delete pkModelInfo;
+    }
+    m_listAllModels.clear();
 #endif
 
-    for( int i=0; i < (int)m_vecGridStates.size(); ++i )
-        delete m_vecGridStates[i];
     m_vecGridStates.clear();
 }
 
@@ -221,15 +209,13 @@ void TLMapBlock::setIsEnablePassByIndex( int nIndex, bool bIsEnable )
     if( nIndex < 0 || nIndex >= (int)m_vecGridStates.size() )
         return;
 
-    GridInfo* pGridInfo = m_vecGridStates[nIndex];
-
     if( bIsEnable )
     {
-        pGridInfo->nState |= TL_GRID_FLAG_PASS;
+        m_vecGridStates[nIndex] |= TL_GRID_FLAG_PASS;
     }
     else
     {
-        pGridInfo->nState &= (~TL_GRID_FLAG_PASS);
+        m_vecGridStates[nIndex] &= (~TL_GRID_FLAG_PASS);
     }
 }
 
@@ -238,8 +224,7 @@ bool TLMapBlock::getIsEnablePassByIndex( int nIndex ) const
     if( nIndex < 0 || nIndex >= (int)m_vecGridStates.size() )
         return false;
 
-    GridInfo* pGridInfo = m_vecGridStates[nIndex];
-	return ( pGridInfo->nState & TL_GRID_FLAG_PASS ) ? true : false;
+	return ( m_vecGridStates[nIndex] & TL_GRID_FLAG_PASS ) ? true : false;
 }
 
 void TLMapBlock::setIsEnablePass( float world_x, float world_y, bool bIsEnable )
@@ -261,15 +246,13 @@ void TLMapBlock::setIsEnablePlantByIndex( int nIndex, bool bIsEnable )
     if( nIndex < 0 || nIndex >= (int)m_vecGridStates.size() )
         return;
 
-    GridInfo* pGridInfo = m_vecGridStates[nIndex];
-
     if( bIsEnable )
     {
-        pGridInfo->nState |= TL_GRID_FLAG_PLANT;
+        m_vecGridStates[nIndex] |= TL_GRID_FLAG_PLANT;
     }
     else
     {
-        pGridInfo->nState &= (~TL_GRID_FLAG_PLANT);
+        m_vecGridStates[nIndex] &= (~TL_GRID_FLAG_PLANT);
     }
 }
 
@@ -278,8 +261,7 @@ bool TLMapBlock::getIsEnablePlantByIndex( int nIndex ) const
     if( nIndex < 0 || nIndex >= (int)m_vecGridStates.size() )
         return false;
 
-    GridInfo* pGridInfo = m_vecGridStates[nIndex];
-	return ( pGridInfo->nState & TL_GRID_FLAG_PLANT ) ? true : false;
+	return ( m_vecGridStates[nIndex] & TL_GRID_FLAG_PLANT ) ? true : false;
 }
 
 void TLMapBlock::setIsEnablePlant( float world_x, float world_y, bool bIsEnable )
@@ -301,15 +283,13 @@ void TLMapBlock::setIsEnableFillWaterByIndex( int nIndex, bool bIsEnable )
     if( nIndex < 0 || nIndex >= (int)m_vecGridStates.size() )
         return;
 
-    GridInfo* pGridInfo = m_vecGridStates[nIndex];
-
     if( bIsEnable )
     {
-        pGridInfo->nState |= TL_GRID_FLAG_FILL_WATER;
+        m_vecGridStates[nIndex] |= TL_GRID_FLAG_FILL_WATER;
     }
     else
     {
-        pGridInfo->nState &= (~TL_GRID_FLAG_FILL_WATER);
+        m_vecGridStates[nIndex] &= (~TL_GRID_FLAG_FILL_WATER);
     }
 }
 
@@ -318,8 +298,7 @@ bool TLMapBlock::getIsEnableFillWaterByIndex( int nIndex ) const
     if( nIndex < 0 || nIndex >= (int)m_vecGridStates.size() )
         return false;
 
-    GridInfo* pGridInfo = m_vecGridStates[nIndex];
-	return ( pGridInfo->nState & TL_GRID_FLAG_FILL_WATER ) ? true : false;
+	return ( m_vecGridStates[nIndex] & TL_GRID_FLAG_FILL_WATER ) ? true : false;
 }
 
 void TLMapBlock::setIsEnableFillWater( float world_x, float world_y, bool bIsEnable )
@@ -416,6 +395,9 @@ void TLMapBlock::save()
         mbData.set_height( m_nHeight );
 		mbData.set_material( m_strMaterial );
 
+        for( int i=0; i < (int)m_vecGridStates.size(); ++i )
+            mbData.add_grid_states( m_vecGridStates[i] );
+
         std::list<SpriteInfo*>::iterator iter = m_listAllSprites.begin();
         std::list<SpriteInfo*>::iterator iter_end = m_listAllSprites.end();
         for( ; iter != iter_end; ++iter )
@@ -431,11 +413,20 @@ void TLMapBlock::save()
             si->set_z_order( pSpriteInfo->z_order );
         }
 
-        for( int i=0; i < (int)m_vecGridStates.size(); ++i )
+        std::list<ModelInfo*>::iterator iter1 = m_listAllModels.begin();
+        std::list<ModelInfo*>::iterator iter1_end = m_listAllModels.end();
+        for( ; iter1 != iter1_end; ++iter1 )
         {
-            framework::GridInfo* gi = mbData.add_grid_states();
-            gi->set_state( m_vecGridStates[i]->nState );
-            gi->set_file( m_vecGridStates[i]->strFile );
+            ModelInfo* pkModelInfo = (*iter1);
+
+            framework::ModelInfo* mi = mbData.add_models();
+            mi->set_model_file( pkModelInfo->strFileName );
+            mi->set_x( pkModelInfo->x );
+            mi->set_y( pkModelInfo->y );
+            mi->set_offset_x( pkModelInfo->offset_x );
+            mi->set_offset_y( pkModelInfo->offset_y );
+            mi->set_scale( pkModelInfo->scale );
+            mi->set_rotation( pkModelInfo->rotation );
         }
 
         std::string strBuffer;
@@ -471,7 +462,7 @@ CCSprite* TLMapBlock::addSprite( const std::string& strFileName, float x, float 
 		pRetSprite->setPosition( CCPoint( x, y ) );
 		addChild( pRetSprite );
 
-		setSelectSprite( pRetSprite );
+		setSelectedObject( pRetSprite );
 	}
 
 	return pRetSprite;
@@ -490,7 +481,7 @@ void TLMapBlock::removeSprite( CCSprite* pSprite )
 
             m_listAllSprites.erase( iter );
 
-			setSelectSprite( NULL );
+			setSelectedObject( NULL );
 
             return;
         }
@@ -578,20 +569,175 @@ CCSprite* TLMapBlock::hitSprite( float x, float y )
         }
     }
 
-	setSelectSprite( pRetSprite );
+	setSelectedObject( pRetSprite );
 
     return pRetSprite;
 }
 
-void TLMapBlock::setSelectSprite( CCSprite* pSprite )
+// model
+CCNode* TLMapBlock::addModel( const std::string& strFileName, float x, float y )
 {
-	m_pSelectedSprite = pSprite;
-	m_pSelMarkSprite->setVisible( m_pSelectedSprite ? true : false );
-
-	if( m_pSelectedSprite != NULL )
+    TLModel* pkRetModel = TLModel::createWithName( strFileName.c_str() );
+	if( pkRetModel != NULL )
 	{
-		m_pSelMarkSprite->setPositionX( m_pSelectedSprite->getPositionX() );
-		m_pSelMarkSprite->setPositionY( m_pSelectedSprite->getPositionY() );
+		ModelInfo* mi = new ModelInfo;
+		mi->pkModelNode = pkRetModel;
+		mi->strFileName = strFileName;
+		mi->x = x;
+		mi->y = y;
+        mi->offset_x = 0;
+        mi->offset_y = 0;
+		mi->scale = 1.0f;
+		mi->rotation = 0.0f;
+
+		m_listAllModels.push_back( mi );
+
+		pkRetModel->setPosition( CCPoint( x, y ) );
+		addChild( pkRetModel, (int)y );
+
+		setSelectedObject( pkRetModel );
+	}
+
+	return pkRetModel;
+}
+
+void TLMapBlock::removeModel( CCNode* pkModel )
+{
+    std::list<ModelInfo*>::iterator iter = m_listAllModels.begin();
+    std::list<ModelInfo*>::iterator iter_end = m_listAllModels.end();
+    for( ; iter != iter_end; ++iter )
+    {
+        ModelInfo* pkModelInfo = (*iter);
+        if( pkModelInfo->pkModelNode == pkModel )
+        {
+            pkModel->removeFromParentAndCleanup( true );
+
+            m_listAllModels.erase( iter );
+
+			setSelectedObject( NULL );
+
+            return;
+        }
+    }
+}
+
+void TLMapBlock::moveModel( CCNode* pkModel, float mv_x, float mv_y )
+{
+    std::list<ModelInfo*>::iterator iter = m_listAllModels.begin();
+    std::list<ModelInfo*>::iterator iter_end = m_listAllModels.end();
+    for( ; iter != iter_end; ++iter )
+    {
+        ModelInfo* pkModelInfo = (*iter);
+        if( pkModelInfo->pkModelNode == pkModel )
+        {
+            pkModelInfo->x = pkModelInfo->x + mv_x;
+            pkModelInfo->y = pkModelInfo->y + mv_y;
+            pkModel->setPosition( CCPoint( pkModelInfo->x + pkModelInfo->offset_x, pkModelInfo->y + pkModelInfo->offset_y ) );
+            reorderChild( pkModel, (int)pkModelInfo->y );
+
+			m_pSelectedNode->setPositionX( pkModel->getPositionX() );
+			m_pSelectedNode->setPositionY( pkModel->getPositionY() );
+
+            return;
+        }
+    }
+}
+
+void TLMapBlock::scaleModel( CCNode* pkModel, float scale )
+{
+    std::list<ModelInfo*>::iterator iter = m_listAllModels.begin();
+    std::list<ModelInfo*>::iterator iter_end = m_listAllModels.end();
+    for( ; iter != iter_end; ++iter )
+    {
+        ModelInfo* pkModelInfo = (*iter);
+        if( pkModelInfo->pkModelNode == pkModel )
+        {
+            pkModelInfo->scale *= scale;
+            pkModel->setScale( pkModelInfo->scale );
+
+            return;
+        }
+    }
+}
+
+void TLMapBlock::rotateModel( CCNode* pkModel, float rotation )
+{
+    std::list<ModelInfo*>::iterator iter = m_listAllModels.begin();
+    std::list<ModelInfo*>::iterator iter_end = m_listAllModels.end();
+    for( ; iter != iter_end; ++iter )
+    {
+        ModelInfo* pkModelInfo = (*iter);
+        if( pkModelInfo->pkModelNode == pkModel )
+        {
+            pkModelInfo->rotation += rotation;
+            pkModel->setRotation( pkModelInfo->rotation );
+
+            return;
+        }
+    }
+}
+
+void TLMapBlock::setModelOffset( CCNode* pkModel, float offset_x, float offset_y )
+{
+    std::list<ModelInfo*>::iterator iter = m_listAllModels.begin();
+    std::list<ModelInfo*>::iterator iter_end = m_listAllModels.end();
+    for( ; iter != iter_end; ++iter )
+    {
+        ModelInfo* pkModelInfo = (*iter);
+        if( pkModelInfo->pkModelNode == pkModel )
+        {
+            pkModelInfo->offset_x = offset_x;
+            pkModelInfo->offset_y = offset_y;
+            pkModel->setPosition( CCPoint( pkModelInfo->x + pkModelInfo->offset_x, pkModelInfo->y + pkModelInfo->offset_y ) );
+
+			m_pSelectedNode->setPositionX( pkModel->getPositionX() );
+			m_pSelectedNode->setPositionY( pkModel->getPositionY() );
+
+            return;
+        }
+    }
+}
+
+CCNode* TLMapBlock::hitModel( float x, float y )
+{
+    int nZOrder = -9999999;
+    CCNode* pkRetModel = NULL;
+
+    std::list<ModelInfo*>::iterator iter = m_listAllModels.begin();
+    std::list<ModelInfo*>::iterator iter_end = m_listAllModels.end();
+    for( ; iter != iter_end; ++iter )
+    {
+        ModelInfo* pkModelInfo = (*iter);
+        const CCPoint& position = pkModelInfo->pkModelNode->getPosition();
+        const CCSize& size = ((TLModel*)pkModelInfo->pkModelNode)->mcBoundingBox.size;
+        if( x >= position.x + pkModelInfo->offset_x - size.width * 0.5f &&
+            x <= position.x + pkModelInfo->offset_x + size.width * 0.5f &&
+            y >= position.y + pkModelInfo->offset_y - size.height * 0.5f &&
+            y <= position.y + pkModelInfo->offset_y + size.height * 0.5f )
+        {
+            int z_order = pkModelInfo->pkModelNode->getZOrder();
+            if( z_order > nZOrder )
+            {
+                nZOrder = z_order;
+                pkRetModel = pkModelInfo->pkModelNode;
+            }
+        }
+    }
+
+	setSelectedObject( pkRetModel );
+
+    return pkRetModel;
+}
+
+void TLMapBlock::setSelectedObject( CCNode* pkSelObj )
+{
+	m_pSelectedNode = pkSelObj;
+	m_pSelMarkSprite->setVisible( m_pSelectedNode ? true : false );
+
+	if( m_pSelectedNode != NULL )
+	{
+		m_pSelMarkSprite->setPositionX( m_pSelectedNode->getPositionX() );
+		m_pSelMarkSprite->setPositionY( m_pSelectedNode->getPositionY() );
 	}
 }
 
@@ -606,19 +752,8 @@ void TLMapBlock::create( int nRow, int nCol, int nWidth, int nHeight )
     m_nWidth = nWidth;
     m_nHeight = nHeight;
 
-    m_vecGridStates.reserve( nRow * nCol );
-
     int nGridState = TL_GRID_FLAG_PLANT | TL_GRID_FLAG_PASS;
-    for( int i=0; i < m_nRow; ++i )
-    {
-        for( int j=0; j < m_nCol; ++j )
-        {
-            GridInfo* pGridInfo = new GridInfo;
-            pGridInfo->nState = nGridState;
-
-            m_vecGridStates.push_back( pGridInfo );
-        }
-    }
+    m_vecGridStates.resize( nRow * nCol, nGridState );
 
     // 重新生成网格
     recreateGridLine();

@@ -31,8 +31,7 @@ void  protobuf_AddDesc_map_2eproto();
 void protobuf_AssignDesc_map_2eproto();
 void protobuf_ShutdownFile_map_2eproto();
 
-class GridInfo;
-class AllGridState;
+class ModelInfo;
 class SpriteInfo;
 class MapBlock;
 class BlockInfo;
@@ -40,28 +39,28 @@ class SeamlessMap;
 
 // ===================================================================
 
-class GridInfo : public ::google::protobuf::MessageLite {
+class ModelInfo : public ::google::protobuf::MessageLite {
  public:
-  GridInfo();
-  virtual ~GridInfo();
+  ModelInfo();
+  virtual ~ModelInfo();
   
-  GridInfo(const GridInfo& from);
+  ModelInfo(const ModelInfo& from);
   
-  inline GridInfo& operator=(const GridInfo& from) {
+  inline ModelInfo& operator=(const ModelInfo& from) {
     CopyFrom(from);
     return *this;
   }
   
-  static const GridInfo& default_instance();
+  static const ModelInfo& default_instance();
   
-  void Swap(GridInfo* other);
+  void Swap(ModelInfo* other);
   
   // implements Message ----------------------------------------------
   
-  GridInfo* New() const;
+  ModelInfo* New() const;
   void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
-  void CopyFrom(const GridInfo& from);
-  void MergeFrom(const GridInfo& from);
+  void CopyFrom(const ModelInfo& from);
+  void MergeFrom(const ModelInfo& from);
   void Clear();
   bool IsInitialized() const;
   
@@ -83,115 +82,93 @@ class GridInfo : public ::google::protobuf::MessageLite {
   
   // accessors -------------------------------------------------------
   
-  // required int32 state = 1;
-  inline bool has_state() const;
-  inline void clear_state();
-  static const int kStateFieldNumber = 1;
-  inline ::google::protobuf::int32 state() const;
-  inline void set_state(::google::protobuf::int32 value);
+  // required string model_file = 1;
+  inline bool has_model_file() const;
+  inline void clear_model_file();
+  static const int kModelFileFieldNumber = 1;
+  inline const ::std::string& model_file() const;
+  inline void set_model_file(const ::std::string& value);
+  inline void set_model_file(const char* value);
+  inline void set_model_file(const char* value, size_t size);
+  inline ::std::string* mutable_model_file();
+  inline ::std::string* release_model_file();
   
-  // optional string file = 2;
-  inline bool has_file() const;
-  inline void clear_file();
-  static const int kFileFieldNumber = 2;
-  inline const ::std::string& file() const;
-  inline void set_file(const ::std::string& value);
-  inline void set_file(const char* value);
-  inline void set_file(const char* value, size_t size);
-  inline ::std::string* mutable_file();
-  inline ::std::string* release_file();
+  // required float x = 2;
+  inline bool has_x() const;
+  inline void clear_x();
+  static const int kXFieldNumber = 2;
+  inline float x() const;
+  inline void set_x(float value);
   
-  // @@protoc_insertion_point(class_scope:framework.GridInfo)
+  // required float y = 3;
+  inline bool has_y() const;
+  inline void clear_y();
+  static const int kYFieldNumber = 3;
+  inline float y() const;
+  inline void set_y(float value);
+  
+  // required float offset_x = 4;
+  inline bool has_offset_x() const;
+  inline void clear_offset_x();
+  static const int kOffsetXFieldNumber = 4;
+  inline float offset_x() const;
+  inline void set_offset_x(float value);
+  
+  // required float offset_y = 5;
+  inline bool has_offset_y() const;
+  inline void clear_offset_y();
+  static const int kOffsetYFieldNumber = 5;
+  inline float offset_y() const;
+  inline void set_offset_y(float value);
+  
+  // required float scale = 6;
+  inline bool has_scale() const;
+  inline void clear_scale();
+  static const int kScaleFieldNumber = 6;
+  inline float scale() const;
+  inline void set_scale(float value);
+  
+  // required float rotation = 7;
+  inline bool has_rotation() const;
+  inline void clear_rotation();
+  static const int kRotationFieldNumber = 7;
+  inline float rotation() const;
+  inline void set_rotation(float value);
+  
+  // @@protoc_insertion_point(class_scope:framework.ModelInfo)
  private:
-  inline void set_has_state();
-  inline void clear_has_state();
-  inline void set_has_file();
-  inline void clear_has_file();
+  inline void set_has_model_file();
+  inline void clear_has_model_file();
+  inline void set_has_x();
+  inline void clear_has_x();
+  inline void set_has_y();
+  inline void clear_has_y();
+  inline void set_has_offset_x();
+  inline void clear_has_offset_x();
+  inline void set_has_offset_y();
+  inline void clear_has_offset_y();
+  inline void set_has_scale();
+  inline void clear_has_scale();
+  inline void set_has_rotation();
+  inline void clear_has_rotation();
   
-  ::std::string* file_;
-  ::google::protobuf::int32 state_;
+  ::std::string* model_file_;
+  float x_;
+  float y_;
+  float offset_x_;
+  float offset_y_;
+  float scale_;
+  float rotation_;
   
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
   
   friend void  protobuf_AddDesc_map_2eproto();
   friend void protobuf_AssignDesc_map_2eproto();
   friend void protobuf_ShutdownFile_map_2eproto();
   
   void InitAsDefaultInstance();
-  static GridInfo* default_instance_;
-};
-// -------------------------------------------------------------------
-
-class AllGridState : public ::google::protobuf::MessageLite {
- public:
-  AllGridState();
-  virtual ~AllGridState();
-  
-  AllGridState(const AllGridState& from);
-  
-  inline AllGridState& operator=(const AllGridState& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  
-  static const AllGridState& default_instance();
-  
-  void Swap(AllGridState* other);
-  
-  // implements Message ----------------------------------------------
-  
-  AllGridState* New() const;
-  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
-  void CopyFrom(const AllGridState& from);
-  void MergeFrom(const AllGridState& from);
-  void Clear();
-  bool IsInitialized() const;
-  
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  public:
-  
-  ::std::string GetTypeName() const;
-  
-  // nested types ----------------------------------------------------
-  
-  // accessors -------------------------------------------------------
-  
-  // repeated .framework.GridInfo grid_states = 1;
-  inline int grid_states_size() const;
-  inline void clear_grid_states();
-  static const int kGridStatesFieldNumber = 1;
-  inline const ::framework::GridInfo& grid_states(int index) const;
-  inline ::framework::GridInfo* mutable_grid_states(int index);
-  inline ::framework::GridInfo* add_grid_states();
-  inline const ::google::protobuf::RepeatedPtrField< ::framework::GridInfo >&
-      grid_states() const;
-  inline ::google::protobuf::RepeatedPtrField< ::framework::GridInfo >*
-      mutable_grid_states();
-  
-  // @@protoc_insertion_point(class_scope:framework.AllGridState)
- private:
-  
-  ::google::protobuf::RepeatedPtrField< ::framework::GridInfo > grid_states_;
-  
-  mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
-  
-  friend void  protobuf_AddDesc_map_2eproto();
-  friend void protobuf_AssignDesc_map_2eproto();
-  friend void protobuf_ShutdownFile_map_2eproto();
-  
-  void InitAsDefaultInstance();
-  static AllGridState* default_instance_;
+  static ModelInfo* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -400,10 +377,33 @@ class MapBlock : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::int32 height() const;
   inline void set_height(::google::protobuf::int32 value);
   
-  // repeated .framework.SpriteInfo sprites = 6;
+  // required string material = 6;
+  inline bool has_material() const;
+  inline void clear_material();
+  static const int kMaterialFieldNumber = 6;
+  inline const ::std::string& material() const;
+  inline void set_material(const ::std::string& value);
+  inline void set_material(const char* value);
+  inline void set_material(const char* value, size_t size);
+  inline ::std::string* mutable_material();
+  inline ::std::string* release_material();
+  
+  // repeated int32 grid_states = 7;
+  inline int grid_states_size() const;
+  inline void clear_grid_states();
+  static const int kGridStatesFieldNumber = 7;
+  inline ::google::protobuf::int32 grid_states(int index) const;
+  inline void set_grid_states(int index, ::google::protobuf::int32 value);
+  inline void add_grid_states(::google::protobuf::int32 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      grid_states() const;
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_grid_states();
+  
+  // repeated .framework.SpriteInfo sprites = 8;
   inline int sprites_size() const;
   inline void clear_sprites();
-  static const int kSpritesFieldNumber = 6;
+  static const int kSpritesFieldNumber = 8;
   inline const ::framework::SpriteInfo& sprites(int index) const;
   inline ::framework::SpriteInfo* mutable_sprites(int index);
   inline ::framework::SpriteInfo* add_sprites();
@@ -412,28 +412,17 @@ class MapBlock : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::RepeatedPtrField< ::framework::SpriteInfo >*
       mutable_sprites();
   
-  // repeated .framework.GridInfo grid_states = 7;
-  inline int grid_states_size() const;
-  inline void clear_grid_states();
-  static const int kGridStatesFieldNumber = 7;
-  inline const ::framework::GridInfo& grid_states(int index) const;
-  inline ::framework::GridInfo* mutable_grid_states(int index);
-  inline ::framework::GridInfo* add_grid_states();
-  inline const ::google::protobuf::RepeatedPtrField< ::framework::GridInfo >&
-      grid_states() const;
-  inline ::google::protobuf::RepeatedPtrField< ::framework::GridInfo >*
-      mutable_grid_states();
-  
-  // required string material = 8;
-  inline bool has_material() const;
-  inline void clear_material();
-  static const int kMaterialFieldNumber = 8;
-  inline const ::std::string& material() const;
-  inline void set_material(const ::std::string& value);
-  inline void set_material(const char* value);
-  inline void set_material(const char* value, size_t size);
-  inline ::std::string* mutable_material();
-  inline ::std::string* release_material();
+  // repeated .framework.ModelInfo models = 9;
+  inline int models_size() const;
+  inline void clear_models();
+  static const int kModelsFieldNumber = 9;
+  inline const ::framework::ModelInfo& models(int index) const;
+  inline ::framework::ModelInfo* mutable_models(int index);
+  inline ::framework::ModelInfo* add_models();
+  inline const ::google::protobuf::RepeatedPtrField< ::framework::ModelInfo >&
+      models() const;
+  inline ::google::protobuf::RepeatedPtrField< ::framework::ModelInfo >*
+      mutable_models();
   
   // @@protoc_insertion_point(class_scope:framework.MapBlock)
  private:
@@ -455,12 +444,13 @@ class MapBlock : public ::google::protobuf::MessageLite {
   ::google::protobuf::int32 col_;
   ::google::protobuf::int32 width_;
   ::google::protobuf::int32 height_;
-  ::google::protobuf::RepeatedPtrField< ::framework::SpriteInfo > sprites_;
-  ::google::protobuf::RepeatedPtrField< ::framework::GridInfo > grid_states_;
   ::std::string* material_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > grid_states_;
+  ::google::protobuf::RepeatedPtrField< ::framework::SpriteInfo > sprites_;
+  ::google::protobuf::RepeatedPtrField< ::framework::ModelInfo > models_;
   
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(8 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(9 + 31) / 32];
   
   friend void  protobuf_AddDesc_map_2eproto();
   friend void protobuf_AssignDesc_map_2eproto();
@@ -679,115 +669,196 @@ class SeamlessMap : public ::google::protobuf::MessageLite {
 
 // ===================================================================
 
-// GridInfo
+// ModelInfo
 
-// required int32 state = 1;
-inline bool GridInfo::has_state() const {
+// required string model_file = 1;
+inline bool ModelInfo::has_model_file() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void GridInfo::set_has_state() {
+inline void ModelInfo::set_has_model_file() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void GridInfo::clear_has_state() {
+inline void ModelInfo::clear_has_model_file() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void GridInfo::clear_state() {
-  state_ = 0;
-  clear_has_state();
-}
-inline ::google::protobuf::int32 GridInfo::state() const {
-  return state_;
-}
-inline void GridInfo::set_state(::google::protobuf::int32 value) {
-  set_has_state();
-  state_ = value;
-}
-
-// optional string file = 2;
-inline bool GridInfo::has_file() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void GridInfo::set_has_file() {
-  _has_bits_[0] |= 0x00000002u;
-}
-inline void GridInfo::clear_has_file() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline void GridInfo::clear_file() {
-  if (file_ != &::google::protobuf::internal::kEmptyString) {
-    file_->clear();
+inline void ModelInfo::clear_model_file() {
+  if (model_file_ != &::google::protobuf::internal::kEmptyString) {
+    model_file_->clear();
   }
-  clear_has_file();
+  clear_has_model_file();
 }
-inline const ::std::string& GridInfo::file() const {
-  return *file_;
+inline const ::std::string& ModelInfo::model_file() const {
+  return *model_file_;
 }
-inline void GridInfo::set_file(const ::std::string& value) {
-  set_has_file();
-  if (file_ == &::google::protobuf::internal::kEmptyString) {
-    file_ = new ::std::string;
+inline void ModelInfo::set_model_file(const ::std::string& value) {
+  set_has_model_file();
+  if (model_file_ == &::google::protobuf::internal::kEmptyString) {
+    model_file_ = new ::std::string;
   }
-  file_->assign(value);
+  model_file_->assign(value);
 }
-inline void GridInfo::set_file(const char* value) {
-  set_has_file();
-  if (file_ == &::google::protobuf::internal::kEmptyString) {
-    file_ = new ::std::string;
+inline void ModelInfo::set_model_file(const char* value) {
+  set_has_model_file();
+  if (model_file_ == &::google::protobuf::internal::kEmptyString) {
+    model_file_ = new ::std::string;
   }
-  file_->assign(value);
+  model_file_->assign(value);
 }
-inline void GridInfo::set_file(const char* value, size_t size) {
-  set_has_file();
-  if (file_ == &::google::protobuf::internal::kEmptyString) {
-    file_ = new ::std::string;
+inline void ModelInfo::set_model_file(const char* value, size_t size) {
+  set_has_model_file();
+  if (model_file_ == &::google::protobuf::internal::kEmptyString) {
+    model_file_ = new ::std::string;
   }
-  file_->assign(reinterpret_cast<const char*>(value), size);
+  model_file_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* GridInfo::mutable_file() {
-  set_has_file();
-  if (file_ == &::google::protobuf::internal::kEmptyString) {
-    file_ = new ::std::string;
+inline ::std::string* ModelInfo::mutable_model_file() {
+  set_has_model_file();
+  if (model_file_ == &::google::protobuf::internal::kEmptyString) {
+    model_file_ = new ::std::string;
   }
-  return file_;
+  return model_file_;
 }
-inline ::std::string* GridInfo::release_file() {
-  clear_has_file();
-  if (file_ == &::google::protobuf::internal::kEmptyString) {
+inline ::std::string* ModelInfo::release_model_file() {
+  clear_has_model_file();
+  if (model_file_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
   } else {
-    ::std::string* temp = file_;
-    file_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    ::std::string* temp = model_file_;
+    model_file_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
     return temp;
   }
 }
 
-// -------------------------------------------------------------------
+// required float x = 2;
+inline bool ModelInfo::has_x() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void ModelInfo::set_has_x() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void ModelInfo::clear_has_x() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void ModelInfo::clear_x() {
+  x_ = 0;
+  clear_has_x();
+}
+inline float ModelInfo::x() const {
+  return x_;
+}
+inline void ModelInfo::set_x(float value) {
+  set_has_x();
+  x_ = value;
+}
 
-// AllGridState
+// required float y = 3;
+inline bool ModelInfo::has_y() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void ModelInfo::set_has_y() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void ModelInfo::clear_has_y() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void ModelInfo::clear_y() {
+  y_ = 0;
+  clear_has_y();
+}
+inline float ModelInfo::y() const {
+  return y_;
+}
+inline void ModelInfo::set_y(float value) {
+  set_has_y();
+  y_ = value;
+}
 
-// repeated .framework.GridInfo grid_states = 1;
-inline int AllGridState::grid_states_size() const {
-  return grid_states_.size();
+// required float offset_x = 4;
+inline bool ModelInfo::has_offset_x() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
 }
-inline void AllGridState::clear_grid_states() {
-  grid_states_.Clear();
+inline void ModelInfo::set_has_offset_x() {
+  _has_bits_[0] |= 0x00000008u;
 }
-inline const ::framework::GridInfo& AllGridState::grid_states(int index) const {
-  return grid_states_.Get(index);
+inline void ModelInfo::clear_has_offset_x() {
+  _has_bits_[0] &= ~0x00000008u;
 }
-inline ::framework::GridInfo* AllGridState::mutable_grid_states(int index) {
-  return grid_states_.Mutable(index);
+inline void ModelInfo::clear_offset_x() {
+  offset_x_ = 0;
+  clear_has_offset_x();
 }
-inline ::framework::GridInfo* AllGridState::add_grid_states() {
-  return grid_states_.Add();
+inline float ModelInfo::offset_x() const {
+  return offset_x_;
 }
-inline const ::google::protobuf::RepeatedPtrField< ::framework::GridInfo >&
-AllGridState::grid_states() const {
-  return grid_states_;
+inline void ModelInfo::set_offset_x(float value) {
+  set_has_offset_x();
+  offset_x_ = value;
 }
-inline ::google::protobuf::RepeatedPtrField< ::framework::GridInfo >*
-AllGridState::mutable_grid_states() {
-  return &grid_states_;
+
+// required float offset_y = 5;
+inline bool ModelInfo::has_offset_y() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void ModelInfo::set_has_offset_y() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void ModelInfo::clear_has_offset_y() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void ModelInfo::clear_offset_y() {
+  offset_y_ = 0;
+  clear_has_offset_y();
+}
+inline float ModelInfo::offset_y() const {
+  return offset_y_;
+}
+inline void ModelInfo::set_offset_y(float value) {
+  set_has_offset_y();
+  offset_y_ = value;
+}
+
+// required float scale = 6;
+inline bool ModelInfo::has_scale() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void ModelInfo::set_has_scale() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void ModelInfo::clear_has_scale() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void ModelInfo::clear_scale() {
+  scale_ = 0;
+  clear_has_scale();
+}
+inline float ModelInfo::scale() const {
+  return scale_;
+}
+inline void ModelInfo::set_scale(float value) {
+  set_has_scale();
+  scale_ = value;
+}
+
+// required float rotation = 7;
+inline bool ModelInfo::has_rotation() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void ModelInfo::set_has_rotation() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void ModelInfo::clear_has_rotation() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void ModelInfo::clear_rotation() {
+  rotation_ = 0;
+  clear_has_rotation();
+}
+inline float ModelInfo::rotation() const {
+  return rotation_;
+}
+inline void ModelInfo::set_rotation(float value) {
+  set_has_rotation();
+  rotation_ = value;
 }
 
 // -------------------------------------------------------------------
@@ -1112,65 +1183,15 @@ inline void MapBlock::set_height(::google::protobuf::int32 value) {
   height_ = value;
 }
 
-// repeated .framework.SpriteInfo sprites = 6;
-inline int MapBlock::sprites_size() const {
-  return sprites_.size();
-}
-inline void MapBlock::clear_sprites() {
-  sprites_.Clear();
-}
-inline const ::framework::SpriteInfo& MapBlock::sprites(int index) const {
-  return sprites_.Get(index);
-}
-inline ::framework::SpriteInfo* MapBlock::mutable_sprites(int index) {
-  return sprites_.Mutable(index);
-}
-inline ::framework::SpriteInfo* MapBlock::add_sprites() {
-  return sprites_.Add();
-}
-inline const ::google::protobuf::RepeatedPtrField< ::framework::SpriteInfo >&
-MapBlock::sprites() const {
-  return sprites_;
-}
-inline ::google::protobuf::RepeatedPtrField< ::framework::SpriteInfo >*
-MapBlock::mutable_sprites() {
-  return &sprites_;
-}
-
-// repeated .framework.GridInfo grid_states = 7;
-inline int MapBlock::grid_states_size() const {
-  return grid_states_.size();
-}
-inline void MapBlock::clear_grid_states() {
-  grid_states_.Clear();
-}
-inline const ::framework::GridInfo& MapBlock::grid_states(int index) const {
-  return grid_states_.Get(index);
-}
-inline ::framework::GridInfo* MapBlock::mutable_grid_states(int index) {
-  return grid_states_.Mutable(index);
-}
-inline ::framework::GridInfo* MapBlock::add_grid_states() {
-  return grid_states_.Add();
-}
-inline const ::google::protobuf::RepeatedPtrField< ::framework::GridInfo >&
-MapBlock::grid_states() const {
-  return grid_states_;
-}
-inline ::google::protobuf::RepeatedPtrField< ::framework::GridInfo >*
-MapBlock::mutable_grid_states() {
-  return &grid_states_;
-}
-
-// required string material = 8;
+// required string material = 6;
 inline bool MapBlock::has_material() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
+  return (_has_bits_[0] & 0x00000020u) != 0;
 }
 inline void MapBlock::set_has_material() {
-  _has_bits_[0] |= 0x00000080u;
+  _has_bits_[0] |= 0x00000020u;
 }
 inline void MapBlock::clear_has_material() {
-  _has_bits_[0] &= ~0x00000080u;
+  _has_bits_[0] &= ~0x00000020u;
 }
 inline void MapBlock::clear_material() {
   if (material_ != &::google::protobuf::internal::kEmptyString) {
@@ -1218,6 +1239,81 @@ inline ::std::string* MapBlock::release_material() {
     material_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
     return temp;
   }
+}
+
+// repeated int32 grid_states = 7;
+inline int MapBlock::grid_states_size() const {
+  return grid_states_.size();
+}
+inline void MapBlock::clear_grid_states() {
+  grid_states_.Clear();
+}
+inline ::google::protobuf::int32 MapBlock::grid_states(int index) const {
+  return grid_states_.Get(index);
+}
+inline void MapBlock::set_grid_states(int index, ::google::protobuf::int32 value) {
+  grid_states_.Set(index, value);
+}
+inline void MapBlock::add_grid_states(::google::protobuf::int32 value) {
+  grid_states_.Add(value);
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+MapBlock::grid_states() const {
+  return grid_states_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+MapBlock::mutable_grid_states() {
+  return &grid_states_;
+}
+
+// repeated .framework.SpriteInfo sprites = 8;
+inline int MapBlock::sprites_size() const {
+  return sprites_.size();
+}
+inline void MapBlock::clear_sprites() {
+  sprites_.Clear();
+}
+inline const ::framework::SpriteInfo& MapBlock::sprites(int index) const {
+  return sprites_.Get(index);
+}
+inline ::framework::SpriteInfo* MapBlock::mutable_sprites(int index) {
+  return sprites_.Mutable(index);
+}
+inline ::framework::SpriteInfo* MapBlock::add_sprites() {
+  return sprites_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::framework::SpriteInfo >&
+MapBlock::sprites() const {
+  return sprites_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::framework::SpriteInfo >*
+MapBlock::mutable_sprites() {
+  return &sprites_;
+}
+
+// repeated .framework.ModelInfo models = 9;
+inline int MapBlock::models_size() const {
+  return models_.size();
+}
+inline void MapBlock::clear_models() {
+  models_.Clear();
+}
+inline const ::framework::ModelInfo& MapBlock::models(int index) const {
+  return models_.Get(index);
+}
+inline ::framework::ModelInfo* MapBlock::mutable_models(int index) {
+  return models_.Mutable(index);
+}
+inline ::framework::ModelInfo* MapBlock::add_models() {
+  return models_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::framework::ModelInfo >&
+MapBlock::models() const {
+  return models_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::framework::ModelInfo >*
+MapBlock::mutable_models() {
+  return &models_;
 }
 
 // -------------------------------------------------------------------

@@ -25,9 +25,6 @@ public:
     void clear();
 
 public:
-    const char* getAllGridStateBuffer() const { return m_strAllGridStates.c_str(); }
-    int getAllGridStateLength() const { return m_strAllGridStates.length(); }
-
     void setIsEnablePassByIndex( int nIndex, bool bIsEnable );
     bool getIsEnablePassByIndex( int nIndex ) const;
     void setIsEnablePass( float world_x, float world_y, bool bIsEnable );
@@ -53,12 +50,7 @@ protected:
     int m_nRow, m_nCol;
     int m_nWidth, m_nHeight;
 
-    struct GridInfo {
-        int nState;
-        std::string strFile;
-    };
-    std::vector<GridInfo*> m_vecGridStates;
-    std::string m_strAllGridStates;
+    std::vector<int> m_vecGridStates;
 
     void updateMaterial( const std::string& strMaterial, int nBlockWidth, int nBlockHeight );
 
@@ -72,6 +64,7 @@ public:
 
     void setMaterial( const std::string& strMaterial );
 
+    // sprite
 	CCSprite* addSprite( const std::string& strFileName, float x, float y );
 	void removeSprite( CCSprite* pSprite );
 	void moveSprite( CCSprite* pSprite, float mv_x, float mv_y );
@@ -81,7 +74,17 @@ public:
     // 
     CCSprite* hitSprite( float x, float y );
 
-	void setSelectSprite( CCSprite* pSprite );
+    // model
+	CCNode* addModel( const std::string& strFileName, float x, float y );
+	void removeModel( CCNode* pkModel );
+	void moveModel( CCNode* pkModel, float mv_x, float mv_y );
+	void scaleModel( CCNode* pkModel, float scale );
+	void rotateModel( CCNode* pkModel, float rotation );
+	void setModelOffset( CCNode* pkModel, float offset_x, float offset_y );
+
+    CCNode* hitModel( float x, float y );
+
+	void setSelectedObject( CCNode* pkSelObj );
 
     //void recreateGridLine();
     //void setIsShowGirdLine( bool bIsShow );
@@ -100,7 +103,17 @@ protected:
     };
     std::list<SpriteInfo*> m_listAllSprites;
 
-	CCSprite* m_pSelectedSprite;
+    struct ModelInfo {
+        CCNode*         pkModelNode;
+        std::string     strFileName;
+        float           x, y;
+        float           offset_x, offset_y;
+        float           scale;
+        float           rotation;
+    };
+    std::list<ModelInfo*> m_listAllModels;
+
+	CCNode* m_pSelectedNode;
 	CCSize m_kSelMarkSize;
 	CCSprite* m_pSelMarkSprite;
 

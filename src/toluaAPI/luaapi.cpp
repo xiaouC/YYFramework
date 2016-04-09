@@ -11908,70 +11908,6 @@ static int tolua_api_TLMapBlock_create00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: getAllGridStateBuffer of class  TLMapBlock */
-#ifndef TOLUA_DISABLE_tolua_api_TLMapBlock_getAllGridStateBuffer00
-static int tolua_api_TLMapBlock_getAllGridStateBuffer00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"const TLMapBlock",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  const TLMapBlock* self = (const TLMapBlock*)  tolua_tousertype(tolua_S,1,0);
-#ifndef TOLUA_RELEASE
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getAllGridStateBuffer'", NULL);
-#endif
-  {
-   const char* tolua_ret = (const char*)  self->getAllGridStateBuffer();
-   tolua_pushstring(tolua_S,(const char*)tolua_ret);
-  }
- }
- return 1;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'getAllGridStateBuffer'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: getAllGridStateLength of class  TLMapBlock */
-#ifndef TOLUA_DISABLE_tolua_api_TLMapBlock_getAllGridStateLength00
-static int tolua_api_TLMapBlock_getAllGridStateLength00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"const TLMapBlock",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  const TLMapBlock* self = (const TLMapBlock*)  tolua_tousertype(tolua_S,1,0);
-#ifndef TOLUA_RELEASE
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getAllGridStateLength'", NULL);
-#endif
-  {
-   int tolua_ret = (int)  self->getAllGridStateLength();
-   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
-  }
- }
- return 1;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'getAllGridStateLength'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
 /* method: setIsEnablePassByIndex of class  TLMapBlock */
 #ifndef TOLUA_DISABLE_tolua_api_TLMapBlock_setIsEnablePassByIndex00
 static int tolua_api_TLMapBlock_setIsEnablePassByIndex00(lua_State* tolua_S)
@@ -13481,8 +13417,6 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
   tolua_cclass(tolua_S,"TLMapBlock","TLMapBlock","CCNode",NULL);
   tolua_beginmodule(tolua_S,"TLMapBlock");
    tolua_function(tolua_S,"create",tolua_api_TLMapBlock_create00);
-   tolua_function(tolua_S,"getAllGridStateBuffer",tolua_api_TLMapBlock_getAllGridStateBuffer00);
-   tolua_function(tolua_S,"getAllGridStateLength",tolua_api_TLMapBlock_getAllGridStateLength00);
    tolua_function(tolua_S,"setIsEnablePassByIndex",tolua_api_TLMapBlock_setIsEnablePassByIndex00);
    tolua_function(tolua_S,"getIsEnablePassByIndex",tolua_api_TLMapBlock_getIsEnablePassByIndex00);
    tolua_function(tolua_S,"setIsEnablePass",tolua_api_TLMapBlock_setIsEnablePass00);
